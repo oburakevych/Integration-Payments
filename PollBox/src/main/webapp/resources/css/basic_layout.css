@@ -1,0 +1,186 @@
+body {
+	font-family: "Lucida Grande", "Verdana", "Arial", serif;
+	font-size: 100%;
+	color: #222222;
+	background: white url("../images/bg.gif") top left repeat-x;
+}
+
+#container_frame {
+	position: relative;
+	width: 1020px;
+	margin: 0 auto 0 auto;
+}
+
+#header_frame {
+	display: block;
+	float: left;
+	width: 1000px;
+	height: 75px;
+	padding: 0 0 20px 0;
+	margin: 0;
+}
+
+#menu_frame {
+	display: block;
+	float: left;
+	width: 150px;
+	hight: 100%;
+	padding: 0 0 0 10px;
+	margin: 0 0 0 0;
+}
+
+#footer_frame {
+	display: block;
+	float: left;
+	clear: both;
+	width: 1000px;
+	height: 50px;
+	padding: 10px 0 5px 40px;
+	margin: 0 0 20px 0;
+	font-size: 75%;
+}
+
+#content_frame {
+	position: block;
+	background: url("../images/panel-content-bg.gif") no-repeat scroll left top transparent;
+	float: left;
+	width: 720px;
+	height: 600px;
+	margin: 0 10px 10px 10px;
+	padding: 60px 40px 40px 60px;
+	
+	font-size: 75%;	
+}
+
+#content_frame H1 {
+	color: #E36114;
+}
+
+#content_frame H2 {
+	color: #E36114;
+	font-size: 150%;
+    margin: 0 0 15px 0;
+}
+
+#header_logo {
+	float: left;
+	display: block;
+	width: 199px;
+	height: 70px;
+	margin: 0 20px 0px 0px;	
+	background: url("../images/logo.gif") no-repeat scroll left top transparent;
+}
+
+.hidden {
+	display: none;
+}
+
+.show {
+	display: inline;
+}
+
+.centered {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 50%;
+  height: 50%;
+  margin: auto;
+}
+
+.border_line {
+  	border-width: 2px;
+  	border-style: solid;
+  	border-color: #E36114;
+}
+
+.tabs {
+	height: 50px;
+	padding: 20px 5px 0px 10px;
+	margin: 0 0 0 0;
+	float: left;
+}
+
+.tabs .nav {
+	display: table;
+	margin: 0 auto;
+}
+
+a {	
+	color: #E36114;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #c8cac7; 
+}
+
+.tabs a {
+	font-weight: bold;
+    display: block;
+    outline: medium none;
+    padding: 0 20px;
+    -moz-border-radius: 12px 12px 0 0;
+    border-radius: 12px 12px 0 0;
+}
+
+.tabs a.active {
+	background: none repeat scroll 0 0 #c8cac7;
+    position: relative;
+    text-decoration: underline;
+    color: #363636;
+}
+
+.tabs a.inactive {
+}
+
+.tabs li {
+	float: left;
+	line-height: 50px;
+	padding: 5px 0 0 0;
+}
+
+li {
+	list-style: none outside none;
+}
+
+.header_menu_item {
+	display: block;
+	float: left;
+	width: 100px;
+	height: 50px;
+	padding: 5px 0 5px 10px;
+	margin: 0 0 0 0;
+}
+
+.header_menu_item_logout {
+	display: block;
+	float: right;
+	width: 220px;
+	height: 50px;
+	padding: 5px 0 5px 10px;
+	margin: 0 0 0 0;
+	text-align:right;
+	font-size: 75%;
+	color: white;	
+}
+
+.ast {
+    color: #E36114;
+}
+
+.errorMessage {
+	font-size: 10px;
+	color: #f52800;
+}
+
+.errorBackground {
+	background-color: pink;
+}
+
+.acknowledgementMessage {
+	font-size: 10px;
+	color: #848484;
+}

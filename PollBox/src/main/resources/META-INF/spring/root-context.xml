@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+     					http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+						http://www.springframework.org/schema/context
+					    http://www.springframework.org/schema/context/spring-context-3.0.xsd
+					    http://www.springframework.org/schema/aop 
+					    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<!-- Configurer that replaces ${...} placeholders with values from a properties file -->
+	<!-- (in this case, JDBC-related settings for the dataSource definition below) -->
+	<context:property-placeholder location="classpath:jdbc.properties"/>
+	
+	<!-- Configure annotated beans -->
+    <context:annotation-config />
+    <context:component-scan base-package="org." />
+    
+    <!-- DataSource: a database connection settings -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driverClassName}" />
+        <property name="url" value="${jdbc.url}" />
+        <property name="username" value="${jdbc.username}" />
+        <property name="password" value="${jdbc.password}" />
+    </bean>
+    
+    <!-- Internationalization message sources -->
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>WEB-INF/i18n/validator</value>
+				<value>WEB-INF/i18n/header</value>
+				<value>WEB-INF/i18n/web_page</value>
+			</list>
+		</property> 
+		<property name="defaultEncoding" value="UTF-8"/>
+		<!-- Cache seconds should be set to 1 day (86400) in production -->
+		<property name="cacheSeconds" value="60"/>
+	</bean>
+     
+    <import resource="applicationContext-service.xml"/>
+</beans>

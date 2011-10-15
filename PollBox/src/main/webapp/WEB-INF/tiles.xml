@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+    <definition name="themes.basic" template="/WEB-INF/views/themes/basic/layout.jsp">
+        <put-attribute name="title" value="" />
+        <put-attribute name="header" value="/WEB-INF/views/themes/basic/header.jsp" />
+        <put-attribute name="left_menu" value="/WEB-INF/views/themes/basic/left_menu.jsp" />
+        <put-attribute name="right_menu" value="/WEB-INF/views/themes/basic/right_menu.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/views/themes/basic/footer.jsp" />
+        <put-attribute name="content" value="" />
+    </definition>
+
+    <definition name="home" extends="themes.basic">
+        <put-attribute name="title" value="Home" />
+        <put-attribute name="content" value="/WEB-INF/views/home.jsp" />
+    </definition>
+
+    <definition name="signup" extends="themes.basic">
+        <put-attribute name="title" value="Signup" />
+        <put-attribute name="content" value="signup.content" />
+    </definition>
+
+    <definition name="signup.content" template="/WEB-INF/views/signup/signup.jsp">
+        <put-attribute name="new_account" value="/WEB-INF/views/owners/new.jsp" />
+    </definition>
+
+    <definition name="login" extends="themes.basic">
+        <put-attribute name="title" value="Login" />
+        <put-attribute name="content" value="/WEB-INF/views/auth/login.jsp" />
+    </definition>
+ 
+    <definition name="account" extends="themes.basic">
+        <put-attribute name="title" value="Account" />
+        <put-attribute name="content" value="/WEB-INF/views/accounts/account.jsp" />
+    </definition>
+    
+    <definition name="project" extends="themes.basic">
+        <put-attribute name="title" value="Project" />
+        <put-attribute name="content" value="/WEB-INF/views/projects/project.jsp" />
+    </definition>
+    
+    <definition name="projects" extends="themes.basic">
+        <put-attribute name="title" value="Projects" />
+        <put-attribute name="content" value="/WEB-INF/views/projects/projects.jsp" />
+    </definition>
+    
+    <definition name="owner" extends="themes.basic">
+        <put-attribute name="title" value="Owner" />
+        <put-attribute name="content" value="/WEB-INF/views/owners/owner.jsp" />
+    </definition>
+    
+    <definition name="owners" extends="themes.basic">
+        <put-attribute name="title" value="Owners" />
+        <put-attribute name="content" value="/WEB-INF/views/owners/owners.jsp" />
+    </definition>
+    
+    <definition name="owners.new" extends="themes.basic">
+        <put-attribute name="title" value="New Owner" />
+        <put-attribute name="content" value="/WEB-INF/views/owners/new.jsp" />
+    </definition>
+    
+    <definition name="owners.update" extends="themes.basic">
+        <put-attribute name="title" value="Edit Owner" />
+        <put-attribute name="content" value="/WEB-INF/views/owners/edit.jsp" />
+    </definition>
+ 
+</tiles-definitions>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	
+	<!--Use JAXB OXM marshaller to marshall/unmarshall following class-->
+	<beans:bean id="marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+		<beans:property name="classesToBeBound">
+		<beans:list>
+	    	<beans:value>org.pollbox.poll.projects.Project</beans:value>
+	    	<beans:value>org.pollbox.poll.projects.ProjectList</beans:value>
+	    	
+	    	<beans:value>org.pollbox.poll.owners.Owner</beans:value>
+	    	<beans:value>org.pollbox.poll.owners.OwnerList</beans:value>
+	    	
+	    	<beans:value>org.pollbox.poll.accounts.Account</beans:value>
+	    	<beans:value>org.pollbox.poll.accounts.AccountList</beans:value>
+	        
+	        <beans:value>org.pollbox.poll.statuses.Status</beans:value>
+	        <beans:value>org.pollbox.poll.statuses.StatusList</beans:value>
+		</beans:list>
+		</beans:property>
+	</beans:bean>
+	
+</beans:beans>

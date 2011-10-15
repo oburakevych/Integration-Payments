@@ -1,0 +1,15 @@
+Class Owner
+    @ManyToMany(targetEntity = Account.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
+    @JoinTable(name = "ACCOUNT_OWNER_MAP", joinColumns = @JoinColumn(name = "OWNER_ID"), inverseJoinColumns = @JoinColumn(name = "ACCOUNT_ID"))
+    @XmlTransient
+    public Set<Account> getAccounts() {
+        return accounts;
+    }
+
+
+class Account
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, mappedBy = "accounts", fetch = FetchType.EAGER, targetEntity = Owner.class)
+    @XmlTransient
+    public Set<Owner> getOwners() {
+        return owners;
+    }

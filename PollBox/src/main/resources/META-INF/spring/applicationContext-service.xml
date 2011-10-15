@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+     http://www.springframework.org/schema/context
+     http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<!-- Configure annotated beans -->
+    <context:annotation-config />
+    <context:component-scan base-package="org.pollbox.poll" />
+
+	<bean id="signupService" class="org.pollbox.poll.signup.SignupServiceImpl" />
+
+	<bean id="projectsService" class="org.pollbox.poll.projects.ProjectsServiceImpl" />
+
+	<bean id="ownersService" class="org.pollbox.poll.owners.OwnersServiceImpl" />
+	
+	<bean id="accountsService" class="org.pollbox.poll.accounts.AccountsServiceImpl" />
+	
+	<bean id="statusesService" class="org.pollbox.poll.statuses.StatusesServiceImpl" />
+
+	<bean id="serviceManager" class="org.pollbox.poll.managers.ServiceManager">	
+		<description>Service manager</description>
+	</bean>
+	
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+	
+	<!-- Import Security configuration -->
+	<import resource="applicationContext-security.xml"/>
+	
+	<!-- Import Marshallable classes -->
+	<import resource="applicationContext-marshaller.xml"/>
+	
+	<!-- Import Hibernate Configuration -->
+	<import resource="applicationContext-hibernate.xml"/>
+</beans>

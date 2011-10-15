@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!--To enable @RequestMapping process on type level and method level-->
+	
+	<beans:bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+	<beans:bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+	
+	<!-- Views to be marshalled -->
+	<beans:bean id="project" class="org.springframework.web.servlet.view.xml.MarshallingView">
+		<beans:constructor-arg ref="marshaller" />
+	</beans:bean>
+	
+	<beans:bean id="projects" class="org.springframework.web.servlet.view.xml.MarshallingView">
+		<beans:constructor-arg ref="marshaller" />
+	</beans:bean>
+	
+	<beans:bean id="owner" class="org.springframework.web.servlet.view.xml.MarshallingView">
+		<beans:constructor-arg ref="marshaller" />
+	</beans:bean>
+	
+	<beans:bean id="owners" class="org.springframework.web.servlet.view.xml.MarshallingView">
+		<beans:constructor-arg ref="marshaller" />
+	</beans:bean>
+
+	<beans:bean id="account" class="org.springframework.web.servlet.view.xml.MarshallingView">
+		<beans:constructor-arg ref="marshaller" />
+	</beans:bean>
+		
+	<beans:bean id="accounts" class="org.springframework.web.servlet.view.xml.MarshallingView">
+		<beans:constructor-arg ref="marshaller" />
+	</beans:bean>
+	
+	<beans:bean id="status" class="org.springframework.web.servlet.view.xml.MarshallingView">
+		<beans:constructor-arg ref="marshaller" />
+	</beans:bean>
+	
+	<beans:bean id="statuses" class="org.springframework.web.servlet.view.xml.MarshallingView">
+		<beans:constructor-arg ref="marshaller" />
+	</beans:bean>
+	
+	<beans:bean id="actmoneybookers" class="org.springframework.web.servlet.view.xml.MarshallingView">
+		<beans:constructor-arg ref="marshaller" />
+	</beans:bean>
+</beans:beans>
