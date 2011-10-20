@@ -3,3 +3,4 @@
 target/
 .springBeans
 deployment/local/config.properties
+.settings
