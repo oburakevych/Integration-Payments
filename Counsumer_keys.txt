@@ -1,0 +1,11 @@
+#ENTERPRISE-SANDBOX:
+consumerKey=0hDgCGj2TywrexgQ0G0E
+consumerSecret=VOee1MdCJ6E86ApEswfSjiAXp57Oj1A1MMQ41Do5
+purpose=Online Payments
+callbackURL=
+
+#SANDBOX
+consumerKey=RetapnKVEJJhq8XIiMGm
+consumerSecret=WO1Up0PaTcTjwpbqpRHbNBytYhPUKkQP4QChBfCF
+purpose=Online Payments
+callbackURL=
