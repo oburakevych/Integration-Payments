@@ -1,4 +1,4 @@
-package org.integration.payments.service;
+package org.integration.payments.server.service;
 
 /**
  * Hello world!

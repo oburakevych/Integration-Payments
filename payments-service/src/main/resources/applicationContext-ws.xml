@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+     http://www.springframework.org/schema/context
+     http://www.springframework.org/schema/context/spring-context-3.0.xsd
+     http://www.springframework.org/schema/util
+     http://www.springframework.org/schema/util/spring-util-3.0.xsd">     
+
+    <bean id="client.http.request.factory" class="org.springframework.http.client.CommonsClientHttpRequestFactory">
+        <constructor-arg>
+            <bean class="org.apache.commons.httpclient.HttpClient">
+                <constructor-arg name="params">
+                    <bean class="org.apache.commons.httpclient.params.HttpClientParams">
+                        <property name="authenticationPreemptive" value="false" />
+                        <property name="connectionManagerClass" value="org.apache.commons.httpclient.MultiThreadedHttpConnectionManager" />
+                    </bean>
+                </constructor-arg>
+            </bean>
+        </constructor-arg>
+    </bean>
+
+    <!-- Tradeshift API -->
+    <bean id="ws.tradeshift.restOperations" class="org.springframework.web.client.RestTemplate">
+        <constructor-arg ref="client.http.request.factory" />
+        <property name="interceptors">
+            <list>
+                <bean class="org.springframework.social.oauth1.OAuth1RequestInterceptor">
+                    <constructor-arg name="oauth1Credentials">
+                        <bean class="org.springframework.social.oauth1.OAuth1Credentials">
+                            <constructor-arg name="consumerKey" value="${tradeshift.api.oauth.consumerKey}" />
+                            <constructor-arg name="consumerSecret" value="${tradeshift.api.oauth.consumerSecret}" />
+                            <constructor-arg name="accessToken" value="${tradeshift.api.oauth.accessToken}" />
+                            <constructor-arg name="accessTokenSecret" value="${tradeshift.api.oauth.accessTokenSecret}" />
+                        </bean>
+                    </constructor-arg>
+                </bean>
+            </list>
+        </property>
+        <property name="messageConverters">
+            <bean class="org.integration.payments.server.ws.tradeshift.message.converter.AppSettingsHttpConverter" />
+        </property>
+    </bean>
+
+    <bean id="ws.tradeshift.service" class="org.integration.payments.server.ws.tradeshift.impl.TradeshiftApiServiceImpl">
+        <constructor-arg name="apiBaseUrl" value="${tradeshift.api.baseUrl}" />
+        <constructor-arg name="restOperations" ref="ws.tradeshift.restOperations" />
+        <property name="defultRequestHeaders">
+            <map>
+                <entry value="${tradeshift.api.userAgent}">
+                    <key><util:constant static-field="org.integration.payments.server.ws.ApiConstants.USER_AGENT_HEADER_NAME"/></key>
+                </entry>
+                <entry value="${tradeshift.api.tenantId}">
+                    <key><util:constant static-field="org.integration.payments.server.ws.tradeshift.TradeshiftApiConstants.TENANTID_HEADER_NAME"/></key>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+</beans>
