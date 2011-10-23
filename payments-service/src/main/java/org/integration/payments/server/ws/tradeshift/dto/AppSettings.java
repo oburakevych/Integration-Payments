@@ -1,7 +1,5 @@
 package org.integration.payments.server.ws.tradeshift.dto;
 
-import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
-
 import java.util.HashMap;
 import java.util.Map;
 

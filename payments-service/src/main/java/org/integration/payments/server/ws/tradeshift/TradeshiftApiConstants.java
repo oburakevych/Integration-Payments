@@ -3,7 +3,6 @@ package org.integration.payments.server.ws.tradeshift;
 import org.integration.payments.server.ws.ApiConstants;
 
 public abstract class TradeshiftApiConstants extends ApiConstants {
-	public static final String UTF8_CHARSET = "UTF-8";
 	public static final String DEFAULT_CHARSET = UTF8_CHARSET;
 
 	// ~ header keys
