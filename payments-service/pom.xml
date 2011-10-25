@@ -34,6 +34,7 @@
                     <configuration>
                         <source>1.6</source>
                         <target>1.6</target>
+                        <encoding>${project.build.sourceEncoding}</encoding>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -75,12 +76,12 @@
 					</execution>
 				</executions>
 				<configuration>
-					<generatePackage>org.integration</generatePackage>
+
 					<schemaDirectory>${basedir}/src/main/resources/oasis/ubl/xsd</schemaDirectory>
 					<includeSchemas>
 						<includeSchema>main/UBL-Invoice-2.0.xsd</includeSchema>
 					</includeSchemas>
-					<strict>false</strict>
+					<strict>true</strict>
 					<verbose>true</verbose>
 					<removeOldOutput>true</removeOldOutput>
 				</configuration>
@@ -280,7 +281,6 @@
 			<id>java.net</id>
 			<name>java.net Maven Repository</name>
 			<url>https://maven-repository.dev.java.net/nonav/repository</url>
-			<layout>legacy</layout>
 		</repository>
     </repositories>
 </project>
