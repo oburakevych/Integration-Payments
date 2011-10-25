@@ -34,7 +34,7 @@
                     <configuration>
                         <source>1.6</source>
                         <target>1.6</target>
-                        <encoding>${project.build.sourceEncoding}</encoding>
+                        <encoding>${file.encoding}</encoding>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -81,7 +81,7 @@
 					<includeSchemas>
 						<includeSchema>main/UBL-Invoice-2.0.xsd</includeSchema>
 					</includeSchemas>
-					<strict>true</strict>
+					<strict>false</strict>
 					<verbose>true</verbose>
 					<removeOldOutput>true</removeOldOutput>
 				</configuration>
