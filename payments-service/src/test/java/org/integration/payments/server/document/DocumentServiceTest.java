@@ -1,9 +1,14 @@
 package org.integration.payments.server.document;
 
+import org.junit.Test;
+
 
 public class DocumentServiceTest {
+    
+    @Test
     public void document_can_be_validated() {
-        
+        DocumentService ds = new DocumentService();
+        System.out.println("YO!");
     }
     
     public void document_profile_matches() {
