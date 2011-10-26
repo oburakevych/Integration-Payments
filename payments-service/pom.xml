@@ -76,10 +76,10 @@
 					</execution>
 				</executions>
 				<configuration>
-					<generateDirectory>${basedir}/src/main/java</generateDirectory>
+					<generateDirectory>${basedir}/src/main/oasis</generateDirectory>
 					<schemaDirectory>${basedir}/src/main/resources/oasis/ubl/xsd</schemaDirectory>
 					<includeSchemas>
-						<includeSchema>main/UBL-Invoice-2.0.xsd</includeSchema>
+						<includeSchema>main/*.xsd</includeSchema>
 					</includeSchemas>
 					<strict>false</strict>
 					<verbose>true</verbose>
