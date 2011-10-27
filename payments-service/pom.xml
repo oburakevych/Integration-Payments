@@ -74,7 +74,6 @@
 			    <groupId>org.integration.documents</groupId>
 			    <artifactId>oasis-ubl2</artifactId>
 			    <version>0.0.1</version>
-    			<scope>compile</scope>
     		</dependency>
             <!-- common utilities -->
             <dependency>
