@@ -7,6 +7,11 @@
 	
 	<!--Use JAXB OXM marshaller to marshall/unmarshall following class -->
 	<beans:bean id="marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+		<beans:property name="classesToBeBound">
+			<beans:list>
+	    		<beans:value>oasis.names.specification.ubl.schema.xsd.invoice_2.InvoiceType</beans:value>
+			</beans:list>
+		</beans:property>
 	</beans:bean>
 	
 </beans:beans>

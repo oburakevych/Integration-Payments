@@ -1,13 +1,21 @@
 package org.integration.payments.server.document;
 
+import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-
+@ContextConfiguration(locations={"/test-root-context.xml"})
+@RunWith(SpringJUnit4ClassRunner.class)
 public class DocumentServiceTest {
+    @Autowired DocumentService documentService;
     
     @Test
+    @Ignore
     public void document_can_be_validated() {
-        DocumentService ds = new DocumentService();
+        documentService.convertToInvoice(null);
         System.out.println("YO!");
     }
     

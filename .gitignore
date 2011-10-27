@@ -5,3 +5,5 @@ target/
 deployment/local/config.properties
 .settings
 UBL/src/main/java/
+.DS_Store
+**/.DS_Store

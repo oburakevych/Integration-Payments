@@ -12,8 +12,6 @@
      http://www.springframework.org/schema/util
      http://www.springframework.org/schema/util/spring-util-3.0.xsd">     
 
-    <import resource="applicationContext-ws.xml" />
-
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="properties">
             <props>
@@ -27,8 +25,5 @@
             </props>
         </property>
     </bean>
-
-    <context:annotation-config />
-    <context:component-scan base-package="org.integration.payments.server.ws.tradeshift" resource-pattern="**/*" />
 
 </beans>

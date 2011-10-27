@@ -11,7 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.unitils.reflectionassert.ReflectionComparatorMode;
 
-@ContextConfiguration(locations={"/test-applicationContext-ws.xml"})
+@ContextConfiguration(locations={"/test-root-context.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
 public class TradeshiftApiServiceImplIntegrationTest {
 	@Autowired
