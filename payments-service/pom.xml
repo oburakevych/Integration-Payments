@@ -111,6 +111,11 @@
                 <artifactId>slf4j-log4j12</artifactId>
                 <version>${slf4j.version}</version>
             </dependency>
+			<dependency>
+			    <groupId>com.google.guava</groupId>
+			    <artifactId>guava</artifactId>
+			    <version>r09</version>
+			</dependency>
             <!-- spring -->
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -211,6 +216,10 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
         </dependency>
+		<dependency>
+		    <groupId>com.google.guava</groupId>
+		    <artifactId>guava</artifactId>
+		</dependency>
         <!-- spring -->
         <dependency>
             <groupId>org.springframework</groupId>

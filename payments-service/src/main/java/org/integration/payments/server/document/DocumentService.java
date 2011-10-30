@@ -1,42 +1,22 @@
 package org.integration.payments.server.document;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import javax.xml.transform.stream.StreamSource;
-
 import oasis.names.specification.ubl.schema.xsd.invoice_2.InvoiceType;
 
-import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.integration.payments.server.util.JAXBUtils;
 
 
 public class DocumentService {
-    private Jaxb2Marshaller marshaller;
+    public InvoiceType convertToInvoice(byte[] xmlDoc) {
+        InvoiceType invoice = JAXBUtils.unmarshall(xmlDoc, InvoiceType.class);
+        
+        System.out.println("Yo!");
+        
+        return invoice;
+    }
     
-    public InvoiceType convertToInvoice(InputStream is) {
-        InvoiceType invoiceType = null;
+    public byte[] convertToXml(Object object) {
+        byte[] xml =  JAXBUtils.marshall(object);
         
-        try {
-            invoiceType = (InvoiceType) marshaller.unmarshal(new StreamSource(is));
-        } finally {
-            if (is != null) {
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    // ignore
-                }
-            }
-        }
-        
-        return invoiceType;
-    }
-
-    public void setMarshaller(Jaxb2Marshaller marshaller) {
-        this.marshaller = marshaller;
-    }
-
-    public Jaxb2Marshaller getMarshaller() {
-        return marshaller;
-    }
-   
+        return xml;
+    }   
 }

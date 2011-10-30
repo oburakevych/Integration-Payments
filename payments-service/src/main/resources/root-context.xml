@@ -14,6 +14,5 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	     
     <import resource="applicationContext-service.xml"/>
-    <import resource="applicationContext-marshaller.xml"/>
     <import resource="applicationContext-ws.xml"/>
 </beans>
