@@ -43,7 +43,10 @@
             </list>
         </property>
         <property name="messageConverters">
-            <bean class="org.integration.payments.server.ws.tradeshift.message.converter.AppSettingsHttpConverter" />
+        	<list>
+        		<bean class="org.integration.payments.server.ws.tradeshift.message.converter.AppSettingsHttpConverter" />
+        		<bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+        	</list>
         </property>
     </bean>
 

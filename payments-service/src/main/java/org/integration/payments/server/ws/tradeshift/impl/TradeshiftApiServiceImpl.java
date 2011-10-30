@@ -6,6 +6,7 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.integration.payments.server.ws.tradeshift.TradeshiftApiService;
 import org.integration.payments.server.ws.tradeshift.dto.AppSettings;
@@ -65,5 +66,15 @@ public class TradeshiftApiServiceImpl implements TradeshiftApiService {
         }
 
         return requestHeaders;
+    }
+
+    @Override
+    public byte[] getDocument(UUID id, String locale) {
+        HttpHeaders httpHeaders = buildHttpHeaders(defultRequestHeaders, MediaType.TEXT_XML);
+        HttpEntity<String> requestEntity = new HttpEntity<String>(httpHeaders);
+
+        ResponseEntity<byte[]> responseEntity = this.restOperations.exchange(apiBaseUrl + "/external/documents/" + id, HttpMethod.GET, requestEntity, byte[].class);
+
+        return responseEntity.getBody();
     }
 }

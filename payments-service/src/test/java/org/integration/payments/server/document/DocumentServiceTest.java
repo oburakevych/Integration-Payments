@@ -51,6 +51,10 @@ public class DocumentServiceTest {
         byte[] convertedXml = documentService.convertToXml(invoice);
     }
     
+    public void document_can_be_retrieved() {
+        
+    }
+    
     public void document_profile_matches() {
         
     }
