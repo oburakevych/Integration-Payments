@@ -4,8 +4,10 @@ import java.util.HashMap;
 
 
 public class UblJaxb {
-	public static HashMap<String, String> NAMESPACES = new HashMap<String, String>(){
-		{
+	public static HashMap<String, String> NAMESPACES = new HashMap<String, String>() {
+        private static final long serialVersionUID = 1L;
+
+        {
 			put("cac", "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2");
 			put("cbc", "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2");
 			put("ccts", "urn:oasis:names:specification:ubl:schema:xsd:CoreComponentParameters-2");

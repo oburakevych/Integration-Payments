@@ -14,8 +14,6 @@ import org.integration.payments.server.document.ubl.canonical.Canonical;
 import org.integration.payments.server.util.IOUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -26,25 +24,25 @@ import org.xml.sax.SAXException;
 @ContextConfiguration(locations={"/test-root-context.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
 public class DocumentServiceTest {
-    private static final Logger log = LoggerFactory.getLogger(DocumentServiceTest.class);
-    
     private @Autowired DocumentService documentService;
+    //TODO: take the resources path and test file names from a property file
+    public static final String RESOURCES_PATH = "src/test/resources";
+    public static final String TEST_UBL_FILE_NAME = "ubl_invoice.xml";
     
     @Test
     public void canonical_document_xpath_can_be_validated() throws IOException, SAXException, ParserConfigurationException {
-        Document xmlDoc = getXmlDomDocumentRepresentation("src/test/resources/ubl_invoice.xml");
+        Document xmlDoc = getXmlDomDocumentRepresentation(RESOURCES_PATH + "/" + TEST_UBL_FILE_NAME);
         
-        assertEquals("12701", Canonical.NUMBER.getUblString(xmlDoc));
-        assertEquals("5002701", Canonical.BUYERS_ORDER_ID.getUblString(xmlDoc));
-        assertEquals("Tradeshift", Canonical.RECEIVER_PARTY_NAME.getUblString(xmlDoc));
-        assertEquals("DK", Canonical.RECEIVER_COUNTRY_CODE.getUblString(xmlDoc));
-        assertEquals("250.00", Canonical.PAYABLE_AMOUNT.getUblString(xmlDoc));
+        assertEquals("HSD5", Canonical.NUMBER.getUblString(xmlDoc));
+        assertEquals("Lemberg", Canonical.RECEIVER_PARTY_NAME.getUblString(xmlDoc));
+        assertEquals("UA", Canonical.RECEIVER_COUNTRY_CODE.getUblString(xmlDoc));
+        assertEquals("760.00", Canonical.PAYABLE_AMOUNT.getUblString(xmlDoc));
         assertEquals("DKK", Canonical.CURRENCY_CODE.getUblString(xmlDoc));
     }
     
     @Test
     public void ubl_can_be_converted_to_invoice() throws IOException {
-        byte[] xml = IOUtils.getResourceAsByteArray("src/test/resources/ubl_invoice.xml");
+        byte[] xml = IOUtils.getResourceAsByteArray(RESOURCES_PATH + "/" + TEST_UBL_FILE_NAME);
         
         assertNotNull(xml);
         
@@ -56,7 +54,7 @@ public class DocumentServiceTest {
     
     @Test
     public void invoice_can_be_converted_to_ubl() throws IOException {
-        byte[] xml = IOUtils.getResourceAsByteArray("src/test/resources/ubl_invoice.xml");
+        byte[] xml = IOUtils.getResourceAsByteArray(RESOURCES_PATH + "/" + TEST_UBL_FILE_NAME);
         
         assertNotNull(xml);
         
@@ -72,7 +70,7 @@ public class DocumentServiceTest {
     
     @Test
     public void invoice_can_be_validated() throws IOException {
-        byte[] xml = IOUtils.getResourceAsByteArray("src/test/resources/ubl_invoice.xml");
+        byte[] xml = IOUtils.getResourceAsByteArray(RESOURCES_PATH + "/" + TEST_UBL_FILE_NAME);
 
         Invoice invoice = documentService.convertToInvoice(xml);
         
@@ -80,27 +78,23 @@ public class DocumentServiceTest {
         assertNotNull(invoice.getContent());
         
         assertNotNull(invoice.getContent().getID());
-        assertEquals("12701", invoice.getContent().getID().getValue());
-        
-        assertNotNull(invoice.getContent().getOrderReference());
-        assertNotNull(invoice.getContent().getOrderReference().getID());
-        assertEquals("5002701", invoice.getContent().getOrderReference().getID().getValue());
+        assertEquals("HSD5", invoice.getContent().getID().getValue());
         
         assertNotNull(invoice.getContent().getAccountingCustomerParty());
         assertNotNull(invoice.getContent().getAccountingCustomerParty().getParty());
         assertNotNull(invoice.getContent().getAccountingCustomerParty().getParty().getPartyName());
         assertTrue(invoice.getContent().getAccountingCustomerParty().getParty().getPartyName().size() > 0);
         assertNotNull(invoice.getContent().getAccountingCustomerParty().getParty().getPartyName().get(0).getName());
-        assertEquals("Tradeshift", invoice.getContent().getAccountingCustomerParty().getParty().getPartyName().get(0).getName().getValue());
+        assertEquals("Lemberg", invoice.getContent().getAccountingCustomerParty().getParty().getPartyName().get(0).getName().getValue());
         
         assertNotNull(invoice.getContent().getAccountingCustomerParty().getParty().getPostalAddress());
         assertNotNull(invoice.getContent().getAccountingCustomerParty().getParty().getPostalAddress().getCountry());
         assertNotNull(invoice.getContent().getAccountingCustomerParty().getParty().getPostalAddress().getCountry().getIdentificationCode());
-        assertEquals("DK", invoice.getContent().getAccountingCustomerParty().getParty().getPostalAddress().getCountry().getIdentificationCode().getValue());
+        assertEquals("UA", invoice.getContent().getAccountingCustomerParty().getParty().getPostalAddress().getCountry().getIdentificationCode().getValue());
         
         assertNotNull(invoice.getContent().getLegalMonetaryTotal());
         assertNotNull(invoice.getContent().getLegalMonetaryTotal().getPayableAmount());
-        assertEquals(new BigDecimal("250.00"), invoice.getContent().getLegalMonetaryTotal().getPayableAmount().getValue());
+        assertEquals(new BigDecimal("760.00"), invoice.getContent().getLegalMonetaryTotal().getPayableAmount().getValue());
         
         assertNotNull(invoice.getContent().getDocumentCurrencyCode());
         assertEquals("DKK", invoice.getContent().getDocumentCurrencyCode().getValue());
@@ -122,7 +116,7 @@ public class DocumentServiceTest {
         DocumentBuilderFactory newInstance = DocumentBuilderFactory.newInstance();
         newInstance.setNamespaceAware(true);
         DocumentBuilder builder = newInstance.newDocumentBuilder();
-        Document doc = builder.parse(IOUtils.toInputStream(new File("src/test/resources/ubl_invoice.xml")));
+        Document doc = builder.parse(IOUtils.toInputStream(new File(RESOURCES_PATH + "/" + TEST_UBL_FILE_NAME)));
         
         return doc;
     }

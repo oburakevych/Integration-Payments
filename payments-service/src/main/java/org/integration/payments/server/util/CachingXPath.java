@@ -50,6 +50,7 @@ public class CachingXPath implements XPath {
         return xpath;
     }
     
+    @SuppressWarnings("unchecked")
     protected Map<String, XPathExpression> createCache(int size) {
         return new LRUMap(size);
     }
