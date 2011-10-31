@@ -1,42 +1,37 @@
 package org.integration.payments.server.document;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
+import static org.junit.Assert.*;
+
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.math.BigDecimal;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import oasis.names.specification.ubl.schema.xsd.invoice_2.InvoiceType;
-import oasis.names.specification.ubl.schema.xsd.invoice_2.ObjectFactory;
-
 import org.integration.payments.server.document.ubl.canonical.Canonical;
 import org.integration.payments.server.util.IOUtils;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
-import static org.junit.Assert.*;
 
 
 @ContextConfiguration(locations={"/test-root-context.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
 public class DocumentServiceTest {
-    @Autowired DocumentService documentService;
+    private static final Logger log = LoggerFactory.getLogger(DocumentServiceTest.class);
+    
+    private @Autowired DocumentService documentService;
     
     @Test
-    public void document_can_be_validated() throws IOException, SAXException, ParserConfigurationException {
+    public void canonical_document_xpath_can_be_validated() throws IOException, SAXException, ParserConfigurationException {
         Document xmlDoc = getXmlDomDocumentRepresentation("src/test/resources/ubl_invoice.xml");
         
         assertEquals("12701", Canonical.NUMBER.getUblString(xmlDoc));
@@ -48,46 +43,78 @@ public class DocumentServiceTest {
     }
     
     @Test
-    public void document_can_be_converted_to_invoice() throws IOException {
+    public void ubl_can_be_converted_to_invoice() throws IOException {
         byte[] xml = IOUtils.getResourceAsByteArray("src/test/resources/ubl_invoice.xml");
         
-        InvoiceType invoice = documentService.convertToInvoice(xml);
+        assertNotNull(xml);
+        
+        Invoice invoice = documentService.convertToInvoice(xml);
+        
+        assertNotNull(invoice);
+        assertNotNull(invoice.getContent());
     }
     
     @Test
-    public void document_can_be_converted_to_xml() throws IOException {
+    public void invoice_can_be_converted_to_ubl() throws IOException {
         byte[] xml = IOUtils.getResourceAsByteArray("src/test/resources/ubl_invoice.xml");
         
-        InvoiceType invoice = documentService.convertToInvoice(xml);
+        assertNotNull(xml);
+        
+        Invoice invoice = documentService.convertToInvoice(xml);
+        
+        assertNotNull(invoice);
+        assertNotNull(invoice.getContent());
         
         byte[] convertedXml = documentService.convertToXml(invoice);
+        
+        assertNotNull(convertedXml);
     }
     
-    public void document_can_be_retrieved() {
+    @Test
+    public void invoice_can_be_validated() throws IOException {
+        byte[] xml = IOUtils.getResourceAsByteArray("src/test/resources/ubl_invoice.xml");
+
+        Invoice invoice = documentService.convertToInvoice(xml);
         
-    }
-    
-    public void document_profile_matches() {
+        assertNotNull(invoice);
+        assertNotNull(invoice.getContent());
         
-    }
-    
-    public void document_can_be_converted_to_application_response() {
+        assertNotNull(invoice.getContent().getID());
+        assertEquals("12701", invoice.getContent().getID().getValue());
         
-    }
-    
-    public void invoice_can_be_converted_to_ubl_document() {
+        assertNotNull(invoice.getContent().getOrderReference());
+        assertNotNull(invoice.getContent().getOrderReference().getID());
+        assertEquals("5002701", invoice.getContent().getOrderReference().getID().getValue());
         
-    }
-    
-    public void application_response_can_be_converted_to_ubl_document() {
+        assertNotNull(invoice.getContent().getAccountingCustomerParty());
+        assertNotNull(invoice.getContent().getAccountingCustomerParty().getParty());
+        assertNotNull(invoice.getContent().getAccountingCustomerParty().getParty().getPartyName());
+        assertTrue(invoice.getContent().getAccountingCustomerParty().getParty().getPartyName().size() > 0);
+        assertNotNull(invoice.getContent().getAccountingCustomerParty().getParty().getPartyName().get(0).getName());
+        assertEquals("Tradeshift", invoice.getContent().getAccountingCustomerParty().getParty().getPartyName().get(0).getName().getValue());
         
-    }
-    
-    public void invoice_can_be_validated() {
+        assertNotNull(invoice.getContent().getAccountingCustomerParty().getParty().getPostalAddress());
+        assertNotNull(invoice.getContent().getAccountingCustomerParty().getParty().getPostalAddress().getCountry());
+        assertNotNull(invoice.getContent().getAccountingCustomerParty().getParty().getPostalAddress().getCountry().getIdentificationCode());
+        assertEquals("DK", invoice.getContent().getAccountingCustomerParty().getParty().getPostalAddress().getCountry().getIdentificationCode().getValue());
         
+        assertNotNull(invoice.getContent().getLegalMonetaryTotal());
+        assertNotNull(invoice.getContent().getLegalMonetaryTotal().getPayableAmount());
+        assertEquals(new BigDecimal("250.00"), invoice.getContent().getLegalMonetaryTotal().getPayableAmount().getValue());
+        
+        assertNotNull(invoice.getContent().getDocumentCurrencyCode());
+        assertEquals("DKK", invoice.getContent().getDocumentCurrencyCode().getValue());
     }
     
     public void application_response_can_be_validated() {
+        
+    }
+    
+    public void ubl_can_be_converted_to_application_response() {
+        
+    }
+    
+    public void application_response_can_be_converted_to_document() {
         
     }
     
