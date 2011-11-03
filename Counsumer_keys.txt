@@ -2,10 +2,11 @@
 consumerKey=0hDgCGj2TywrexgQ0G0E
 consumerSecret=VOee1MdCJ6E86ApEswfSjiAXp57Oj1A1MMQ41Do5
 purpose=Online Payments
-callbackURL=
+callbackURL=https://178.136.240.133:3443/enterprise-sandbox-payments-server/callback/tradeshift/oauth
 
 #SANDBOX
 consumerKey=RetapnKVEJJhq8XIiMGm
 consumerSecret=WO1Up0PaTcTjwpbqpRHbNBytYhPUKkQP4QChBfCF
 purpose=Online Payments
-callbackURL=
+callbackURL=https://178.136.240.133:3443/sandbox-payments-server/callback/tradeshift/oauth
+

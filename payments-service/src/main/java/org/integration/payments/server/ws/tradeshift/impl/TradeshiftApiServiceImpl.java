@@ -1,9 +1,11 @@
 package org.integration.payments.server.ws.tradeshift.impl;
 
 import static org.integration.payments.server.ws.tradeshift.TradeshiftApiConstants.DEFAULT_CHARSET;
+import static org.integration.payments.server.ws.tradeshift.TradeshiftApiConstants.TENANTID_HEADER_NAME;
 
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -45,13 +47,28 @@ public class TradeshiftApiServiceImpl implements TradeshiftApiService {
 	}
 
 	@Override
-	public AppSettings getAppSettings() {
-        HttpHeaders httpHeaders = buildHttpHeaders(defultRequestHeaders, MediaType.APPLICATION_JSON);
+	public AppSettings getAppSettings(UUID companyAccountId) {
+		Map<String, String> headers = new HashMap<String, String>(defultRequestHeaders);
+
+		headers.put(TENANTID_HEADER_NAME, companyAccountId.toString());
+
+        HttpHeaders httpHeaders = buildHttpHeaders(headers, MediaType.APPLICATION_JSON);
         HttpEntity<String> requestEntity = new HttpEntity<String>(httpHeaders);
 
 		ResponseEntity<AppSettings> responseEntity = this.restOperations.exchange(apiBaseUrl + "/external/account/appsettings", HttpMethod.GET, requestEntity, AppSettings.class);
 
 		return responseEntity.getBody();
+	}
+
+	/**
+	 * external/consumer/accounts/{companyaccountid}/resendtoken
+	 */
+	@Override
+	public void resendOAuthAccessToken(UUID companyAccountId) {
+		HttpHeaders httpHeaders = buildHttpHeaders(defultRequestHeaders, MediaType.APPLICATION_JSON);
+        HttpEntity<String> requestEntity = new HttpEntity<String>(httpHeaders);
+
+		this.restOperations.exchange(apiBaseUrl + "/external/consumer/accounts/{companyaccountid}/resendtoken", HttpMethod.POST, requestEntity, String.class, companyAccountId.toString());
 	}
 
 	// ~ utilities
@@ -71,11 +88,15 @@ public class TradeshiftApiServiceImpl implements TradeshiftApiService {
     }
 
     @Override
-    public byte[] getDocument(UUID id, String locale) {
-        HttpHeaders httpHeaders = buildHttpHeaders(defultRequestHeaders, MediaType.TEXT_XML);
+    public byte[] getDocument(UUID companyAccountId, UUID documentId, String locale) {
+    	Map<String, String> headers = new HashMap<String, String>(defultRequestHeaders);
+
+		headers.put(TENANTID_HEADER_NAME, companyAccountId.toString());
+
+        HttpHeaders httpHeaders = buildHttpHeaders(headers, MediaType.TEXT_XML);
         HttpEntity<String> requestEntity = new HttpEntity<String>(httpHeaders);
 
-        ResponseEntity<byte[]> responseEntity = this.restOperations.exchange(apiBaseUrl + "/external/documents/" + id, HttpMethod.GET, requestEntity, byte[].class);
+        ResponseEntity<byte[]> responseEntity = this.restOperations.exchange(apiBaseUrl + "/external/documents/{documentId}", HttpMethod.GET, requestEntity, byte[].class, documentId.toString());
 
         return responseEntity.getBody();
     }

@@ -26,19 +26,33 @@
     </bean>
 
     <!-- Tradeshift API -->
+    <bean id="ws.tradeshift.credentialsStorage" class="org.integration.payments.server.ws.auth.impl.InmemoryLRUOAuth1AccessCredentialsStorage">
+        <constructor-arg index="0" name="maxCacheSize" value="100" />
+        <constructor-arg index="1" name="initCredentials">
+            <map>
+                <entry key="${tradeshift.api.tenantId}">
+                    <bean class="org.integration.payments.server.ws.auth.OAuth1AccessCredentials">
+                        <constructor-arg name="accessToken" value="${tradeshift.api.oauth.accessToken}" />
+                        <constructor-arg name="accessTokenSecret" value="${tradeshift.api.oauth.accessTokenSecret}" />
+                    </bean>
+                </entry>
+            </map>
+        </constructor-arg>
+    </bean>
+
+    <!-- TODO:!!!
+        Add AOP to intercept execution of ws.tradeshift.credentialsStorage get method, look at TradehiftCredentialsUpdateManager
+        Introduce Tradeshift call back tracking
+    -->
+
     <bean id="ws.tradeshift.restOperations" class="org.springframework.web.client.RestTemplate">
         <constructor-arg ref="client.http.request.factory" />
         <property name="interceptors">
             <list>
-                <bean class="org.springframework.social.oauth1.OAuth1RequestInterceptor">
-                    <constructor-arg name="oauth1Credentials">
-                        <bean class="org.springframework.social.oauth1.OAuth1Credentials">
-                            <constructor-arg name="consumerKey" value="${tradeshift.api.oauth.consumerKey}" />
-                            <constructor-arg name="consumerSecret" value="${tradeshift.api.oauth.consumerSecret}" />
-                            <constructor-arg name="accessToken" value="${tradeshift.api.oauth.accessToken}" />
-                            <constructor-arg name="accessTokenSecret" value="${tradeshift.api.oauth.accessTokenSecret}" />
-                        </bean>
-                    </constructor-arg>
+                <bean class="org.integration.payments.server.ws.tradeshift.auth.TradeshiftOAuth1ManagerRequestInterceptor">
+                    <constructor-arg name="consumerKey" value="${tradeshift.api.oauth.consumerKey}" />
+                    <constructor-arg name="consumerSecret" value="${tradeshift.api.oauth.consumerSecret}" />
+                    <constructor-arg name="credentialsStorage" ref="ws.tradeshift.credentialsStorage" />
                 </bean>
             </list>
         </property>
@@ -61,9 +75,6 @@
             <map>
                 <entry value="${tradeshift.api.userAgent}">
                     <key><util:constant static-field="org.integration.payments.server.ws.ApiConstants.USER_AGENT_HEADER_NAME"/></key>
-                </entry>
-                <entry value="${tradeshift.api.tenantId}">
-                    <key><util:constant static-field="org.integration.payments.server.ws.tradeshift.TradeshiftApiConstants.TENANTID_HEADER_NAME"/></key>
                 </entry>
             </map>
         </property>
