@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlType;
 import org.joda.time.DateTime;
 
 
-@XmlRootElement(name="DocumentMetadata")
+@XmlRootElement(name="DocumentMetadata", namespace = "http://tradeshift.com/api/public/1.0")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name="DocumentMetadata")
 public class DocumentMetadata {

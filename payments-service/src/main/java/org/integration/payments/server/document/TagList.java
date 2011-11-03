@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 
-@XmlRootElement(name="TagList")
+@XmlRootElement(name="TagList", namespace = "http://tradeshift.com/api/public/1.0")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TagList {
 

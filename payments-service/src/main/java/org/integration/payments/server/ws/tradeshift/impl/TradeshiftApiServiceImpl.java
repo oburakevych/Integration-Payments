@@ -102,8 +102,12 @@ public class TradeshiftApiServiceImpl implements TradeshiftApiService {
     }
 
     @Override
-    public DocumentMetadata getDocumentMetadata(UUID documentId) {
-        HttpHeaders httpHeaders = buildHttpHeaders(defultRequestHeaders, MediaType.TEXT_XML);
+    public DocumentMetadata getDocumentMetadata(UUID companyAccountId, UUID documentId) {
+        Map<String, String> headers = new HashMap<String, String>(defultRequestHeaders);
+
+        headers.put(TENANTID_HEADER_NAME, companyAccountId.toString());
+
+        HttpHeaders httpHeaders = buildHttpHeaders(headers, MediaType.TEXT_XML);
         HttpEntity<String> requestEntity = new HttpEntity<String>(httpHeaders);
         
         ResponseEntity<DocumentMetadata> responseEntity = this.restOperations.exchange(apiBaseUrl + "/external/documents/" + documentId + "/metadata", HttpMethod.GET, requestEntity, DocumentMetadata.class);

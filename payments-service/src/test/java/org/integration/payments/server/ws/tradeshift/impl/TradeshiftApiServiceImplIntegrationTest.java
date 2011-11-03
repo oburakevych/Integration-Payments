@@ -60,9 +60,10 @@ public class TradeshiftApiServiceImplIntegrationTest {
 	}
 	
 	@Test
-	@Ignore
 	public void getDispatch() {
-	    DocumentMetadata dispatch = tradeshiftApiService.getDocumentMetadata(DOCUMENT_ID);
+	    UUID companyAccountId = UUID.fromString(tenantId);
+	    
+	    DocumentMetadata dispatch = tradeshiftApiService.getDocumentMetadata(companyAccountId, DOCUMENT_ID);
 	    
 	    assertNotNull(dispatch);
 	    

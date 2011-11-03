@@ -11,7 +11,7 @@ public interface TradeshiftApiService {
 
 	public void resendOAuthAccessToken(UUID companyAccountId);
 	
-	public DocumentMetadata getDocumentMetadata(UUID documentId);
+	public DocumentMetadata getDocumentMetadata(UUID companyAccountId, UUID documentId);
 
 	public byte[] getDocument(UUID companyAccountId, UUID documentId, String locale);
 }
