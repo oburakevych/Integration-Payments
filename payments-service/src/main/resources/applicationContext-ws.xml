@@ -46,6 +46,10 @@
         	<list>
         		<bean class="org.integration.payments.server.ws.tradeshift.message.converter.AppSettingsHttpConverter" />
         		<bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+				<bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
+	           	<bean class="org.springframework.http.converter.ResourceHttpMessageConverter"/>
+	           	<bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter" />
+	           	<bean class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter"/>
         	</list>
         </property>
     </bean>

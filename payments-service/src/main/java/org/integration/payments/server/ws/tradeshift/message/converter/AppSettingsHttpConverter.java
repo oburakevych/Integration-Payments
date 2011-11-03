@@ -8,10 +8,10 @@ import java.nio.charset.Charset;
 import java.util.Map;
 
 import org.apache.commons.collections.MapUtils;
-import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.integration.payments.server.util.IOUtils;
 import org.integration.payments.server.ws.tradeshift.dto.AppSettings;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;

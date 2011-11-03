@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.integration.payments.server.document.Dispatch;
+import org.integration.payments.server.document.DocumentMetadata;
 import org.integration.payments.server.ws.tradeshift.TradeshiftApiService;
 import org.integration.payments.server.ws.tradeshift.dto.AppSettings;
 import org.slf4j.Logger;
@@ -75,6 +77,16 @@ public class TradeshiftApiServiceImpl implements TradeshiftApiService {
 
         ResponseEntity<byte[]> responseEntity = this.restOperations.exchange(apiBaseUrl + "/external/documents/" + id, HttpMethod.GET, requestEntity, byte[].class);
 
+        return responseEntity.getBody();
+    }
+
+    @Override
+    public DocumentMetadata getDocumentMetadata(UUID documentId) {
+        HttpHeaders httpHeaders = buildHttpHeaders(defultRequestHeaders, MediaType.TEXT_XML);
+        HttpEntity<String> requestEntity = new HttpEntity<String>(httpHeaders);
+        
+        ResponseEntity<DocumentMetadata> responseEntity = this.restOperations.exchange(apiBaseUrl + "/external/documents/" + documentId + "/metadata", HttpMethod.GET, requestEntity, DocumentMetadata.class);
+        
         return responseEntity.getBody();
     }
 }
