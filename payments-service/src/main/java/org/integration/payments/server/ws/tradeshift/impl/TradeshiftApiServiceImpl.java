@@ -84,4 +84,18 @@ public class TradeshiftApiServiceImpl implements TradeshiftApiService {
 
         return requestHeaders;
     }
+
+    @Override
+    public byte[] getDocument(UUID companyAccountId, UUID documentId, String locale) {
+    	Map<String, String> headers = new HashMap<String, String>(defultRequestHeaders);
+
+		headers.put(TENANTID_HEADER_NAME, companyAccountId.toString());
+
+        HttpHeaders httpHeaders = buildHttpHeaders(headers, MediaType.TEXT_XML);
+        HttpEntity<String> requestEntity = new HttpEntity<String>(httpHeaders);
+
+        ResponseEntity<byte[]> responseEntity = this.restOperations.exchange(apiBaseUrl + "/external/documents/{documentId}", HttpMethod.GET, requestEntity, byte[].class, documentId.toString());
+
+        return responseEntity.getBody();
+    }
 }
