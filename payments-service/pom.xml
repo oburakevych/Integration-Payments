@@ -19,7 +19,6 @@
         <org.springframework.version>3.1.0.RC1</org.springframework.version>
         <org.spring-social.version>1.0.0.RELEASE</org.spring-social.version>
         <org.spring-security.version>3.1.0.RC3</org.spring-security.version>
-        <org.springframework.oxm.version>3.0.6.RELEASE</org.springframework.oxm.version>
         <slf4j.version>1.6.3</slf4j.version>
         <jackson.version>1.9.0</jackson.version>
         <aspectj.version>1.6.11</aspectj.version>
@@ -177,7 +176,7 @@
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>org.springframework.oxm</artifactId>
-				<version>${org.springframework.oxm.version}</version>
+				<version>${org.springframework.version}</version>
 			</dependency>
 			<!-- @Inject -->
 			<dependency>
