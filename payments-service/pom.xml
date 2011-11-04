@@ -175,7 +175,7 @@
             </dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
-				<artifactId>org.springframework.oxm</artifactId>
+				<artifactId>spring-oxm</artifactId>
 				<version>${org.springframework.version}</version>
 			</dependency>
 			<!-- @Inject -->
@@ -308,7 +308,7 @@
         </dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>org.springframework.oxm</artifactId>
+			<artifactId>spring-oxm</artifactId>
 		</dependency>
         <!-- parsers -->
         <dependency>
