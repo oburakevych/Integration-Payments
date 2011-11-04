@@ -9,13 +9,10 @@
      http://www.springframework.org/schema/context
      http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-	<bean id="documentFactory" class="org.integration.payments.server.document.DocumentFactory">
-	</bean>
-	
+	<bean id="documentFactory" class="org.integration.payments.server.document.DocumentFactory" />
+
 	<bean id="documentService" class="org.integration.payments.server.document.DocumentService" >
 		<property name="documentFactory" ref="documentFactory"/>
 	</bean>
-	
-
 
 </beans>
