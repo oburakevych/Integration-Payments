@@ -4,6 +4,8 @@ target/
 .springBeans
 deployment/local/config.properties
 .settings
+.mymetadata
+payments-service/src/main/webapp/WEB-INF/classes/
 UBL/src/main/java/
 .DS_Store
 **/.DS_Store
