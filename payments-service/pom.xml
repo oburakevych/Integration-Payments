@@ -89,6 +89,30 @@
                         </archive>
                     </configuration>
                 </plugin>
+	            <plugin>
+	            	<!-- Read about configuration here: http://wiki.eclipse.org/Jetty/Feature/Jetty_Maven_Plugin  -->
+	                <groupId>org.mortbay.jetty</groupId>
+	                <artifactId>jetty-maven-plugin</artifactId>
+	                <version>8.0.4.v20111024</version>
+	                <configuration>
+	                    <connectors>
+	                        <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+	                            <port>8180</port>
+	                            <maxIdleTime>60000</maxIdleTime>
+	                        </connector>
+	                    </connectors>
+	                    <scanIntervalSeconds>10</scanIntervalSeconds>
+	                    <stopKey>foo</stopKey>
+	                    <stopPort>9996</stopPort>
+	                    <reload>manual</reload>
+	                    <systemProperties>
+	                        <systemProperty>
+	                            <name>java.awt.headless</name>
+	                            <value>true</value>
+	                        </systemProperty>
+	                    </systemProperties>
+	                </configuration>
+				</plugin>
             </plugins>
         </pluginManagement>
         <plugins>
@@ -110,6 +134,10 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
             </plugin>
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+	            <artifactId>jetty-maven-plugin</artifactId>
+			</plugin>
         </plugins>
     </build>
 
