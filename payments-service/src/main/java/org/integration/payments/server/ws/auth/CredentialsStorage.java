@@ -8,4 +8,6 @@ public interface CredentialsStorage<T> {
 	public void save(UUID uuid, T credentials);
 
 	public void delete(UUID uuid);
+
+	public boolean isExists(UUID uuid);
 }

@@ -68,4 +68,9 @@ public class InmemoryLRUCredentialsStorage<T> implements CredentialsStorage<T> {
 			log.trace("Removed credentials for uuid:" + uuid);
 		}
 	}
+
+	@Override
+	public boolean isExists(UUID uuid) {
+		return cache.containsKey(uuid);
+	}
 }

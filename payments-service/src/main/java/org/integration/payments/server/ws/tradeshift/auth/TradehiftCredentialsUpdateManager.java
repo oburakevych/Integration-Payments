@@ -2,12 +2,15 @@ package org.integration.payments.server.ws.tradeshift.auth;
 
 import java.util.UUID;
 
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.integration.payments.server.ws.auth.CredentialsStorage;
 import org.integration.payments.server.ws.auth.OAuth1AccessCredentials;
 import org.integration.payments.server.ws.tradeshift.TradeshiftApiService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Aspect
 public class TradehiftCredentialsUpdateManager {
 
 	protected Logger log = LoggerFactory.getLogger(this.getClass());
@@ -23,14 +26,15 @@ public class TradehiftCredentialsUpdateManager {
 		this.apiService = apiService;
 	}
 
+	@Before("execution(public * org.integration.payments.server.ws.auth.CredentialsStorage.get(..)) and bean(ws.tradeshift.credentialsStorage) and args(companyAccountId)")
 	public void checkAndRequestResendCredentials(UUID companyAccountId) {
 		if (log.isTraceEnabled()) {
 			log.trace("Checking credentials for:{companyAccountId:" + companyAccountId + "}");
 		}
 
-		OAuth1AccessCredentials credentials = credentialsStorage.get(companyAccountId);
+		boolean credentialsExists = credentialsStorage.isExists(companyAccountId);
 
-		if (credentials == null) {
+		if (!credentialsExists) {
 			requestResendCredentials(companyAccountId);
 		}
 	}
