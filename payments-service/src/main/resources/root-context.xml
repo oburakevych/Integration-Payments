@@ -18,6 +18,8 @@
 
     <import resource="applicationContext-service.xml"/>
     <import resource="applicationContext-ws.xml"/>
-    <import resource="applicationContext-servlet.xml"/>
+    <!--
+    <import resource="applicationContext-web.xml"/>
+    -->
 
 </beans>

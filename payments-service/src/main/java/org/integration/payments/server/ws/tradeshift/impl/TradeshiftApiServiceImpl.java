@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.integration.payments.server.document.Dispatch;
 import org.integration.payments.server.document.DocumentMetadata;
 import org.integration.payments.server.ws.tradeshift.TradeshiftApiService;
 import org.integration.payments.server.ws.tradeshift.dto.AppSettings;

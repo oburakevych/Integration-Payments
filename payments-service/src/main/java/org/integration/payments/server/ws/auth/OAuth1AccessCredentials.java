@@ -23,8 +23,8 @@ public class OAuth1AccessCredentials {
 		StringBuilder sb = new StringBuilder("{");
 
 		sb.append("accessToken:").append(accessToken);
-		sb.append("accessTokenSecret:").append(accessTokenSecret);
+		sb.append(", accessTokenSecret:").append(accessTokenSecret);
 
-		return sb.toString();
+		return sb.append("}").toString();
 	}
 }

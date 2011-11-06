@@ -9,19 +9,23 @@ import org.integration.payments.server.ws.auth.CredentialsStorage;
 import org.integration.payments.server.ws.auth.OAuth1AccessCredentials;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
- * https://178.136.240.133:3443/payments-server/callback/tradeshift/oauth
+ * https://178.136.240.133:3443/sandbox-payments-server/callback/tradeshift/oauth
+ * 
+ * http://localhost:3080       /sandbox-payments-server/callback/tradeshift/oauth
  */
 @Controller
 @RequestMapping("callback/tradeshift/")
 public class TradeshiftCallbackController {
 	protected Logger log = LoggerFactory.getLogger(this.getClass());
 
+	@Autowired
 	private CredentialsStorage<OAuth1AccessCredentials> credentialsStorage;
 
 	public void setCredentialsStorage(CredentialsStorage<OAuth1AccessCredentials> credentialsStorage) {

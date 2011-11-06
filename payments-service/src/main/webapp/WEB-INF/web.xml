@@ -76,17 +76,18 @@
     </filter-mapping>
 
     <!-- ### Servlets ### -->
+    <!-- dummy-servlet.xml -->
     <servlet>
         <servlet-name>paymentsServerApi</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
             <init-param>
                 <param-name>contextConfigLocation</param-name>
-                <param-value>classpath:/dummy-servlet.xml</param-value>
+                <param-value>classpath:/applicationContext-web.xml</param-value>
             </init-param>
         </servlet>
 	<servlet-mapping>
     <servlet-name>paymentsServerApi</servlet-name>
         <url-pattern>/*</url-pattern>
 	</servlet-mapping>
-
+    
 </web-app>
