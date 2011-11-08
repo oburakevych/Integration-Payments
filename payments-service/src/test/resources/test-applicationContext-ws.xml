@@ -27,4 +27,18 @@
             </props>
         </property>
     </bean>
+    
+    <bean id="ws.tradeshift.credentialsStorage" class="org.integration.payments.server.ws.auth.impl.InmemoryLRUOAuth1AccessCredentialsStorage">
+        <constructor-arg index="0" name="maxCacheSize" value="100" />
+        <constructor-arg index="1" name="initCredentials">
+            <map>
+                <entry key="${tradeshift.api.tenantId}">
+                    <bean class="org.integration.payments.server.ws.auth.OAuth1AccessCredentials">
+                        <constructor-arg name="accessToken" value="${tradeshift.api.oauth.accessToken}" />
+                        <constructor-arg name="accessTokenSecret" value="${tradeshift.api.oauth.accessTokenSecret}" />
+                    </bean>
+                </entry>
+            </map>
+        </constructor-arg>
+    </bean>
 </beans>

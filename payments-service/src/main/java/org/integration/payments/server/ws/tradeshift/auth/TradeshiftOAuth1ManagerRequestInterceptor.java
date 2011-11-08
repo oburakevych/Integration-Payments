@@ -63,24 +63,32 @@ public class TradeshiftOAuth1ManagerRequestInterceptor implements ClientHttpRequ
 			log.debug("Intercepted request to wrapp it in OAuth1, tenatIdHeaders:" + tenatIdHeaders);
 		}
 
+		String accessToken = null;
+		String accessTokenSecret = null;
+
 		if (CollectionUtils.isNotEmpty(tenatIdHeaders)) {
 			String tenatId = tenatIdHeaders.iterator().next();
 			UUID companyAccountId = UUID.fromString(tenatId);
 
 			OAuth1AccessCredentials accessCredentials = credentialsStorage.get(companyAccountId);
 
-			// TODO: Correct it !!!! on null & for URLs where accessCredentials are not required
-			OAuth1CredentialsVs oAuth1Credentials = new OAuth1CredentialsVs(consumerKey, consumerSecret, accessCredentials.getAccessToken(), accessCredentials.getAccessTokenSecret());
-
-			HttpRequest protectedResourceRequest = new HttpRequestDecorator(request);
-
-			String authorizationHeaderValue = signingUtils.buildAuthorizationHeaderValue(request, body, oAuth1Credentials);
-
-			protectedResourceRequest.getHeaders().add("Authorization", authorizationHeaderValue);
-
-			return execution.execute(protectedResourceRequest, body);
+			if (accessCredentials != null) {
+				accessToken = accessCredentials.getAccessToken();
+				accessTokenSecret = accessCredentials.getAccessTokenSecret();
+			} else {
+				throw new RuntimeException("Missed accessCredentials for companyAccountId:" + companyAccountId);
+			}
 		}
 
-		return execution.execute(request, body);
+		OAuth1CredentialsVs oAuth1Credentials = new OAuth1CredentialsVs(consumerKey, consumerSecret, accessToken, accessTokenSecret);
+
+		HttpRequest protectedResourceRequest = new HttpRequestDecorator(request);
+
+		String authorizationHeaderValue = signingUtils.buildAuthorizationHeaderValue(request, body, oAuth1Credentials);
+
+		protectedResourceRequest.getHeaders().add("Authorization", authorizationHeaderValue);
+
+		return execution.execute(protectedResourceRequest, body);
+
 	}
 }
