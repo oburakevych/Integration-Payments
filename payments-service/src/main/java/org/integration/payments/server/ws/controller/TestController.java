@@ -68,15 +68,10 @@ public class TestController {
 		} catch (IOException ex) {
 			log.error(ex.getMessage(), ex);
 		}
-		
-		
 	}
 
-	/*
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public ModelAndView indexPage() {
-		return new ModelAndView("test-index.jsp");
+	public String indexPage() {
+		return "page";
 	}
-	*/
-	
 }

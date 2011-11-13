@@ -86,8 +86,8 @@
             </init-param>
         </servlet>
 	<servlet-mapping>
-    <servlet-name>paymentsServerApi</servlet-name>
+        <servlet-name>paymentsServerApi</servlet-name>
         <url-pattern>/*</url-pattern>
 	</servlet-mapping>
-    
+
 </web-app>

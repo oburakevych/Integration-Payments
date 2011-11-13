@@ -13,7 +13,7 @@
         </style>
     </head>
     <body>
-        <h1>Test Tradeshft APIIntegration Page</h1>
+        <h1>EEE Test Tradeshft APIIntegration Page</h1>
 
         <hr />
         <div>
@@ -44,20 +44,6 @@
             <b>Get Auth Access Credentials</b>
             <form action="https://localhost:3080/sandbox-payments-server/test/tradeshift/auth/accessCredentials" method="get">
                 CompanyAccountId: <input type="text" name="companyAccountId" value="" class="inputValue" />
-                <br />
-                <input type="submit" value="Go" />
-            </form>
-        </div>
-        <div>
-            <b>Poll Feadback</b>
-            <form action="https://localhost:3080/sandbox-payments-server/polling/user/feedback" method="post">
-                CompanyAccountId: <input type="text" name="companyAccountId" value="" class="inputValue" />
-                <br />
-                Feedback Pg: <input type="text" name="feedback_pg" value="" class="inputValue" />
-                <br />
-                Feedback Pg Int: <input type="text" name="feedback_pg_int" value="" class="inputValue" />
-                <br />
-                Feedback Txt: <input type="text" name="feedback_txt" value="" class="inputValue" />
                 <br />
                 <input type="submit" value="Go" />
             </form>
