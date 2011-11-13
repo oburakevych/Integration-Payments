@@ -17,7 +17,7 @@
         SELECT company_account_id, country FROM user_profile
     </sql>
 
-    <select id="get" parameterClass="string" resultMap="UserProfileMap">
+    <select id="get" parameterClass="UUID" resultMap="UserProfileMap">
         <include refid="getInternal"/>
         WHERE company_account_id = #companyAccountId#
     </select>
@@ -32,7 +32,7 @@
         WHERE company_account_id = #companyAccountId#       
     </update>
 
-    <delete id="delete" parameterClass="string">
+    <delete id="delete" parameterClass="UUID">
         DELETE FROM user_profile WHERE company_account_id = #companyAccountId#
     </delete>
 </sqlMap>

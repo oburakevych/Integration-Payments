@@ -36,7 +36,7 @@
         WHERE company_account_id = #companyAccountId#       
     </update>
 
-    <delete id="delete" parameterClass="string">
+    <delete id="delete" parameterClass="UUID">
         DELETE FROM user_feedback WHERE company_account_id = #companyAccountId#
     </delete>
 

@@ -5,6 +5,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.httpclient.HttpStatus;
+import org.integration.payments.server.polling.PollingService;
 import org.integration.payments.server.ws.auth.CredentialsStorage;
 import org.integration.payments.server.ws.auth.OAuth1AccessCredentials;
 import org.slf4j.Logger;
@@ -21,29 +22,49 @@ import org.springframework.web.bind.annotation.RequestParam;
  * http://localhost:3080       /sandbox-payments-server/callback/tradeshift/oauth
  */
 @Controller
-@RequestMapping("callback/tradeshift/")
+@RequestMapping("callback/tradeshift")
 public class TradeshiftCallbackController {
 	protected Logger log = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
 	private CredentialsStorage<OAuth1AccessCredentials> credentialsStorage;
 
+	@Autowired
+	private PollingService pollingService;
+
 	public void setCredentialsStorage(CredentialsStorage<OAuth1AccessCredentials> credentialsStorage) {
 		this.credentialsStorage = credentialsStorage;
 	}
 
-	@RequestMapping(value = "oauth", method = RequestMethod.POST)
+	public void setPollingService(PollingService pollingService) {
+		this.pollingService = pollingService;
+	}
+
+	@RequestMapping(value = "/oauth", method = RequestMethod.POST)
 	public void oAuth1Callback(@RequestParam("companyAccountId") UUID companyAccountId, 
 		@RequestParam("oauth_token") String accessToken, 
 		@RequestParam("oauth_token_secret") String accessTokenSecret, 
 		HttpServletResponse response) {
 
 		if (log.isTraceEnabled()) {
-			log.trace("Received Tradeshift OAuth1 callback:{companyAccountId:" + companyAccountId 
-				+ ", accessToken:" + accessToken + ", accessTokenSecret:" + accessTokenSecret);
+			log.trace("Received Tradeshift OAuth1 activation callback:{companyAccountId:" + companyAccountId 
+				+ ", accessToken:" + accessToken + ", accessTokenSecret:" + accessTokenSecret + "}");
 		}
 
 		credentialsStorage.save(companyAccountId, new OAuth1AccessCredentials(accessToken, accessTokenSecret));
+		pollingService.trackPluginUsege(companyAccountId, true);
+
+		response.setStatus(HttpStatus.SC_OK);
+	}
+
+	@RequestMapping(value = "/oauth", method = RequestMethod.DELETE)
+	public void oAuth1Callback(@RequestParam("companyAccountId") UUID companyAccountId, HttpServletResponse response) {
+		if (log.isTraceEnabled()) {
+			log.trace("Received Tradeshift OAuth1 deactivation callback:{companyAccountId:" + companyAccountId + "}");
+		}
+
+		credentialsStorage.delete(companyAccountId);
+		pollingService.trackPluginUsege(companyAccountId, false);
 
 		response.setStatus(HttpStatus.SC_OK);
 	}

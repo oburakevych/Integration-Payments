@@ -58,7 +58,7 @@
         </init-param>
         <init-param>
             <param-name>includePayload</param-name>
-            <param-value>true</param-value>
+            <param-value>false</param-value>
         </init-param>
     </filter>
     <!-- required to enable Spring 3.0 REST support -->

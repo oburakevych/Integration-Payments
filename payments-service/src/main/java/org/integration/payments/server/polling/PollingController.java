@@ -36,6 +36,10 @@ public class PollingController {
 		feedback.setFeedbackPgInt(feedbackPgInt);
 		feedback.setFeedbackTxt(feedbackTxt);
 
+		if (log.isTraceEnabled()) {
+			log.trace("Received user feedback :" + feedback);
+		}
+
 		pollingService.saveUserFeedback(feedback);
 	}
 }

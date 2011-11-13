@@ -1,8 +1,11 @@
 package org.integration.payments.server.polling;
 
+import java.util.UUID;
+
 import org.integration.payments.server.dao.PluginUsageInfoDao;
 import org.integration.payments.server.dao.UserFeedbackDao;
 import org.integration.payments.server.dao.UserProfileDao;
+import org.integration.payments.server.om.PluginUsageInfo;
 import org.integration.payments.server.om.UserFeedback;
 
 public class PollingService {
@@ -11,7 +14,6 @@ public class PollingService {
 
 	private UserFeedbackDao userFeedbackDao;
 
-	@SuppressWarnings("unused")
 	private PluginUsageInfoDao pluginUsageInfoDao;
 
 	public void setUserProfileDao(UserProfileDao userProfileDao) {
@@ -26,10 +28,8 @@ public class PollingService {
 		this.pluginUsageInfoDao = pluginUsageInfoDao;
 	}
 
-	public PollingService() {
-	}
-
 	public void saveUserFeedback(UserFeedback feedback) {
+		// TODO: Use more correct method to check entity on existing
 		UserFeedback oFeedback = userFeedbackDao.get(feedback.getCompanyAccountId());
 
 		if (oFeedback == null) {
@@ -38,4 +38,21 @@ public class PollingService {
 			userFeedbackDao.update(feedback);
 		}
 	}
+
+	public void trackPluginUsege(UUID companyAccountId, boolean activated) {
+		PluginUsageInfo pluginUsageInfo = pluginUsageInfoDao.get(companyAccountId);
+
+		if (pluginUsageInfo == null) {
+			pluginUsageInfoDao.create(companyAccountId);
+		}
+
+		if (pluginUsageInfo != null && activated) {
+			pluginUsageInfoDao.markActivated(companyAccountId);
+		}
+
+		if (!activated) {
+			pluginUsageInfoDao.markDisabled(companyAccountId);
+		}
+	}
+
 }
