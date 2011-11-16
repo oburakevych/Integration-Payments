@@ -100,7 +100,15 @@
 	                            <port>8180</port>
 	                            <maxIdleTime>60000</maxIdleTime>
 	                        </connector>
+	                        <connector implementation="org.eclipse.jetty.server.ssl.SslSocketConnector">
+	                            <port>8892</port>
+	                            <maxIdleTime>60000</maxIdleTime>
+	                            <keystore>${basedir}/deployment/jetty/polling_keystore.jks</keystore>
+	                            <password>jetty7</password>
+	                            <keyPassword>jetty7</keyPassword>
+	                        </connector>
 	                    </connectors>
+	                    <contextPath>/</contextPath>
 	                    <scanIntervalSeconds>10</scanIntervalSeconds>
 	                    <stopKey>foo</stopKey>
 	                    <stopPort>9996</stopPort>

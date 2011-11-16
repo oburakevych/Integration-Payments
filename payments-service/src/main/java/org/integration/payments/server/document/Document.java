@@ -7,8 +7,13 @@ public abstract class Document {
     private UUID companyAccountId;
     
     public abstract Object getContent();
+    
     public abstract void setContent(Object content);
-
+    
+    public abstract String getDocumentNum();
+    
+    public abstract String generateOrderNum();
+    
     public void setId(UUID id) {
         this.id = id;
     }
@@ -16,12 +21,13 @@ public abstract class Document {
     public UUID getId() {
         return id;
     }
+    
     public void setCompanyAccountId(UUID companyAccountId) {
         this.companyAccountId = companyAccountId;
     }
+    
     public UUID getCompanyAccountId() {
         return companyAccountId;
     }
-    
     
 }

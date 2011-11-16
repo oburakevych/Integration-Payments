@@ -34,12 +34,12 @@ public class FlexWinBean {
     /* Mandatory parameter.
      * The smallest unit of an amount, e.g. "ore" for Danish kroner.
      */
-    private Long amount;
+    private Amount amount;
     
     /* Mandatory parameter.
      * Currency specification as indicated in ISO4217 where Danish kroner is no. 208.
      */
-    private Integer currencyNumberCode;
+    private Currency currency;
     
     /*
      * Mandatory parameter.
@@ -218,50 +218,50 @@ public class FlexWinBean {
     
     public FlexWinBean() {}
     
-    public Map<FlexWinParam, String> getParameters() throws MissingRequiredPropertiesException {
-        Map<FlexWinParam, String> params = new HashMap<FlexWinParam, String>();
+    public Map<String, String> getParameters() throws MissingRequiredPropertiesException {
+        Map<String, String> params = new HashMap<String, String>();
         MissingPropertyConfigResolver missingPropertyResolver = new MissingPropertyConfigResolver();
 	
     	if (getSessionId() != null) {
-    	    params.put(SESSION_ID, getSessionId());
+    	    params.put(SESSION_ID.getId(), getSessionId());
     	}
     	
     	if (getMerchantId() != null) {
-    	    params.put(MERCHANT_ID, getMerchantId());
+    	    params.put(MERCHANT_ID.getId(), getMerchantId());
     	} else {
     	    missingPropertyResolver.addProperty(MERCHANT_ID.getId());
     	}
     	
     	if (getAmount() != null) {
-    	    params.put(AMOUNT, String.valueOf(getAmount()));
+    	    params.put(AMOUNT.getId(), getAmount().getStringValue());
     	} else {
     	    missingPropertyResolver.addProperty(AMOUNT.getId());
     	}
     	
-    	if (getCurrencyNumberCode() != null) {
-    	    params.put(CURRENCY_NUMBER_CODE, String.valueOf(getCurrencyNumberCode()));
+    	if (getCurrency() != null) {
+    	    params.put(CURRENCY.getId(), String.valueOf(getCurrency().getNuberCode()));
     	} else {
-    	    missingPropertyResolver.addProperty(CURRENCY_NUMBER_CODE.getId());
+    	    missingPropertyResolver.addProperty(CURRENCY.getId());
     	}
     	
     	if (getOrderId() != null) {
-    	    params.put(ORDER_ID, getOrderId());
+    	    params.put(ORDER_ID.getId(), getOrderId());
     	} else {
     	    missingPropertyResolver.addProperty(ORDER_ID.getId());
     	}
     	
     	if (getAcceptUrl() != null) {
-    	    params.put(ACCEPT_URL, getAcceptUrl());
+    	    params.put(ACCEPT_URL.getId(), getAcceptUrl());
     	} else {
     	    missingPropertyResolver.addProperty(ACCEPT_URL.getId());
     	}
     
     	if (getCancelUrl() != null) {
-    	    params.put(CANCEL_URL, getCancelUrl());
+    	    params.put(CANCEL_URL.getId(), getCancelUrl());
     	}
     	
     	if (getCallbackUrl() != null) {
-    	    params.put(CALLBACK_URL, getCallbackUrl());
+    	    params.put(CALLBACK_URL.getId(), getCallbackUrl());
     	}
     	
     	if (getPayType() != null) {
@@ -271,48 +271,48 @@ public class FlexWinBean {
     	    	payType = getPayType().getId();
     	    }
     
-    	    params.put(PAY_TYPE, payType);
+    	    params.put(PAY_TYPE.getId(), payType);
     	}
     	
     	if (isUniqueOrderId() != null && isUniqueOrderId().equals(TRUE)) {
-    	    params.put(IS_UNIQUE_ODRER_ID, VALUE_TRUE_PARAM);
+    	    params.put(IS_UNIQUE_ODRER_ID.getId(), VALUE_TRUE_PARAM);
     	}
     	
     	if (getAccount() != null) {
-    	    params.put(ACCOUNT, getAccount());
+    	    params.put(ACCOUNT.getId(), getAccount());
     	}
     	
     	if (isInstantCapture() != null && isInstantCapture.equals(TRUE)) {
     	    //Instant capture requires unique order numbers
-    	    if (params.containsKey(IS_UNIQUE_ODRER_ID)) {
-    	    	params.put(IS_INSTANT_CAPTURE, VALUE_TRUE_PARAM);
+    	    if (params.containsKey(IS_UNIQUE_ODRER_ID.getId())) {
+    	    	params.put(IS_INSTANT_CAPTURE.getId(), VALUE_TRUE_PARAM);
     	    } else {
     	        missingPropertyResolver.addProperty(IS_UNIQUE_ODRER_ID.getId());
     	    }
     	}
     	
     	if (getIp() != null) {
-    	    params.put(IP, getIp());
+    	    params.put(IP.getId(), getIp());
     	}
     	
     	if (isTestMode() != null && isTestMode().equals(TRUE)) {
-    	    params.put(IS_TEST_MODE, VALUE_TRUE_PARAM);
+    	    params.put(IS_TEST_MODE.getId(), VALUE_TRUE_PARAM);
     	}
     	
     	if (getLanguage() != null) {
-    	    params.put(LANGUAGE, getLanguage().getId());
+    	    params.put(LANGUAGE.getId(), getLanguage().getId());
     	}
     	
     	if (getColor() != null) {
-    	    params.put(COLOR, getColor().getId());
+    	    params.put(COLOR.getId(), getColor().getId());
     	}
     	
     	if (isCalcFeeEnabled()!= null && isCalcFeeEnabled.equals(TRUE)) {
-    	    params.put(IS_CALC_FEE_ENABLED, VALUE_TRUE_PARAM);
+    	    params.put(IS_CALC_FEE_ENABLED.getId(), VALUE_TRUE_PARAM);
     	}
     	
     	if (getOrderText() != null) {
-    	    params.put(ORDER_TEXT, getOrderText());
+    	    params.put(ORDER_TEXT.getId(), getOrderText());
     	}
     	
     	if (getComplexOrder() != null) {
@@ -320,7 +320,7 @@ public class FlexWinBean {
     	}
     	
     	if (isPreAuth() != null && isPreAuth().equals(TRUE)) {
-    	    params.put(IS_PRE_AUTH, VALUE_TRUE_PARAM);
+    	    params.put(IS_PRE_AUTH.getId(), VALUE_TRUE_PARAM);
     	}
     	
     	/*
@@ -334,47 +334,51 @@ public class FlexWinBean {
     	 *  Currently <code>isMakeTicketEnabled</code> does not work with 3Dsecure.
     	 */
     	if (isMakeTicketEnabled() != null && isMakeTicketEnabled().equals(TRUE)) {
-    	    if (params.containsKey(IS_UNIQUE_ODRER_ID) 
-    		    || params.containsKey(IS_INSTANT_CAPTURE)
-    		    || params.containsKey(MD5_KEY)) {
+    	    if (params.containsKey(IS_UNIQUE_ODRER_ID.getId()) 
+    		    || params.containsKey(IS_INSTANT_CAPTURE.getId())
+    		    || params.containsKey(MD5_KEY.getId())) {
     		throw new RuntimeException("Defined parameter cannot be used along with some other parameters" + 
     			"Field 'isMakeTicketEnabled' was set to true. It is NOT allowed to use isUniqueOrderId, isInstantCapture or md5Key along with isMakeTicketEnabled.");
     	    } else {
-    	    	params.put(IS_MAKE_TICKET_ENABLED, VALUE_TRUE_PARAM);
+    	    	params.put(IS_MAKE_TICKET_ENABLED.getId(), VALUE_TRUE_PARAM);
     	    	//<code>isMakeTicketEnabled</code> implicitly sets the <code>isPreAuth</code> to <code>true</code>
-    	    	params.put(IS_PRE_AUTH, VALUE_TRUE_PARAM);
+    	    	params.put(IS_PRE_AUTH.getId(), VALUE_TRUE_PARAM);
     	    }
     	}
     	
     	//This will override the customer specific decorator, if one has been uploaded.
     	if (getDecorator() != null) {
-    	    params.put(DECORATOR, getDecorator().getId());
+    	    params.put(DECORATOR.getId(), getDecorator().getId());
     	}
     	
     	if (getTicketRule() != null) {
-    	    params.put(TICKET_RULE, getTicketRule());
+    	    params.put(TICKET_RULE.getId(), getTicketRule());
     	}
     	
     	if (isVoucher() != null && isVoucher().equals(TRUE)) {
-    	    params.put(IS_VOUCHER, VALUE_TRUE_PARAM);
+    	    params.put(IS_VOUCHER.getId(), VALUE_TRUE_PARAM);
+    	}
+    	
+    	if (missingPropertyResolver.isPropertyMissing()) {
+    	    throw missingPropertyResolver.getMissingPropertyException();
     	}
     	
     	return params;
-        }
+    }
         
-        public String[] convertToArray(String param) {
+    public String[] convertToArray(String param) {
     	String[] value = {param};
     	
     	return value;
-        }
+    }
         
-        public String getParameterString() throws MissingRequiredPropertiesException {
+    public String getParameterString() throws MissingRequiredPropertiesException {
     	String params = "";
     	
-    	Map<FlexWinParam, String> paramMap = getParameters();
+    	Map<String, String> paramMap = getParameters();
     	
-    	for (FlexWinParam param : paramMap.keySet()) {
-    	    params += param.getId() + "=" + paramMap.get(param) + "&";
+    	for (String param : paramMap.keySet()) {
+    	    params += param + "=" + paramMap.get(param) + "&";
     	}
     	
     	if (params.endsWith("&")) {
@@ -392,20 +396,20 @@ public class FlexWinBean {
         this.merchantId = merchantId;
     }
 
-    public Long getAmount() {
+    public Amount getAmount() {
         return amount;
     }
 
-    public void setAmount(Long amount) {
+    public void setAmount(Amount amount) {
         this.amount = amount;
     }
 
-    public Integer getCurrencyNumberCode() {
-        return currencyNumberCode;
+    public Currency getCurrency() {
+        return currency;
     }
 
-    public void setCurrencyNumberCode(Integer currencyNumberCode) {
-        this.currencyNumberCode = currencyNumberCode;
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
     }
 
     public String getOrderId() {

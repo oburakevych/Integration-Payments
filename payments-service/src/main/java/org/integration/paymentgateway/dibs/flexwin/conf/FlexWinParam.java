@@ -9,7 +9,7 @@ public enum FlexWinParam {
     SESSION_ID("sessionid"),
     MERCHANT_ID("merchant"),
     AMOUNT("amount"), 
-    CURRENCY_NUMBER_CODE("currency"),
+    CURRENCY("currency"),
     ORDER_ID("orderid"),
     ACCEPT_URL("accepturl"),
     CANCEL_URL("cancelurl"),

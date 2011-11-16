@@ -3,6 +3,7 @@ package org.integration.paymentgateway.dibs.flexwin.conf;
 import java.util.Set;
 
 import org.integration.payments.server.document.Document;
+import org.integration.payments.server.document.Invoice;
 
 
 /**
@@ -11,7 +12,7 @@ import org.integration.payments.server.document.Document;
  * @author ob
  *
  */
-public interface FlexWinConfigurator {
+public interface FlexWinFactory {
     /**
      * Method creates the default FlexWin configuration common for all FlexWin implementations.
      *   
@@ -26,7 +27,23 @@ public interface FlexWinConfigurator {
      * @return a configured FlexWinBean object
      * 
      */
-	public FlexWinBean getDefaultFlexWin(Document document, String merchantId, String orderId, String acceptUrl, String cancelUrl, String callbackUrl, String sessionId);
+    public FlexWinBean newInstance(Document document, String merchantId, String orderId, String acceptUrl, String cancelUrl, String callbackUrl, String sessionId);
+    
+    /**
+     * Method creates the default FlexWin configuration common for all FlexWin implementations.
+     *   
+     * @param invoice
+     * @param merchantId
+     * @param orderId
+     * @param acceptUrl
+     * @param cancelUrl
+     * @param callbackUrl
+     * @param sessionId
+     * 
+     * @return a configured FlexWinBean object
+     * 
+     */
+	public FlexWinBean newInstance(Invoice invoice, String merchantId, String orderId, String acceptUrl, String cancelUrl, String callbackUrl, String sessionId);
     
     /**
      * Method return a set of FlexWinParam which this implementation supports.
@@ -35,4 +52,6 @@ public interface FlexWinConfigurator {
      * 
      */
     public Set<FlexWinParam> getParams();
+    
+    public Boolean getTestMode();
 }
