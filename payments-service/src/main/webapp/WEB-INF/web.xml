@@ -31,6 +31,10 @@
     <listener>
         <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
     </listener>
+    <listener>
+        <description>Application context listener to set global JSP variables.</description>
+        <listener-class>org.integration.payments.server.ui.context.ApplicationListener</listener-class>
+    </listener>
 
     <!-- ### Filters ### -->
     <filter>
@@ -80,18 +84,30 @@
     </filter-mapping>
 
     <!-- ### Servlets ### -->
-    <!-- dummy-servlet.xml -->
     <servlet>
         <servlet-name>paymentsServerApi</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-            <init-param>
-                <param-name>contextConfigLocation</param-name>
-                <param-value>classpath:/applicationContext-web.xml</param-value>
-            </init-param>
-        </servlet>
-	<servlet-mapping>
-        <servlet-name>paymentsServerApi</servlet-name>
-        <url-pattern>/*</url-pattern>
-	</servlet-mapping>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:/applicationContext-web.xml</param-value>
+        </init-param>
+    </servlet>
+    <!--
+    http://stackoverflow.com/questions/1266303/no-mapping-found-for-http-request-with-uri-web-inf-pages-apiform-jsp
 
+    1. When you set the url-pattern to /* then all requests will be sent to that DispatcherServlet, 
+    which includes the request for JSP rendering. 
+    Though it's not true, it's sometimes useful to think of the InternalResourceView (and derived like JstlView) as another HTTP request, 
+    since that way you'll see why a request for the JSP is getting picked up by the DispatcherServlet.
+    2. <url-pattern>/</url-pattern> only matches the URL host/servlet <url-pattern>/*</url-pattern> 
+    matches everything under host/servlet, such as /index.html, /foo.jpg and, most importantly in this case, 
+    /WEB-INF/pages/apiForm.jsp the * is the wildcard, which says "anything" In the earlier suggestion, 
+    *.do matches anything that ends in .do, for example, /foo.do, /foo/bar.do. 
+    It doesn't match anything ending in jsp, so a request for /WEB-INF/pages/apiFrom.jsp is not matched, 
+    and is not routed to the DispatcherServlet
+    -->
+    <servlet-mapping>
+        <servlet-name>paymentsServerApi</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
 </web-app>

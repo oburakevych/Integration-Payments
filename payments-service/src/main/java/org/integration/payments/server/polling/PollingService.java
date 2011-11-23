@@ -1,5 +1,6 @@
 package org.integration.payments.server.polling;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.integration.payments.server.dao.PluginUsageInfoDao;
@@ -55,4 +56,7 @@ public class PollingService {
 		}
 	}
 
+	public List<UserFeedback> getAllUserFeedbacks() {
+		return userFeedbackDao.getAll();
+	}
 }

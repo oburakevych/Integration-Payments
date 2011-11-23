@@ -17,7 +17,8 @@
         <a href="${ctx}/${testUriSecretPrefix}/test">Go to main page</a>
         <hr />
         <div>
-            <b>Imitate Poll Feedback (on /${testUriSecretPrefix}/test/polling/user/feedback)</b>
+            <b>Poll Feedback through form (on /polling/user/feedback)</b>
+            <a href="${ctx}/polling/user/feedback">eeee</a>
             <form action="${ctx}/${testUriSecretPrefix}/test/polling/user/feedback" method="post">
                 CompanyAccountId: <input type="text" name="companyAccountId" value="" class="inputValue" />
                 <br />
@@ -35,7 +36,7 @@
         <div>
             <b>Get All Feedbacks (on /${testUriSecretPrefix}/test/polling/feedbacks)</b>
             <br />
-            <a href="${ctx}/${testUriSecretPrefix}/test/polling/feedbacks">View all feedbacks</a>
+            <a href="${ctx}/${testUriSecretPrefix}/test/polling/user/feedbacks">View all feedbacks</a>
         </div>
     </body>
 </html>

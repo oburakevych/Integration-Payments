@@ -4,13 +4,13 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.httpclient.HttpStatus;
 import org.integration.payments.server.polling.PollingService;
 import org.integration.payments.server.ws.auth.CredentialsStorage;
 import org.integration.payments.server.ws.auth.OAuth1AccessCredentials;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -54,7 +54,7 @@ public class TradeshiftCallbackController {
 		credentialsStorage.save(companyAccountId, new OAuth1AccessCredentials(accessToken, accessTokenSecret));
 		pollingService.trackPluginUsege(companyAccountId, true);
 
-		response.setStatus(HttpStatus.SC_OK);
+		response.setStatus(HttpStatus.OK.value());
 	}
 
 	@RequestMapping(value = "/oauth", method = RequestMethod.DELETE)
@@ -66,6 +66,6 @@ public class TradeshiftCallbackController {
 		credentialsStorage.delete(companyAccountId);
 		pollingService.trackPluginUsege(companyAccountId, false);
 
-		response.setStatus(HttpStatus.SC_OK);
+		response.setStatus(HttpStatus.OK.value());
 	}
 }

@@ -1,15 +1,19 @@
 package org.integration.payments.server.polling;
 
-import java.util.UUID;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.httpclient.URIException;
+import org.apache.commons.httpclient.util.URIUtil;
 import org.integration.payments.server.om.UserFeedback;
+import org.integration.payments.server.ui.exception.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("polling")
@@ -23,23 +27,33 @@ public class PollingController {
 		this.pollingService = pollingService;
 	}
 
-	@RequestMapping(value = "/user/feedback", method = RequestMethod.POST)
-	public void userFeedback(@RequestParam("companyAccountId") UUID companyAccountId,
-		@RequestParam("feedback_pg") String feedbackPg,
-		@RequestParam("feedback_pg_int") String feedbackPgInt,
-		@RequestParam("feedback_txt") String feedbackTxt) {
-
-		UserFeedback feedback = new UserFeedback();
-
-		feedback.setCompanyAccountId(companyAccountId);
-		feedback.setFeedbackPg(feedbackPg);
-		feedback.setFeedbackPgInt(feedbackPgInt);
-		feedback.setFeedbackTxt(feedbackTxt);
+	@RequestMapping(value = "/user/feedback", method = RequestMethod.POST, consumes = "application/json")
+	public void userFeedback(@RequestBody UserFeedback feedback,
+		HttpServletResponse response) {
 
 		if (log.isTraceEnabled()) {
 			log.trace("Received user feedback :" + feedback);
 		}
 
+		// validation TODO: find more nice solution
+		if (feedback.getCompanyAccountId() == null) {
+			throw new BadRequestException("companyAccountId is requited");
+		}
+
 		pollingService.saveUserFeedback(feedback);
+
+		response.setStatus(HttpStatus.CREATED.value());
+	}
+
+	public static void main(String[] args) throws URIException {
+		String str = "укрANDмова";
+		
+		String encode1 = URIUtil.encodeQuery(str);
+		
+		System.out.println(encode1);
+		
+		String encode2 = URIUtil.encodeQuery(encode1);
+		
+		System.out.println(encode2);
 	}
 }

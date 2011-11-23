@@ -12,16 +12,28 @@
      http://www.springframework.org/schema/util
      http://www.springframework.org/schema/util/spring-util-3.0.xsd">     
 
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="messageConverters">
+            <array>
+                <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />
+                <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                    <property name="writeAcceptCharset" value="false" />
+                </bean>
+                <bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter" />
+                <bean class="org.springframework.http.converter.xml.XmlAwareFormHttpMessageConverter" />
+                <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+            </array>
+        </property>
+    </bean>
+
     <!-- auto-detect annotations -->
     <context:component-scan base-package="org.integration.payments.server.ws.controller" />
     <context:component-scan base-package="org.integration.payments.server.polling" />
+    <context:component-scan base-package="org.integration.payments.server.ui" />
 
-    <!--
-	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-	    <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
-	    <property name="prefix" value="/WEB-INF/jsp/"/>
-	    <property name="suffix" value=".jsp"/>
-	</bean>
-	-->
-
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
 </beans>

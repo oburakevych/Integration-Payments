@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("test/tradeshift")
-public class TestController {
+public class TradeshiftTestController {
 
 	protected Logger log = LoggerFactory.getLogger(this.getClass());
 
