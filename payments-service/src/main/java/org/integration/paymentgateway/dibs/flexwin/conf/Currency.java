@@ -280,7 +280,6 @@ public class Currency {
         currencyCodeNumberCode.put("XBB","956");
         currencyCodeNumberCode.put("XBC","957");
         currencyCodeNumberCode.put("XBD","958");
-        currencyCodeNumberCode.put("XFU","Nil");
         currencyCodeNumberCode.put("XTS","963");
         currencyCodeNumberCode.put("XXX","999");
         currencyCodeNumberCode.put("XAU","959");
