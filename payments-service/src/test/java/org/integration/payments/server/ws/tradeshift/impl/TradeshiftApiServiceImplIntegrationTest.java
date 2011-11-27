@@ -6,13 +6,11 @@ import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEqua
 import java.io.IOException;
 import java.util.UUID;
 
-import org.integration.payments.server.document.Dispatch;
 import org.integration.payments.server.document.DocumentMetadata;
 import org.integration.payments.server.document.DocumentServiceTest;
 import org.integration.payments.server.util.IOUtils;
 import org.integration.payments.server.ws.tradeshift.TradeshiftApiService;
 import org.integration.payments.server.ws.tradeshift.dto.AppSettings;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.unitils.reflectionassert.ReflectionComparatorMode;
 
 
-@ContextConfiguration(locations={"/test-applicationContext-ws.xml"})
+@ContextConfiguration(locations={"/test-appContext-ws.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
 public class TradeshiftApiServiceImplIntegrationTest {
     private static final UUID DOCUMENT_ID = UUID.fromString("2bf1c6a9-fa08-4cd7-969a-4c6bae072a33"); 

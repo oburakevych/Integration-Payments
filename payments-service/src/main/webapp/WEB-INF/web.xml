@@ -19,18 +19,22 @@
         <param-name>webAppRootKey</param-name>
         <param-value>payments-server-api</param-value>
     </context-param>
+    <!--
     <context-param>
         <param-name>log4jConfigLocation</param-name>
         <param-value>classpath:/log4j.xml</param-value>
     </context-param>
+    -->
 
     <!-- ### Listeners ### -->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+    <!--
     <listener>
         <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
     </listener>
+    -->
     <listener>
         <description>Application context listener to set global JSP variables.</description>
         <listener-class>org.integration.payments.server.ui.context.ApplicationListener</listener-class>
@@ -89,7 +93,7 @@
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>classpath:/applicationContext-web.xml</param-value>
+            <param-value>classpath:/appContext-web.xml</param-value>
         </init-param>
     </servlet>
     <!--

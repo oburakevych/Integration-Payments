@@ -12,15 +12,18 @@
 					    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!--
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="classpath:config.properties" />
+        <property name="location" value="classpath:app.properties" />
     </bean>
+    -->
 
-    <import resource="applicationContext-dao.xml" />
-    <import resource="applicationContext-service.xml"/>
-    <import resource="applicationContext-ws.xml"/>
+    <import resource="appContext-conf.xml" />
+    <import resource="appContext-dao.xml" />
+    <import resource="appContext-service.xml"/>
+    <import resource="appContext-ws.xml"/>
     <!--
-    <import resource="applicationContext-web.xml"/>
+    <import resource="appContext-web.xml"/>
     -->
 
 </beans>

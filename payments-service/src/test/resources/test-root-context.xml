@@ -16,6 +16,6 @@
     <context:component-scan base-package="org.integration.payments" resource-pattern="**/*" />
 
     <import resource="root-context.xml"/>
-    
-    <import resource="test-applicationContext-ws.xml"/>
+
+    <import resource="test-appContext-ws.xml"/>
 </beans>

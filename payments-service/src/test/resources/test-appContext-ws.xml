@@ -12,7 +12,7 @@
      http://www.springframework.org/schema/util
      http://www.springframework.org/schema/util/spring-util-3.0.xsd">     
 
-    <import resource="applicationContext-ws.xml"/>
+    <import resource="appContext-ws.xml"/>
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="properties">

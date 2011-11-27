@@ -90,8 +90,8 @@
                         </archive>
                     </configuration>
                 </plugin>
-	            <plugin>
-	            	<!-- Read about configuration here: http://wiki.eclipse.org/Jetty/Feature/Jetty_Maven_Plugin  -->
+	        <plugin>
+                    <!-- Read about configuration here: http://wiki.eclipse.org/Jetty/Feature/Jetty_Maven_Plugin  -->
 	                <groupId>org.mortbay.jetty</groupId>
 	                <artifactId>jetty-maven-plugin</artifactId>
 	                <version>8.0.4.v20111024</version>
@@ -164,18 +164,18 @@
 
     <dependencyManagement>
         <dependencies>
-        	<!-- UBL -->
-        	<dependency>
-			    <groupId>org.integration.documents</groupId>
-			    <artifactId>oasis-ubl2</artifactId>
-			    <version>${oasis-ubl2.version}</version>
-    		</dependency>
+            <!-- UBL -->
+            <dependency>
+                <groupId>org.integration.documents</groupId>
+                <artifactId>oasis-ubl2</artifactId>
+                <version>${oasis-ubl2.version}</version>
+            </dependency>
             <!-- common utilities -->
             <dependency>
-				<groupId>joda-time</groupId>
-				<artifactId>joda-time</artifactId>
-				<version>2.0</version>
-			</dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>2.0</version>
+            </dependency>
             <dependency>
                 <groupId>commons-lang</groupId>
                 <artifactId>commons-lang</artifactId>
@@ -197,6 +197,11 @@
                 <version>3.1</version>
             </dependency>
             <dependency>
+                <groupId>commons-configuration</groupId>
+                <artifactId>commons-configuration</artifactId>
+                <version>1.7</version>
+            </dependency>
+            <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j.version}</version>
@@ -206,11 +211,11 @@
                 <artifactId>slf4j-log4j12</artifactId>
                 <version>${slf4j.version}</version>
             </dependency>
-			<dependency>
-			    <groupId>com.google.guava</groupId>
-			    <artifactId>guava</artifactId>
-			    <version>r09</version>
-			</dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>r09</version>
+            </dependency>
             <!-- spring -->
             <dependency>
                 <groupId>org.springframework.social</groupId>
@@ -222,22 +227,42 @@
                 <artifactId>spring-security-crypto</artifactId>
                 <version>${org.spring-security.version}</version>
             </dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-oxm</artifactId>
-				<version>${org.springframework.version}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-oxm</artifactId>
+                <version>${org.springframework.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-orm</artifactId>
                 <version>${org.springframework.version}</version>
             </dependency>
-			<!-- @Inject -->
-			<dependency>
-				<groupId>javax.inject</groupId>
-				<artifactId>javax.inject</artifactId>
-				<version>1</version>
-			</dependency>
+            <!-- spring-modules -->
+            <dependency>
+                <groupId>org.springmodules</groupId>
+                <artifactId>spring-modules-jakarta-commons</artifactId>
+                <version>0.8</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>javax.portlet</groupId>
+                        <artifactId>portlet-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>myfaces</groupId>
+                        <artifactId>myfaces-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-support</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <!-- @Inject -->
+            <dependency>
+                <groupId>javax.inject</groupId>
+                <artifactId>javax.inject</artifactId>
+                <version>1</version>
+            </dependency>
             <dependency>
                 <groupId>org.aspectj</groupId>
                 <artifactId>aspectjrt</artifactId>
@@ -259,11 +284,11 @@
                 <artifactId>jackson-mapper-asl</artifactId>
                 <version>${jackson.version}</version>
             </dependency>
-			<dependency>
-				<groupId>javax.xml.bind</groupId>
-				<artifactId>jaxb-api</artifactId>
-				<version>2.0</version>
-			</dependency>
+            <dependency>
+                <groupId>javax.xml.bind</groupId>
+                <artifactId>jaxb-api</artifactId>
+                <version>2.0</version>
+            </dependency>
             <!-- web -->
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -333,14 +358,14 @@
     <dependencies>
     	<!-- UBL -->
        	<dependency>
-		    <groupId>org.integration.documents</groupId>
-		    <artifactId>oasis-ubl2</artifactId>
-   		</dependency>    
+            <groupId>org.integration.documents</groupId>
+            <artifactId>oasis-ubl2</artifactId>
+        </dependency>    
         <!-- common utilities -->
         <dependency>
-			<groupId>joda-time</groupId>
-			<artifactId>joda-time</artifactId>
-		</dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+        </dependency>
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
@@ -348,6 +373,10 @@
         <dependency>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
@@ -365,10 +394,10 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
         </dependency>
-		<dependency>
-		    <groupId>com.google.guava</groupId>
-		    <artifactId>guava</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
         <!-- spring -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -386,13 +415,18 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-crypto</artifactId>
         </dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-oxm</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-oxm</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
+        </dependency>
+        <!-- spring-modules -->
+        <dependency>
+            <groupId>org.springmodules</groupId>
+            <artifactId>spring-modules-jakarta-commons</artifactId>
         </dependency>
         <!-- parsers -->
         <dependency>
@@ -403,20 +437,20 @@
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
         </dependency>
-		<dependency>
-			<groupId>javax.xml.bind</groupId>
-			<artifactId>jaxb-api</artifactId>
-		</dependency>
-		<!-- @Inject -->
-		<dependency>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+        </dependency>
+        <!-- @Inject -->
+        <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
-		</dependency>
-		<dependency>
+        </dependency>
+        <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
-		</dependency>
-		<!-- web -->
+        </dependency>
+        <!-- web -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>

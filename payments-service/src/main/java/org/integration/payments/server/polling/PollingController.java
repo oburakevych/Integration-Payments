@@ -2,8 +2,6 @@ package org.integration.payments.server.polling;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.httpclient.URIException;
-import org.apache.commons.httpclient.util.URIUtil;
 import org.integration.payments.server.om.UserFeedback;
 import org.integration.payments.server.ui.exception.BadRequestException;
 import org.slf4j.Logger;
@@ -43,17 +41,5 @@ public class PollingController {
 		pollingService.saveUserFeedback(feedback);
 
 		response.setStatus(HttpStatus.CREATED.value());
-	}
-
-	public static void main(String[] args) throws URIException {
-		String str = "укрANDмова";
-		
-		String encode1 = URIUtil.encodeQuery(str);
-		
-		System.out.println(encode1);
-		
-		String encode2 = URIUtil.encodeQuery(encode1);
-		
-		System.out.println(encode2);
 	}
 }
