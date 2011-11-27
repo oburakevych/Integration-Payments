@@ -14,7 +14,7 @@ CREATE TABLE `plugin_usage_info` (
    PRIMARY KEY (`company_account_id`)
 ) ENGINE=InnoDB;
 
-CREATE TEXT TABLE `user_feedback` (
+CREATE TABLE `user_feedback` (
     `company_account_id` VARCHAR(255) NOT NULL,
     `feedback_pg` VARCHAR(255),
     `feedback_pg_int` VARCHAR(255),
