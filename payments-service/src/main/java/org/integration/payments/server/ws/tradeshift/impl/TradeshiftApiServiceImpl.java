@@ -1,7 +1,6 @@
 package org.integration.payments.server.ws.tradeshift.impl;
 
-import static org.integration.payments.server.ws.tradeshift.TradeshiftApiConstants.DEFAULT_CHARSET;
-import static org.integration.payments.server.ws.tradeshift.TradeshiftApiConstants.TENANTID_HEADER_NAME;
+import static org.integration.payments.server.ws.tradeshift.TradeshiftApiConstants.*;
 
 import java.nio.charset.Charset;
 import java.util.Arrays;
@@ -112,5 +111,32 @@ public class TradeshiftApiServiceImpl implements TradeshiftApiService {
         ResponseEntity<DocumentMetadata> responseEntity = this.restOperations.exchange(apiBaseUrl + "/external/documents/" + documentId + "/metadata", HttpMethod.GET, requestEntity, DocumentMetadata.class);
         
         return responseEntity.getBody();
+    }
+    
+    @Override
+    public void putDocumentFile(UUID companyAccountId, String directory, String filename, String mimeType, byte[] content) {
+        Map<String, String> headers = new HashMap<String, String>(defultRequestHeaders);
+
+        headers.put(TENANTID_HEADER_NAME, companyAccountId.toString());
+        headers.put(CONTENT_TYPE_HEADER_NAME, mimeType);
+
+        HttpHeaders httpHeaders = buildHttpHeaders(headers, MediaType.TEXT_XML);
+        HttpEntity<byte[]> requestEntity = new HttpEntity<byte[]>(content, httpHeaders);
+
+        this.restOperations.exchange(apiBaseUrl + "/external/documentfiles/{filename}/file?directory={directory}", HttpMethod.PUT, requestEntity, String.class, filename, directory);
+    }
+
+    @Override
+    public void dispatchDocumentFile(UUID companyAccountId, String directory, String filename) {
+        Map<String, String> headers = new HashMap<String, String>(defultRequestHeaders);
+
+        headers.put(TENANTID_HEADER_NAME, companyAccountId.toString());
+
+        HttpHeaders httpHeaders = buildHttpHeaders(headers, MediaType.TEXT_XML);
+        HttpEntity<String> requestEntity = new HttpEntity<String>(httpHeaders);
+
+        this.restOperations.exchange(apiBaseUrl + "/external/documentfiles/{filename}/dispatcher?directory={directory}", HttpMethod.POST, requestEntity, String.class, filename, directory);
+
+        
     }
 }

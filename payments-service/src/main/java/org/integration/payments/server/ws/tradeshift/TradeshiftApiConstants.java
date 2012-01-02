@@ -7,7 +7,10 @@ public abstract class TradeshiftApiConstants extends ApiConstants {
 
 	// ~ header keys
 	public static final String TENANTID_HEADER_NAME = "X-Tradeshift-TenantId";
+	public static final String CONTENT_TYPE_HEADER_NAME = "Content-Type";
 
 	// ~ field keys
 	public static final String SETTINGS_FIELD_NAME = "Settings";
+	
+	
 }

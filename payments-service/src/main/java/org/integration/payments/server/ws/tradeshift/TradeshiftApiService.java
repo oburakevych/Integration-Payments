@@ -14,4 +14,8 @@ public interface TradeshiftApiService {
 	public DocumentMetadata getDocumentMetadata(UUID companyAccountId, UUID documentId);
 
 	public byte[] getDocument(UUID companyAccountId, UUID documentId, String locale);
+	
+	public void putDocumentFile(UUID companyAccountId, String directory, String filename, String mimeType, byte[] content);
+	
+	public void dispatchDocumentFile(UUID companyAccountId, String directory, String filename);
 }
