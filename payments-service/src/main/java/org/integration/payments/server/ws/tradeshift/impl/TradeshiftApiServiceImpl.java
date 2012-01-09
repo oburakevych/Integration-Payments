@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.commons.lang.StringUtils;
+import org.integration.connectors.documentfiles.DocumentFileList;
+import org.integration.connectors.documentfiles.DocumentFileState;
 import org.integration.payments.server.document.DocumentMetadata;
 import org.integration.payments.server.ws.tradeshift.TradeshiftApiService;
 import org.integration.payments.server.ws.tradeshift.dto.AppSettings;
@@ -118,12 +121,22 @@ public class TradeshiftApiServiceImpl implements TradeshiftApiService {
         Map<String, String> headers = new HashMap<String, String>(defultRequestHeaders);
 
         headers.put(TENANTID_HEADER_NAME, companyAccountId.toString());
-        headers.put(CONTENT_TYPE_HEADER_NAME, mimeType);
+        
+        if (mimeType != null) {
+            headers.put(CONTENT_TYPE_HEADER_NAME, mimeType);
+        }
+        
+        headers.put("Content-Range", "bytes 0-9999999/*");
 
-        HttpHeaders httpHeaders = buildHttpHeaders(headers, MediaType.TEXT_XML);
+        HttpHeaders httpHeaders = buildHttpHeaders(headers, MediaType.ALL);
         HttpEntity<byte[]> requestEntity = new HttpEntity<byte[]>(content, httpHeaders);
+        
+        ExchangeAPIUrl apiUrl = new ExchangeAPIUrl().path("external/documentfiles")
+                        .pathParam("filename", filename)
+                        .path("file")
+                        .queryParam("directory", directory);
 
-        this.restOperations.exchange(apiBaseUrl + "/external/documentfiles/{filename}/file?directory={directory}", HttpMethod.PUT, requestEntity, String.class, filename, directory);
+        this.restOperations.exchange(apiUrl.getUrl(), HttpMethod.PUT, requestEntity, String.class, apiUrl.getParams());
     }
 
     @Override
@@ -134,9 +147,111 @@ public class TradeshiftApiServiceImpl implements TradeshiftApiService {
 
         HttpHeaders httpHeaders = buildHttpHeaders(headers, MediaType.TEXT_XML);
         HttpEntity<String> requestEntity = new HttpEntity<String>(httpHeaders);
+        
+        ExchangeAPIUrl apiUrl = new ExchangeAPIUrl().path("external/documentfiles")
+                        .pathParam("filename", filename)
+                        .path("dispatcher")
+                        .queryParam("directory", directory);
 
-        this.restOperations.exchange(apiBaseUrl + "/external/documentfiles/{filename}/dispatcher?directory={directory}", HttpMethod.POST, requestEntity, String.class, filename, directory);
+        this.restOperations.exchange(apiUrl.getUrl(), HttpMethod.POST, requestEntity, String.class, apiUrl.getParams());
 
         
     }
+
+    @Override
+    public byte[] getDocumentFile(UUID companyAccountId, String directory, String filename) {
+        Map<String, String> headers = new HashMap<String, String>(defultRequestHeaders);
+
+        headers.put(TENANTID_HEADER_NAME, companyAccountId.toString());
+        headers.put("Content-Range", "bytes 0-9999999/*");
+
+        HttpHeaders httpHeaders = buildHttpHeaders(headers, MediaType.ALL);
+        HttpEntity<String> requestEntity = new HttpEntity<String>(httpHeaders);
+        
+        ExchangeAPIUrl apiUrl = new ExchangeAPIUrl().path("external/documentfiles")
+                        .pathParam("filename", filename)
+                        .path("file")
+                        .queryParam("directory", directory);
+
+        ResponseEntity<byte[]> responseEntity = this.restOperations.exchange(apiUrl.getUrl(), HttpMethod.GET, requestEntity, byte[].class, apiUrl.getParams());
+        
+        return responseEntity.getBody();
+    }
+    
+
+    @Override
+    public DocumentFileList getDocumentFiles(UUID companyAccountId, String since, int limit, int page, DocumentFileState state, String directory, String filename) {
+        Map<String, String> headers = new HashMap<String, String>(defultRequestHeaders);
+
+        headers.put(TENANTID_HEADER_NAME, companyAccountId.toString());
+
+        HttpHeaders httpHeaders = buildHttpHeaders(headers, MediaType.TEXT_XML);
+        HttpEntity<String> requestEntity = new HttpEntity<String>(httpHeaders);
+        
+        ExchangeAPIUrl apiUrl = new ExchangeAPIUrl().path("external/documentfiles")
+                        .queryParam("limit", limit)
+                        .queryParam("page", page)
+                        .queryParam("state", state)
+                        .queryParam("directory", directory)
+                        .queryParam("filename", filename);
+                        
+        
+        ResponseEntity<DocumentFileList> responseEntity = this.restOperations.exchange(apiUrl.getUrl(), HttpMethod.GET, requestEntity, DocumentFileList.class, apiUrl.getParams());
+        
+        return responseEntity.getBody();
+    }
+    
+    private class ExchangeAPIUrl {
+        private StringBuilder url = new StringBuilder(apiBaseUrl);
+        private Map<String, Object> params = new HashMap<String, Object>();
+        private boolean hasQueryParams;
+        
+        public ExchangeAPIUrl queryParam(String key, Object value) {
+            if (value != null && StringUtils.isNotBlank(key)) {
+                if (!hasQueryParams) {
+                    url.append("?");
+                    hasQueryParams = true;
+                } else {
+                    url.append("&");
+                }
+                
+                url.append(key);
+                url.append("={");
+                url.append(key);
+                url.append("}");
+                
+                params.put(key, value);
+            }
+            
+            return this;
+        }
+
+        public ExchangeAPIUrl pathParam(String key, Object value) {
+            if (value != null && StringUtils.isNotBlank(key)) {                
+                url.append("/{");
+                url.append(key);
+                url.append("}");
+                
+                params.put(key, value);
+            }
+            
+            return this;
+        }
+        
+        public ExchangeAPIUrl path(String path) {
+            url.append("/");
+            url.append(path);
+            
+            return this;
+        }
+        
+        public String getUrl() {
+            return url.toString();
+        }
+        
+        public Map<String, Object> getParams() {
+            return params;
+        }
+    }
+
 }

@@ -19,8 +19,12 @@ public abstract class ConnectorService {
         getTradeshiftApiService().dispatchDocumentFile(companyAccountId, directory, fileName);
     }
     
-    public DocumentFileList getDocumentFiles(UUID companyAccountId, String since, int limit, int page, DocumentFileState state, String directory, List<String> filenames) {
-        return null;
+    public DocumentFileList getDocumentFiles(UUID companyAccountId, String since, int limit, int page, DocumentFileState state, String directory, String filename) {
+        return getTradeshiftApiService().getDocumentFiles(companyAccountId, since, limit, page, state, directory, filename);
+    }
+    
+    public byte[] getDocumentFile(UUID companyAccountId, String directory, String filename) {
+        return getTradeshiftApiService().getDocumentFile(companyAccountId, directory, filename);
     }
 
     public void setTradeshiftApiService(TradeshiftApiService tradeshiftApiService) {

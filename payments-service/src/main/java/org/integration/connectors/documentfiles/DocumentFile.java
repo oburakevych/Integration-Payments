@@ -14,7 +14,7 @@ import org.joda.time.DateTime;
  * validation errors in the process.
  */
 
-@XmlRootElement(name="DocumentFile")
+//@XmlRootElement(name="DocumentFile")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DocumentFile {
     @XmlElement(name = "Id")

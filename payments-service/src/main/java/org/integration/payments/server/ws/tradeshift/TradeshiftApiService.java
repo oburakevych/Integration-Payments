@@ -1,7 +1,10 @@
 package org.integration.payments.server.ws.tradeshift;
 
+import java.util.List;
 import java.util.UUID;
 
+import org.integration.connectors.documentfiles.DocumentFileList;
+import org.integration.connectors.documentfiles.DocumentFileState;
 import org.integration.payments.server.document.DocumentMetadata;
 import org.integration.payments.server.ws.tradeshift.dto.AppSettings;
 
@@ -18,4 +21,8 @@ public interface TradeshiftApiService {
 	public void putDocumentFile(UUID companyAccountId, String directory, String filename, String mimeType, byte[] content);
 	
 	public void dispatchDocumentFile(UUID companyAccountId, String directory, String filename);
+	
+	public byte[] getDocumentFile(UUID companyAccountId, String directory, String filename);
+	
+	public DocumentFileList getDocumentFiles(UUID companyAccountId, String since, int limit, int page, DocumentFileState state, String directory, String filename);
 }

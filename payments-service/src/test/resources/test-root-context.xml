@@ -15,7 +15,9 @@
 	<context:annotation-config />
     <context:component-scan base-package="org.integration.payments" resource-pattern="**/*" />
 
-    <import resource="root-context.xml"/>
+    <import resource="appContext-conf.xml" />
+    <import resource="appContext-dao.xml" />
+    <import resource="appContext-service.xml"/>
 
     <import resource="test-appContext-ws.xml"/>
 </beans>

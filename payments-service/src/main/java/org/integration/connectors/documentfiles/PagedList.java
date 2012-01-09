@@ -1,38 +1,73 @@
 package org.integration.connectors.documentfiles;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-public class PagedList<T> implements Iterable<T> {
-	
-	private int total;
-	
-	private List<T> items = new ArrayList<T>();
-	
-	public void setItems(List<T> items) {
-		this.items = items;
-	}
-	
-	public List<T> getItems() {
-		return items;
-	}
-	
-	public int getTotal() {
-		return total;
-	}
-	
-	public void setTotal(int total) {
-		this.total = total;
-	}
-	
-	public void addItem(T item) {
-		items.add(item);
-	}
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 
-	@Override
-	public Iterator<T> iterator() {
-		return items.iterator();
-	}
-	
+@XmlAccessorType(XmlAccessType.FIELD)
+public abstract class PagedList<T> {
+
+    @XmlAttribute(name="numPages")
+    private Integer pages;
+    
+    @XmlAttribute(name="pageId")
+    private Integer page;
+    
+    @XmlAttribute(name="itemsPerPage")
+    private Integer itemsPerPage;
+    
+    public PagedList(List<T> items, Integer pages, Integer page, Integer itemsPerPage, int itemCount) {
+        setItems(items);
+        setPages(pages);
+        setPage(page);
+        setItemsPerPage(itemsPerPage);
+        setItemCount(itemCount);
+    }
+
+    @XmlAttribute(name="itemCount")
+    private int itemCount;
+    
+    public PagedList() {}
+
+    public abstract List<T> getItems();
+    
+    public abstract void setItems(List<T> items);
+
+    public void setItemsPerPage(Integer itemsPerPage) {
+        this.itemsPerPage = itemsPerPage;
+    }
+    
+    public void setPage(Integer page) {
+        this.page = page;
+    }
+    
+    public void setPages(Integer pages) {
+        this.pages = pages;
+    }
+
+    public int getPages() {
+        return pages;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public int getItemsPerPage() {
+        return itemsPerPage;
+    }
+
+    public void addItem(T item) {
+        getItems().add(item);
+    }
+
+    public int getItemCount() {
+        return itemCount;
+    }
+    
+    public void setItemCount(int itemCount) {
+        this.itemCount = itemCount;
+    }
 }

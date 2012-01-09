@@ -23,20 +23,21 @@ public class FileSystemConnectorController {
     private FileSystemConnectorService connectorService;
     
     @RequestMapping(value = "documentfile", method = RequestMethod.PUT, consumes = "*/*")
-    public void transfer(@RequestParam("companyAccountId") UUID companyAccountId, @RequestParam(value="filename") String fileName, @RequestBody byte[] content, HttpServletResponse response) {
-        log.info("TRANSFERRING!!!!!!!!!!!!!!!!!!!");
+    public void transfer(@RequestParam("companyAccountId") UUID companyAccountId, @RequestParam(value="filename") String filename, @RequestBody byte[] content, HttpServletResponse response) {
+        log.info("Transfering file {}", filename);
         
-        connectorService.transferDocumentFile(companyAccountId, "FS", fileName, null, content);
+        connectorService.transferDocumentFile(companyAccountId, "FS", filename, null, content);
         
         response.setStatus(HttpStatus.CREATED.value());
     }
-
-    public void setConnectorService(FileSystemConnectorService connectorService) {
-        this.connectorService = connectorService;
-    }
-
-    public FileSystemConnectorService getConnectorService() {
-        return connectorService;
+    
+    @RequestMapping(value = "documentfile", method = RequestMethod.POST, produces = {"text/xml", "application/json"})
+    public void dispatch(@RequestParam("companyAccountId") UUID companyAccountId, @RequestParam(value="filename") String filename, HttpServletResponse response) {
+        log.info("Dispatching file {}", filename);
+        
+        connectorService.dispatchDocumentFile(companyAccountId, "FS", filename);
+        
+        response.setStatus(HttpStatus.CREATED.value());
     }
 
 }
