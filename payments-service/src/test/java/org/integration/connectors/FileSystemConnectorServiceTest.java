@@ -18,6 +18,7 @@ import org.integration.connectors.documentfiles.DocumentFileState;
 import org.integration.connectors.filesystem.FileSystemConnectorService;
 import org.integration.payments.server.util.IOUtils;
 import org.integration.payments.server.util.JAXBUtils;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,7 @@ public class FileSystemConnectorServiceTest {
     private FileSystemConnectorService connectorService;
     
     @Test
+    //@Ignore
     public void transferAndDispatchDocumentFile() throws ParserConfigurationException, SAXException, IOException, InterruptedException {
         String documentId = String.valueOf(RandomUtils.nextLong());
         byte[] invoice = getInvoiceByteStream(RESOURCES_PATH + "/" + TEST_INV_TO_RESEND_FILE_NAME, documentId);

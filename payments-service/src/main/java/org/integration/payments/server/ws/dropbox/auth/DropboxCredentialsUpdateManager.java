@@ -1,4 +1,4 @@
-package org.integration.payments.server.ws.tradeshift.auth;
+package org.integration.payments.server.ws.dropbox.auth;
 
 import java.util.UUID;
 
@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Aspect
-public class TradehiftCredentialsUpdateManager {
+public class DropboxCredentialsUpdateManager {
 
 	protected Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -21,12 +21,12 @@ public class TradehiftCredentialsUpdateManager {
 
 	private int callbackTimeout;
 
-	public TradehiftCredentialsUpdateManager(TradeshiftApiService apiService, CredentialsStorage<OAuth1AccessCredentials> credentialsStorage) {
+	public DropboxCredentialsUpdateManager(TradeshiftApiService apiService, CredentialsStorage<OAuth1AccessCredentials> credentialsStorage) {
 		this.credentialsStorage = credentialsStorage;
 		this.apiService = apiService;
 	}
 
-	@Before("execution(public * org.integration.payments.server.ws.auth.CredentialsStorage.get(..)) and bean(credentialsStorage) and args(companyAccountId)")
+	@Before("execution(public * org.integration.payments.server.ws.auth.CredentialsStorage.get(..)) and bean(ws.tradeshift.credentialsStorage) and args(companyAccountId)")
 	public void checkAndRequestResendCredentials(UUID companyAccountId) {
 		if (log.isTraceEnabled()) {
 			log.trace("Checking credentials for:{companyAccountId:" + companyAccountId + "}");

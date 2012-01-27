@@ -24,6 +24,15 @@
                 <prop key="tradeshift.api.oauth.consumerSecret">OwnAccount</prop>
                 <prop key="tradeshift.api.oauth.accessToken">EFRpZSSNre9hkaV7UzJtwgee7h2jU9</prop>
                 <prop key="tradeshift.api.oauth.accessTokenSecret">+DUgJym4635nR48+Dyrmn6qxtGhjFPyjb-8dakG9</prop>
+                
+				<prop key="dropbox.api.oauth.version">CORE_10</prop>
+				<prop key="dropbox.api.baseUrl">https://api.dropbox.com/1/</prop>
+				<prop key="dropbox.api-content.baseUrl">https://api-content.dropbox.com/1/</prop>
+				<prop key="dropbox.api.oauth.consumerKey">qp413bvaqakkyqh</prop>
+				<prop key="dropbox.api.oauth.consumerSecret">e4986prajqzkb28</prop>
+				<prop key="dropbox.api.oauth.requestTokenUrl">https://api.dropbox.com/1/oauth/request_token</prop>
+				<prop key="dropbox.api.oauth.authorizeUrl">https://www.dropbox.com/1/oauth/authorize</prop>
+				<prop key="dropbox.api.oauth.accessTokenUrl">https://api.dropbox.com/1/oauth/access_token</prop>
             </props>
         </property>
     </bean>

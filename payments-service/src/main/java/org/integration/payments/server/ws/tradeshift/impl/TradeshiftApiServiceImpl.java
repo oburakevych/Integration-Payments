@@ -174,7 +174,7 @@ public class TradeshiftApiServiceImpl implements TradeshiftApiService {
                         .queryParam("directory", directory);
 
         ResponseEntity<byte[]> responseEntity = this.restOperations.exchange(apiUrl.getUrl(), HttpMethod.GET, requestEntity, byte[].class, apiUrl.getParams());
-        
+
         return responseEntity.getBody();
     }
     

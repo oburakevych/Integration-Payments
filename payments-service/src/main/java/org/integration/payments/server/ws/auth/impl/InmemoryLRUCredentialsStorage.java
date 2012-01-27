@@ -70,7 +70,7 @@ public class InmemoryLRUCredentialsStorage<T> implements CredentialsStorage<T> {
 	}
 
 	@Override
-	public boolean isExists(UUID uuid) {
+	public boolean exists(UUID uuid) {
 		return cache.containsKey(uuid);
 	}
 }

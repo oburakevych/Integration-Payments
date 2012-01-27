@@ -9,5 +9,5 @@ public interface CredentialsStorage<T> {
 
 	public void delete(UUID uuid);
 
-	public boolean isExists(UUID uuid);
+	public boolean exists(UUID uuid);
 }

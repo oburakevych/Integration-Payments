@@ -25,4 +25,8 @@
    	<bean id="fsConnectorService" class="org.integration.connectors.filesystem.FileSystemConnectorService" >
 		<property name="tradeshiftApiService" ref="ws.tradeshift.service"/>
 	</bean>
+	
+	<bean id="dropboxAuthorisationService" class="org.integration.connectors.dropbox.DropboxAuthorisationService">
+		<property name="oauthManager" ref="ws.dropbox.authorizationManager"/>
+	</bean>
 </beans>
