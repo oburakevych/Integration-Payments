@@ -33,21 +33,38 @@
 				<prop key="dropbox.api.oauth.requestTokenUrl">https://api.dropbox.com/1/oauth/request_token</prop>
 				<prop key="dropbox.api.oauth.authorizeUrl">https://www.dropbox.com/1/oauth/authorize</prop>
 				<prop key="dropbox.api.oauth.accessTokenUrl">https://api.dropbox.com/1/oauth/access_token</prop>
+				<prop key="dropbox.api.oauth.accessToken">gzfxqwiw9yq1csp</prop>
+                <prop key="dropbox.api.oauth.accessTokenSecret">xz8mif19iucocyr</prop>
             </props>
         </property>
     </bean>
     
-    <bean id="ws.tradeshift.credentialsStorage" class="org.integration.payments.server.ws.auth.impl.InmemoryLRUOAuth1AccessCredentialsStorage">
+    <bean id="tsCredentialsStorage" class="org.integration.payments.server.ws.auth.impl.InmemoryLRUOAuth1TokenStorage">
         <constructor-arg index="0" name="maxCacheSize" value="100" />
         <constructor-arg index="1" name="initCredentials">
             <map>
                 <entry key="${tradeshift.api.tenantId}">
-                    <bean class="org.integration.payments.server.ws.auth.OAuth1AccessCredentials">
-                        <constructor-arg name="accessToken" value="${tradeshift.api.oauth.accessToken}" />
-                        <constructor-arg name="accessTokenSecret" value="${tradeshift.api.oauth.accessTokenSecret}" />
+                    <bean class="org.springframework.social.oauth1.OAuthToken">
+                        <constructor-arg name="value" value="${tradeshift.api.oauth.accessToken}" />
+                        <constructor-arg name="secret" value="${tradeshift.api.oauth.accessTokenSecret}" />
                     </bean>
                 </entry>
             </map>
         </constructor-arg>
+    </bean>
+    
+    <!-- Dropbox API -->
+    <bean id="dropboxCredentialsStorage" class="org.integration.payments.server.ws.auth.impl.InmemoryLRUOAuth1TokenStorage">
+        <constructor-arg index="0" name="maxCacheSize" value="1000" />
+        <constructor-arg index="1" name="initCredentials">
+            <map>
+                <entry key="${tradeshift.api.tenantId}">
+                    <bean class="org.springframework.social.oauth1.OAuthToken">
+                        <constructor-arg name="value" value="${dropbox.api.oauth.accessToken}" />
+                        <constructor-arg name="secret" value="${dropbox.api.oauth.accessTokenSecret}" />
+                    </bean>
+                </entry>
+            </map>
+		</constructor-arg>
     </bean>
 </beans>

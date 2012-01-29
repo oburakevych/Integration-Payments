@@ -5,34 +5,34 @@ import java.util.UUID;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.integration.payments.server.ws.auth.CredentialsStorage;
-import org.integration.payments.server.ws.auth.OAuth1AccessCredentials;
 import org.integration.payments.server.ws.tradeshift.TradeshiftApiService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.social.oauth1.OAuthToken;
 
 @Aspect
 public class TradehiftCredentialsUpdateManager {
 
 	protected Logger log = LoggerFactory.getLogger(this.getClass());
 
-	private CredentialsStorage<OAuth1AccessCredentials> credentialsStorage;
+	private CredentialsStorage<OAuthToken> tsCredentialsStorage;
 
 	private TradeshiftApiService apiService;
 
 	private int callbackTimeout;
 
-	public TradehiftCredentialsUpdateManager(TradeshiftApiService apiService, CredentialsStorage<OAuth1AccessCredentials> credentialsStorage) {
-		this.credentialsStorage = credentialsStorage;
+	public TradehiftCredentialsUpdateManager(TradeshiftApiService apiService, CredentialsStorage<OAuthToken> credentialsStorage) {
+		this.tsCredentialsStorage = credentialsStorage;
 		this.apiService = apiService;
 	}
 
-	@Before("execution(public * org.integration.payments.server.ws.auth.CredentialsStorage.get(..)) and bean(credentialsStorage) and args(companyAccountId)")
+	@Before("execution(public * org.integration.payments.server.ws.auth.CredentialsStorage.get(..)) and bean(tsCredentialsStorage) and args(companyAccountId)")
 	public void checkAndRequestResendCredentials(UUID companyAccountId) {
 		if (log.isTraceEnabled()) {
 			log.trace("Checking credentials for:{companyAccountId:" + companyAccountId + "}");
 		}
 
-		boolean credentialsExists = credentialsStorage.exists(companyAccountId);
+		boolean credentialsExists = tsCredentialsStorage.exists(companyAccountId);
 
 		if (!credentialsExists) {
 			requestResendCredentials(companyAccountId);
@@ -44,7 +44,7 @@ public class TradehiftCredentialsUpdateManager {
 			log.trace("Forsing resend credentials for {companyAccountId:" + companyAccountId + "}");
 		}
 
-		credentialsStorage.delete(companyAccountId);
+		tsCredentialsStorage.delete(companyAccountId);
 
 		requestResendCredentials(companyAccountId);
 	}
@@ -71,7 +71,7 @@ public class TradehiftCredentialsUpdateManager {
 
 				wait(waitTimeout);
 
-				OAuth1AccessCredentials credentials = credentialsStorage.get(companyAccountId);
+				OAuthToken credentials = tsCredentialsStorage.get(companyAccountId);
 
 				if (credentials != null) {
 					if (log.isTraceEnabled()) {

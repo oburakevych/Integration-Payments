@@ -29,4 +29,13 @@
 	<bean id="dropboxAuthorisationService" class="org.integration.connectors.dropbox.DropboxAuthorisationService">
 		<property name="oauthManager" ref="ws.dropbox.authorizationManager"/>
 	</bean>
+	
+	<bean id="dropboxAccountService" class="org.integration.connectors.dropbox.account.DropboxAccountService">
+		<property name="apiService" ref="ws.dropbox.service"/>
+	</bean>
+	
+	<bean id="dropboxFileService" class="org.integration.connectors.dropbox.files.DropboxFileService">
+		<property name="apiService" ref="ws.dropbox.service"/>
+		<property name="root" value="${dropbox.files.root}"/>
+	</bean>
 </beans>

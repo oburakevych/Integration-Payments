@@ -42,7 +42,7 @@ public class FileSystemConnectorServiceTest {
     private FileSystemConnectorService connectorService;
     
     @Test
-    //@Ignore
+    @Ignore
     public void transferAndDispatchDocumentFile() throws ParserConfigurationException, SAXException, IOException, InterruptedException {
         String documentId = String.valueOf(RandomUtils.nextLong());
         byte[] invoice = getInvoiceByteStream(RESOURCES_PATH + "/" + TEST_INV_TO_RESEND_FILE_NAME, documentId);

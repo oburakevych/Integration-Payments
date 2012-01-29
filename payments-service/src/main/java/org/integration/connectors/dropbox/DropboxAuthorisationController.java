@@ -2,13 +2,10 @@ package org.integration.connectors.dropbox;
 
 import java.util.UUID;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,13 +19,13 @@ public class DropboxAuthorisationController {
     @Autowired
     private DropboxAuthorisationService oauthService;
     
-    @RequestMapping(value = "request", method = RequestMethod.POST, consumes = {"application/json"})
-    public void fetchRequestToken(@RequestParam("companyAccountId") UUID companyAccountId) {
+    @RequestMapping(value = "request-token", method = RequestMethod.POST, consumes = {"application/json"})
+    public @ResponseBody void fetchRequestToken(@RequestParam("companyAccountId") UUID companyAccountId) {
         log.debug("Received request to fetch the Request Token for account {}", companyAccountId);
         oauthService.fetchRequestToken(companyAccountId);
     }
     
-    @RequestMapping(value = "request", method = RequestMethod.GET, consumes = {"application/json"})
+    @RequestMapping(value = "request-token", method = RequestMethod.GET)
     public @ResponseBody String getAuthorisationUrl(@RequestParam("companyAccountId") UUID companyAccountId) {
         log.debug("Received request to get Authorisation URL for account {}", companyAccountId);
         String url = oauthService.getAuthorisationUrl(companyAccountId);
@@ -36,6 +33,13 @@ public class DropboxAuthorisationController {
         log.debug("URL has been built: {}", url);
         
         return url;
+    }
+    
+    @RequestMapping(value="access-token", method = RequestMethod.POST, consumes = {"application/json"})
+    public @ResponseBody void requestAccessToken(@RequestParam("companyAccountId") UUID companyAccountId) {
+        log.debug("Received request to retrieve Access Token for account {}", companyAccountId);
+        
+        oauthService.requestAccessToken(companyAccountId);
     }
 
 }

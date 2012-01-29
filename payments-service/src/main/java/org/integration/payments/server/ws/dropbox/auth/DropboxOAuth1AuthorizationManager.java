@@ -5,8 +5,13 @@ import java.util.UUID;
 import org.integration.payments.server.ws.auth.CredentialsStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.social.oauth1.AuthorizedRequestToken;
 import org.springframework.social.oauth1.OAuth1Parameters;
 import org.springframework.social.oauth1.OAuthToken;
+
+/*
+ * Access Token: key gzfxqwiw9yq1csp, secret xz8mif19iucocyr for account e38d91cd-1732-4bb8-ad83-b0d1d2e5d725, uid=56819311
+ */
 
 public class DropboxOAuth1AuthorizationManager {
     protected Logger log = LoggerFactory.getLogger(this.getClass());
@@ -15,11 +20,15 @@ public class DropboxOAuth1AuthorizationManager {
     private final String consumerKey;
     private final String consumerSecret;
     private final CredentialsStorage<OAuthToken> requestTokenStorage;
+    private final CredentialsStorage<OAuthToken> credentialsStorage;
     
-    public DropboxOAuth1AuthorizationManager(String consumerKey, String consumerSecret, CredentialsStorage<OAuthToken> requestTokenStorage, DropboxServiceProvider serviceProvider) {
+    public DropboxOAuth1AuthorizationManager(String consumerKey, String consumerSecret, 
+            CredentialsStorage<OAuthToken> requestTokenStorage,
+            CredentialsStorage<OAuthToken> credentialsStorage, DropboxServiceProvider serviceProvider) {
         this.consumerKey = consumerKey;
         this.consumerSecret = consumerSecret;
         this.requestTokenStorage = requestTokenStorage;
+        this.credentialsStorage = credentialsStorage;
         this.serviceProvider = serviceProvider;
     }
     
@@ -40,17 +49,20 @@ public class DropboxOAuth1AuthorizationManager {
         if (!getRequestTokenStorage().exists(companyAccountId)) {
             log.debug("The Request Token is not in the storage... Requesting...");
             fetchRequestToken(companyAccountId);
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+            
+            if (!getRequestTokenStorage().exists(companyAccountId)) {
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
             }
         }
         
         if (getRequestTokenStorage().exists(companyAccountId)) {
             OAuthToken requestToken = getRequestTokenStorage().get(companyAccountId);
-            
+
             OAuth1Parameters params = new OAuth1Parameters();
             params.setCallbackUrl("https://enterprise-sandbox.tradeshift.com/app/SASHSD.DpConn");
             
@@ -60,6 +72,17 @@ public class DropboxOAuth1AuthorizationManager {
         }
         
         return url;
+    }
+    
+    public OAuthToken getAccessToken(UUID companyAccountId) {
+        OAuthToken requestToken = getRequestTokenStorage().get(companyAccountId);
+        OAuthToken accessToken = getServiceProvider().getOAuthOperations().exchangeForAccessToken(new AuthorizedRequestToken(requestToken, null), OAuth1Parameters.NONE);
+        
+        log.debug("Received Access Token: key {}, secret {} for account {}", new Object[] {accessToken.getValue(), accessToken.getSecret(), companyAccountId});
+        
+        getCredentialsStorage().save(companyAccountId, accessToken);
+        
+        return accessToken;
     }
 
     protected void setServiceProvider(DropboxServiceProvider serviceProvider) {
@@ -80,5 +103,9 @@ public class DropboxOAuth1AuthorizationManager {
 
     public CredentialsStorage<OAuthToken> getRequestTokenStorage() {
         return requestTokenStorage;
+    }
+
+    public CredentialsStorage<OAuthToken> getCredentialsStorage() {
+        return credentialsStorage;
     }
 }

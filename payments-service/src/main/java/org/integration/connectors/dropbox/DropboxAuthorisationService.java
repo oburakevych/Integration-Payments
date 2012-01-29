@@ -15,6 +15,11 @@ public class DropboxAuthorisationService {
     public String getAuthorisationUrl(UUID companyAccountId) {
         return oauthManager.buildAuthorizeUrl(companyAccountId);
     }
+    
+    public void requestAccessToken(UUID companyAccountId) {
+        oauthManager.getAccessToken(companyAccountId);
+    }
+    
 
     public DropboxOAuth1AuthorizationManager getOauthManager() {
         return oauthManager;

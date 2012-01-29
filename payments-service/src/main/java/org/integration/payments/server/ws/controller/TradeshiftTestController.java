@@ -6,12 +6,12 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletResponse;
 
 import org.integration.payments.server.ws.auth.CredentialsStorage;
-import org.integration.payments.server.ws.auth.OAuth1AccessCredentials;
 import org.integration.payments.server.ws.tradeshift.TradeshiftApiService;
 import org.integration.payments.server.ws.tradeshift.dto.AppSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.social.oauth1.OAuthToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,14 +27,14 @@ public class TradeshiftTestController {
 	private TradeshiftApiService tradeshiftApiService;
 
 	@Autowired
-	private CredentialsStorage<OAuth1AccessCredentials> credentialsStorage;
+	private CredentialsStorage<OAuthToken> tsCredentialsStorage;
 
 	public void setTradeshiftApiService(TradeshiftApiService tradeshiftApiService) {
 		this.tradeshiftApiService = tradeshiftApiService;
 	}
 
-	public void setCredentialsStorage(CredentialsStorage<OAuth1AccessCredentials> credentialsStorage) {
-		this.credentialsStorage = credentialsStorage;
+	public void setTsCredentialsStorage(CredentialsStorage<OAuthToken> tsCredentialsStorage) {
+		this.tsCredentialsStorage = tsCredentialsStorage;
 	}
 
 	@RequestMapping(value = "/appsettings", method = RequestMethod.GET)
@@ -55,7 +55,7 @@ public class TradeshiftTestController {
 
 		log.debug("TEST: getAccessCredentials, REQUEST:{companyAccountId: " + companyAccountId + "}");
 
-		OAuth1AccessCredentials accessCredentials = credentialsStorage.get(companyAccountId);
+		OAuthToken accessCredentials = tsCredentialsStorage.get(companyAccountId);
 
 		log.debug("TEST: getAccessCredentials, RESPONSE:" + accessCredentials);
 

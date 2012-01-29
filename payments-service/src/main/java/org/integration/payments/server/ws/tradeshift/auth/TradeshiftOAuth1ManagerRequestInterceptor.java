@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.integration.payments.server.ws.auth.OAuth1AccessCredentials;
 import org.integration.payments.server.ws.auth.CredentialsStorage;
 import org.integration.payments.server.ws.tradeshift.TradeshiftApiConstants;
 import org.slf4j.Logger;
@@ -15,6 +14,7 @@ import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.social.oauth1.OAuth1CredentialsVs;
+import org.springframework.social.oauth1.OAuthToken;
 import org.springframework.social.oauth1.SigningSupportVs;
 import org.springframework.social.support.HttpRequestDecorator;
 
@@ -44,10 +44,10 @@ public class TradeshiftOAuth1ManagerRequestInterceptor implements ClientHttpRequ
 	private final String consumerKey;
 	private final String consumerSecret;
 
-	private final CredentialsStorage<OAuth1AccessCredentials> credentialsStorage;
+	private final CredentialsStorage<OAuthToken> credentialsStorage;
 
 	public TradeshiftOAuth1ManagerRequestInterceptor(String consumerKey, String consumerSecret, 
-			CredentialsStorage<OAuth1AccessCredentials> credentialsStorage) {
+			CredentialsStorage<OAuthToken> credentialsStorage) {
 
 		this.consumerKey = consumerKey;
 		this.consumerSecret = consumerSecret;
@@ -70,11 +70,11 @@ public class TradeshiftOAuth1ManagerRequestInterceptor implements ClientHttpRequ
 			String tenatId = tenatIdHeaders.iterator().next();
 			UUID companyAccountId = UUID.fromString(tenatId);
 
-			OAuth1AccessCredentials accessCredentials = credentialsStorage.get(companyAccountId);
+			OAuthToken accessCredentials = credentialsStorage.get(companyAccountId);
 
 			if (accessCredentials != null) {
-				accessToken = accessCredentials.getAccessToken();
-				accessTokenSecret = accessCredentials.getAccessTokenSecret();
+				accessToken = accessCredentials.getValue();
+				accessTokenSecret = accessCredentials.getSecret();
 			} else {
 				throw new RuntimeException("Missed accessCredentials for companyAccountId:" + companyAccountId);
 			}

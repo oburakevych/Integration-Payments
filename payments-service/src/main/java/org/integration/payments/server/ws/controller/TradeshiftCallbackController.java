@@ -6,11 +6,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.integration.payments.server.polling.PollingService;
 import org.integration.payments.server.ws.auth.CredentialsStorage;
-import org.integration.payments.server.ws.auth.OAuth1AccessCredentials;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.social.oauth1.OAuthToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,13 +27,13 @@ public class TradeshiftCallbackController {
 	protected Logger log = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
-	private CredentialsStorage<OAuth1AccessCredentials> credentialsStorage;
+	private CredentialsStorage<OAuthToken> tsCredentialsStorage;
 
 	@Autowired
 	private PollingService pollingService;
 
-	public void setCredentialsStorage(CredentialsStorage<OAuth1AccessCredentials> credentialsStorage) {
-		this.credentialsStorage = credentialsStorage;
+	public void setCredentialsStorage(CredentialsStorage<OAuthToken> tsCredentialsStorage) {
+		this.tsCredentialsStorage = tsCredentialsStorage;
 	}
 
 	public void setPollingService(PollingService pollingService) {
@@ -51,7 +51,7 @@ public class TradeshiftCallbackController {
 				+ ", accessToken:" + accessToken + ", accessTokenSecret:" + accessTokenSecret + "}");
 		}
 
-		credentialsStorage.save(companyAccountId, new OAuth1AccessCredentials(accessToken, accessTokenSecret));
+		tsCredentialsStorage.save(companyAccountId, new OAuthToken(accessToken, accessTokenSecret));
 		pollingService.trackPluginUsege(companyAccountId, true);
 
 		response.setStatus(HttpStatus.OK.value());
@@ -63,7 +63,7 @@ public class TradeshiftCallbackController {
 			log.trace("Received Tradeshift OAuth1 deactivation callback:{companyAccountId:" + companyAccountId + "}");
 		}
 
-		credentialsStorage.delete(companyAccountId);
+		tsCredentialsStorage.delete(companyAccountId);
 		pollingService.trackPluginUsege(companyAccountId, false);
 
 		response.setStatus(HttpStatus.OK.value());

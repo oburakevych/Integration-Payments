@@ -5,10 +5,10 @@ import java.util.UUID;
 import org.integration.payments.server.document.Document;
 import org.integration.payments.server.document.DocumentService;
 import org.integration.payments.server.ws.auth.CredentialsStorage;
-import org.integration.payments.server.ws.auth.OAuth1AccessCredentials;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.social.oauth1.OAuthToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,7 +24,7 @@ public class PaymentController {
 	protected Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
-    private CredentialsStorage<OAuth1AccessCredentials> credentialsStorage;
+    private CredentialsStorage<OAuthToken> tsCredentialsStorage;
 	
 	@Autowired
 	private DocumentService documentService;
@@ -47,7 +47,7 @@ public class PaymentController {
 	    
 	    //TODO: The check for credentials should be in a separate service
 	    //TODO: handle exceptions
-	    OAuth1AccessCredentials credentials = credentialsStorage.get(companyAccountId);
+	    OAuthToken credentials = tsCredentialsStorage.get(companyAccountId);
 	    
 	    if (credentials == null) {
 	        log.warn("Can't get credentials for company account ID {}", companyAccountId);

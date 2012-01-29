@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.integration.payments.server.ws.auth.OAuth1AccessCredentials;
 import org.integration.payments.server.ws.auth.CredentialsStorage;
 import org.integration.payments.server.ws.tradeshift.TradeshiftApiConstants;
 import org.slf4j.Logger;
@@ -47,24 +46,21 @@ public class DropboxOAuth1ManagerRequestInterceptor implements ClientHttpRequest
 	private final String consumerKey;
 	private final String consumerSecret;
 
-	private final CredentialsStorage<OAuth1AccessCredentials> accessTokenStorage;
+	private final CredentialsStorage<OAuthToken> credentialsStorage;
 
 	public DropboxOAuth1ManagerRequestInterceptor(String consumerKey, String consumerSecret, 
-			CredentialsStorage<OAuth1AccessCredentials> credentialsStorage) {
+			CredentialsStorage<OAuthToken> credentialsStorage) {
 
 		this.consumerKey = consumerKey;
 		this.consumerSecret = consumerSecret;
-		this.accessTokenStorage = credentialsStorage;
+		this.credentialsStorage = credentialsStorage;
 	}
 
 	@Override
 	public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
-
 		List<String> tenatIdHeaders = request.getHeaders().get(TradeshiftApiConstants.TENANTID_HEADER_NAME);
 
-		if (log.isTraceEnabled()) {
-			log.debug("Intercepted request to wrapp it in OAuth1, tenatIdHeaders:" + tenatIdHeaders);
-		}
+		log.debug("Intercepted request to wrapp it in OAuth1, tenatIdHeaders {}", tenatIdHeaders);
 
 		String accessToken = null;
 		String accessTokenSecret = null;
@@ -73,11 +69,11 @@ public class DropboxOAuth1ManagerRequestInterceptor implements ClientHttpRequest
 			String tenatId = tenatIdHeaders.iterator().next();
 			UUID companyAccountId = UUID.fromString(tenatId);
 
-			OAuth1AccessCredentials accessCredentials = accessTokenStorage.get(companyAccountId);
+			OAuthToken accessCredentials = credentialsStorage.get(companyAccountId);
 
 			if (accessCredentials != null) {
-				accessToken = accessCredentials.getAccessToken();
-				accessTokenSecret = accessCredentials.getAccessTokenSecret();
+				accessToken = accessCredentials.getValue();
+				accessTokenSecret = accessCredentials.getSecret();
 			} else {
 				throw new RuntimeException("Missed accessCredentials for companyAccountId:" + companyAccountId);
 			}
