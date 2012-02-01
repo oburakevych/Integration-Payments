@@ -111,7 +111,7 @@ public class Entry {
      * Returns the file name if this is a file (the part after the last
      * slash in the path).
      */
-    public String fileName() {
+    public String getName() {
         int ind = path.lastIndexOf('/');
         return path.substring(ind + 1, path.length());
     }
@@ -119,7 +119,7 @@ public class Entry {
     /**
      * Returns the path of the parent directory if this is a file.
      */
-    public String parentPath() {
+    public String getParentPath() {
         if (path.equals("/")) {
             return "";
         } else {

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.commons.lang.StringUtils;
 import org.integration.connectors.dropbox.account.DropboxUserProfile;
 import org.integration.connectors.dropbox.files.DropboxFile;
 import org.integration.connectors.dropbox.files.Entry;
@@ -70,7 +71,7 @@ public class DropboxApiServiceImpl implements DropboxApiService {
 
         HttpHeaders httpHeaders = buildHttpHeaders(headers, MediaType.APPLICATION_JSON);
         HttpEntity<String> requestEntity = new HttpEntity<String>(httpHeaders);
-
+        
         ResponseEntity<Entry> responseEntity = this.restOperations.exchange(apiBaseUrl + "metadata/{root}/{path}", HttpMethod.GET, requestEntity, Entry.class, root, encode(path));
 
         return responseEntity.getBody();
@@ -98,7 +99,7 @@ public class DropboxApiServiceImpl implements DropboxApiService {
 
         HttpHeaders httpHeaders = buildHttpHeaders(headers, MediaType.APPLICATION_JSON);
         HttpEntity<String> requestEntity = new HttpEntity<String>(httpHeaders);
-
+        path = "outbox%2F2744020130.xml";
         ResponseEntity<DropboxFile> responseEntity = this.restOperations.exchange(apiContentBaseUrl + "files/{root}/{path}", HttpMethod.GET, requestEntity, DropboxFile.class, root, encode(path));
 
         return responseEntity.getBody();
@@ -120,34 +121,79 @@ public class DropboxApiServiceImpl implements DropboxApiService {
         return requestHeaders;
     }
     
-    public static String encode(String input) {
-        StringBuilder resultStr = new StringBuilder();
-        for (char ch : input.toCharArray()) {
-            if (isUnsafe(ch)) {
-                resultStr.append('%');
-                resultStr.append(toHex(ch / 16));
-                resultStr.append(toHex(ch % 16));
-            } else {
-                resultStr.append(ch);
-            }
+    /**
+     * Creates a URL for a request to the Dropbox API.
+     *
+     * @param host the Dropbox host (i.e., api server, content server, or web
+     *         server).
+     * @param apiVersion the API version to use. You should almost always use
+     *         {@code DropboxAPI.VERSION} for this.
+     * @param target the target path, staring with a '/'.
+     * @param params any URL params in an array, with the even numbered
+     *         elements the parameter names and odd numbered elements the
+     *         values, e.g. <code>new String[] {"path", "/Public", "locale",
+     *         "en"}</code>.
+     *
+     * @return a full URL for making a request.
+     */
+    public static String encode(String path) {
+        try {
+            // We have to encode the whole line, then remove + and / encoding
+            path = URLEncoder.encode(path, "UTF-8");
+            path = path.replace("%2F", "/").replace("+", "%20").replace("*", "%2A");
+        } catch (UnsupportedEncodingException uce) {
+            return null;
         }
-        return resultStr.toString();
-    }
 
-    private static char toHex(int ch) {
-        return (char) (ch < 10 ? '0' + ch : 'A' + ch - 10);
-    }
-
-    private static boolean isUnsafe(char ch) {
-        if (ch > 128 || ch < 0)
-            return true;
-        return " %$&+,/:;=?@<>#%".indexOf(ch) >= 0;
+        return path;
     }
     
-    public static void main(String args[]) {
-        String path = "/outbox/test.xml";
+    /**
+     * URL encodes an array of parameters into a query string.
+     */
+    private static String requestParamEncode(String param) {
+        String result = StringUtils.EMPTY;
         
-        System.out.println(encode("https://api-content.dropbox.com/1/files/dropbox/") + encode(path));
+        try {
+            result = URLEncoder.encode(param, "UTF-8");
+            result.replace("*", "%2A");
+        } catch (UnsupportedEncodingException e) {
+            return null;
+        }
+        
+        return result;
+    }
+    
+    public static String buildURL(String host, int apiVersion,
+            String target, String[] params) {
+        if (!target.startsWith("/")) {
+            target = "/" + target;
+        }
+
+        try {
+            // We have to encode the whole line, then remove + and / encoding
+            // to get a good OAuth URL.
+            target = URLEncoder.encode("/" + apiVersion + target, "UTF-8");
+            target = target.replace("%2F", "/");
+
+            // These substitutions must be made to keep OAuth happy.
+            target = target.replace("+", "%20").replace("*", "%2A");
+        } catch (UnsupportedEncodingException uce) {
+            return null;
+        }
+
+        return "https://" + host + ":443" + target;
+    }
+    
+    public static void main(String args[]) throws UnsupportedEncodingException {
+        String host = "api-content.dropbox.com";
+        int apiVersion = 1;
+        String target = "sandbox/metadata" + "/outbox/new folder/мойфайл.xml";
+        String params[] = {};
+        
+        String url = buildURL(host, apiVersion, target, params);
+        
+        System.out.println(url);
     }
 
 }
