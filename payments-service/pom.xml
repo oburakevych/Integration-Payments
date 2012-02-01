@@ -15,7 +15,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <oasis-ubl2.version>0.0.1</oasis-ubl2.version>
-        <spring-social-dropbox.version>1.0</spring-social-dropbox.version>
         <!-- third party -->
         <org.springframework.version>3.1.0.M2</org.springframework.version>
         <org.spring-social.version>1.0.0.RELEASE</org.spring-social.version>
@@ -223,14 +222,7 @@
                 <artifactId>spring-social-core</artifactId>
                 <version>${org.spring-social.version}</version>
             </dependency>
-            
-            <!-- Spring social Dropbox -->
-            <dependency>
-            	<groupId>org.springframework.social</groupId>
-    			<artifactId>spring-social-dropbox</artifactId>
-    			<version>${spring-social-dropbox.version}</version>
-    		</dependency>
-            
+                        
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-crypto</artifactId>
@@ -425,12 +417,6 @@
             <groupId>org.springframework.social</groupId>
             <artifactId>spring-social-core</artifactId>
         </dependency>
-        
-        <!-- Spring social Dropbox -->
-		<dependency>
-           	<groupId>org.springframework.social</groupId>
-   			<artifactId>spring-social-dropbox</artifactId>
-   		</dependency>
         
         <dependency>
             <groupId>org.springframework.security</groupId>
