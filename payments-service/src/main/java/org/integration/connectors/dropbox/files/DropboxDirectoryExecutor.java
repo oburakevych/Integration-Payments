@@ -8,7 +8,6 @@ import org.integration.connectors.dropbox.TradeshiftConnectorService;
 import org.integration.connectors.dropbox.exception.DropboxException;
 import org.integration.connectors.process.Executor;
 import org.integration.payments.server.document.Dispatch;
-import org.integration.payments.server.document.DispatchStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
@@ -69,7 +68,7 @@ public class DropboxDirectoryExecutor implements Executor {
             }
             
             dispatch(companyAccountId, df.getFileName(), df.getMimeType(), df.getContents());
-            Thread.sleep(2000);
+            Thread.sleep(3000);
             Dispatch dispaychResult = getDispatchResult(companyAccountId, df.getFileName());
             
             if (dispaychResult != null && dispaychResult.getDispatchState() != null) {
@@ -82,6 +81,9 @@ public class DropboxDirectoryExecutor implements Executor {
                     log.warn("Dispatch of the file {} FAILED for Account {}", df.getFileName(), companyAccountId);
                     fileService.move(companyAccountId, file.getName(), "failed/" + file.getName());
                     break;
+                case COMPLETED:
+                    log.info("Dispatch of the file {} has been COMPLETED successfully for account {}", df.getFileName(), companyAccountId);
+                    fileService.move(companyAccountId, file.getName(), "sent/" + file.getName());
                 default:
                     break;
                 }
