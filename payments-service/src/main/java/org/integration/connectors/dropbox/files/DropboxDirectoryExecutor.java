@@ -50,7 +50,6 @@ public class DropboxDirectoryExecutor implements Executor {
             log.debug("Processing entry {}", file.getName());
             
             if (file.isDir()) {
-                log.warn("Directory found {}. Should not be directories here.", file.getPath());
                 continue;
             }
             
@@ -74,16 +73,18 @@ public class DropboxDirectoryExecutor implements Executor {
             if (dispaychResult != null && dispaychResult.getDispatchState() != null) {
                 switch (dispaychResult.getDispatchState()) {
                 case ACCEPTED:
-                    log.info("Dispatch of the file {} has been ACCEPTED for Account {}", df.getFileName(), companyAccountId);
-                    fileService.move(companyAccountId, file.getPath(), "/inprocess/" + file.getName());                    
+                    log.info("Dispatch of the file {} has been ACCEPTED for Account {}", df.getFileName(), companyAccountId);                    
                     break;
                 case FAILED:
                     log.warn("Dispatch of the file {} FAILED for Account {}", df.getFileName(), companyAccountId);
-                    fileService.move(companyAccountId, file.getName(), "failed/" + file.getName());
+                    Entry metadata = fileService.move(companyAccountId, file.getPath(), "failed/" + file.getName());
+                    
+                    fileService.createFile(companyAccountId, metadata.getPath() + ".error.txt", "text/plain", dispaychResult.getFailureMessage().getBytes());
+                    
                     break;
                 case COMPLETED:
                     log.info("Dispatch of the file {} has been COMPLETED successfully for account {}", df.getFileName(), companyAccountId);
-                    fileService.move(companyAccountId, file.getName(), "sent/" + file.getName());
+                    fileService.move(companyAccountId, file.getPath(), "sent/" + file.getName());
                 default:
                     break;
                 }

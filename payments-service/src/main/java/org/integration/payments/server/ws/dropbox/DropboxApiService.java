@@ -11,11 +11,13 @@ public interface DropboxApiService {
     DropboxUserProfile getUserProfile(UUID companyAccountId);
     
     Entry getMetadataEntry(UUID companyAccountId, String root, String path);
-    
-    Entry mkDir(UUID companyAccountId, String root, String path);
-    
     DropboxFile getFile(UUID companyAccountId, String root, String path);
     
+    Entry putFile(UUID companyAccountId, String root, String path, String mimeType, byte[] content, boolean overwrite);
+    
+    Entry mkDir(UUID companyAccountId, String root, String path);
     Entry copy(UUID companyAccountId, String root, String fromPath, String toPath);
     Entry move(UUID companyAccountId, String root, String fromPath, String toPath);
+    
+    
 }

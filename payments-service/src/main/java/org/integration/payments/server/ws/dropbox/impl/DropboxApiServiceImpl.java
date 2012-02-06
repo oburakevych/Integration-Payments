@@ -1,6 +1,7 @@
 package org.integration.payments.server.ws.dropbox.impl;
 
 import static org.integration.payments.server.ws.dropbox.DropboxApiConstants.*;
+import static org.integration.payments.server.ws.tradeshift.TradeshiftApiConstants.CONTENT_TYPE_HEADER_NAME;
 import static org.integration.payments.server.ws.tradeshift.TradeshiftApiConstants.TENANTID_HEADER_NAME;
 
 import java.io.UnsupportedEncodingException;
@@ -115,7 +116,7 @@ public class DropboxApiServiceImpl implements DropboxApiService {
         HttpEntity<String> requestEntity = new HttpEntity<String>(httpHeaders);
 
         ResponseEntity<Entry> responseEntity = this.restOperations.exchange(apiBaseUrl + "fileops/move?root={root}&from_path={fromPath}&to_path={toPath}", HttpMethod.POST,
-                                                        requestEntity, Entry.class, root, fromPath, toPath);
+                                                        requestEntity, Entry.class, root, encode(fromPath), encode(toPath));
 
         return responseEntity.getBody();
     }
@@ -130,7 +131,29 @@ public class DropboxApiServiceImpl implements DropboxApiService {
         HttpEntity<String> requestEntity = new HttpEntity<String>(httpHeaders);
 
         ResponseEntity<Entry> responseEntity = this.restOperations.exchange(apiBaseUrl + "fileops/copy?root={root}&from_path={fromPath}&to_path={toPath}", HttpMethod.POST, 
-                                                        requestEntity, Entry.class, root, fromPath, toPath);
+                                                        requestEntity, Entry.class, root, encode(fromPath), encode(toPath));
+
+        return responseEntity.getBody();
+    }
+    
+    @Override
+    public Entry putFile(UUID companyAccountId, String root, String path, String mimeType, byte[] content, boolean overwrite) {
+        Map<String, String> headers = new HashMap<String, String>(defultRequestHeaders);
+        
+        headers.put(TENANTID_HEADER_NAME, companyAccountId.toString());
+
+        if (mimeType != null) {
+            headers.put(CONTENT_TYPE_HEADER_NAME, mimeType);
+        }
+        
+        headers.put(CONTENT_LENGTH_HEADER_NAME, String.valueOf(content.length));
+        
+        HttpHeaders httpHeaders = buildHttpHeaders(headers, MediaType.APPLICATION_JSON);
+        
+        HttpEntity<byte[]> requestEntity = new HttpEntity<byte[]>(content, httpHeaders);
+
+        ResponseEntity<Entry> responseEntity = this.restOperations.exchange(apiContentBaseUrl + "files_put/{root}/{path}?overwrite={overwrite}", HttpMethod.PUT, 
+                                                        requestEntity, Entry.class, root, encode(path), overwrite);
 
         return responseEntity.getBody();
     }

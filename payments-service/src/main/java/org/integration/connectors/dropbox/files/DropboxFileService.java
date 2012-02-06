@@ -48,6 +48,16 @@ public class DropboxFileService {
         
         return metadata;
     }
+    
+    public Entry createFile(UUID companyAccountId, String path, String mimeType, byte[] content) {
+        log.debug("Creating a file {} for Account {} with a content:\n{}", new Object[] {path, companyAccountId, new String(content)});
+        
+        Entry metadata = apiService.putFile(companyAccountId, root, path, mimeType, content, true);
+        
+        log.debug("Entry has been created at {}", metadata.getPath());
+        
+        return metadata;
+    }
 
     public void setApiService(DropboxApiService apiService) {
         this.apiService = apiService;
