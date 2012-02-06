@@ -17,6 +17,9 @@
         <property name="location" value="classpath:app.properties" />
     </bean>
     -->
+    
+    <context:component-scan base-package="org.integration.payments.server" />
+    <context:component-scan base-package="org.integration.connectors" />
 
     <import resource="appContext-conf.xml" />
     <import resource="appContext-dao.xml" />

@@ -1,6 +1,8 @@
 package org.integration.payments.server.ws.auth.impl;
 
+import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.apache.commons.collections.map.LRUMap;
@@ -72,5 +74,10 @@ public class InmemoryLRUCredentialsStorage<T> implements CredentialsStorage<T> {
 	@Override
 	public boolean exists(UUID uuid) {
 		return cache.containsKey(uuid);
+	}
+	
+	@Override
+	public Set<UUID> getCachedKeys() {
+	    return Collections.unmodifiableSet(cache.keySet());
 	}
 }

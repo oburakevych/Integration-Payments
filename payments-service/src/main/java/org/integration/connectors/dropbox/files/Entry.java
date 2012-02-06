@@ -95,12 +95,8 @@ public class Entry {
         if (contentsTree != null) {
             Iterator<JsonNode> it = contentsTree.getElements();
             List<Entry> contents = new ArrayList<Entry>();
-            while(it.hasNext()) {
-                Entry contentEntry = new Entry(it.next()); 
-                
-                if (contentEntry != null) {
-                    contents.add(contentEntry);
-                }
+            while(it.hasNext()) { 
+                contents.add(new Entry(it.next()));
             }
             
             setContents(contents);

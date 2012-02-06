@@ -6,13 +6,9 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
-
-import org.joda.time.DateTime;
 
 
-@XmlRootElement(name = "Dispatch")
-@XmlType(name = "Dispatch")
+@XmlRootElement(name = "Dispatch", namespace = "http://tradeshift.com/api/public/1.0")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Dispatch {
 	@XmlElement(name = "DispatchId")
@@ -22,7 +18,7 @@ public class Dispatch {
 	private UUID objectId;
 	
 	@XmlElement(name = "Created")
-	private DateTime created;
+	private String created;
 	
 	@XmlElement(name = "SenderCompanyAccountId")
 	private UUID senderCompanyAccountId;
@@ -31,10 +27,10 @@ public class Dispatch {
 	private UUID senderUserId;
 	
 	@XmlElement(name = "DispatchState")
-	private String dispatchState;
+	private DispatchStatus dispatchState;
 	
 	@XmlElement(name = "LastStateChange")
-	private DateTime lastStateChange;
+	private String lastStateChange;
 	
 	@XmlElement(name = "ReceiverConnectionId")
 	private UUID receiverConnectionId;
@@ -61,11 +57,11 @@ public class Dispatch {
 		this.objectId = objectId;
 	}
 
-	public DateTime getCreated() {
+	public String getCreated() {
 		return created;
 	}
 
-	public void setCreated(DateTime created) {
+	public void setCreated(String created) {
 		this.created = created;
 	}
 
@@ -85,19 +81,19 @@ public class Dispatch {
 		this.senderUserId = senderUserId;
 	}
 
-	public String getDispatchState() {
+	public DispatchStatus getDispatchState() {
 		return dispatchState;
 	}
 
-	public void setDispatchState(String dispatchState) {
+	public void setDispatchState(DispatchStatus dispatchState) {
 		this.dispatchState = dispatchState;
 	}
 
-	public DateTime getLastStateChange() {
+	public String getLastStateChange() {
 		return lastStateChange;
 	}
 
-	public void setLastStateChange(DateTime lastStateChange) {
+	public void setLastStateChange(String lastStateChange) {
 		this.lastStateChange = lastStateChange;
 	}
 

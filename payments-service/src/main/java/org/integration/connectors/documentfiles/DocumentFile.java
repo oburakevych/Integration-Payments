@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.codehaus.jackson.JsonNode;
 import org.joda.time.DateTime;
 
 /**
@@ -14,7 +15,7 @@ import org.joda.time.DateTime;
  * validation errors in the process.
  */
 
-//@XmlRootElement(name="DocumentFile")
+@XmlRootElement(name="DocumentFile", namespace = "http://tradeshift.com/api/public/1.0")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DocumentFile {
     @XmlElement(name = "Id")
@@ -66,6 +67,20 @@ public class DocumentFile {
     @XmlElement(name = "ValidationErrorsSize")
     private int validationErrorsSize;
     
+    public DocumentFile() {}
+    
+    public DocumentFile(JsonNode tree) {
+        setActorId(tree.get("ActorId").asText());
+        setDirectory(tree.has("Directory") ? tree.get("Directory").asText() : null);
+        setDocumentId(tree.get("DocumentId").asText());
+        setFilename(tree.get("FileName").asText());
+        setFilesize(tree.get("FileSize").asInt());
+        setGroupId(tree.get("GroupId").asText());
+        setId(tree.get("Id").asText());
+        setMimetype(tree.get("MimeType").asText());
+        setValidationErrorsSize(tree.get("ValidationErrorsSize").asInt());
+    }
+    
     public void setValidationErrorsSize(int validationErrorsSize) {
         this.validationErrorsSize = validationErrorsSize;
     }
@@ -80,6 +95,10 @@ public class DocumentFile {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+    
+    public void setId(String id) {
+        this.id = UUID.fromString(id);
     }
 
     public String getFilename() {
@@ -114,6 +133,10 @@ public class DocumentFile {
     public void setActorId(UUID actorId) {
         this.actorId = actorId;
     }
+    
+    public void setActorId(String actorId) {
+        this.actorId = UUID.fromString(actorId);
+    }
 
     public UUID getGroupId() {
         return groupId;
@@ -121,6 +144,10 @@ public class DocumentFile {
 
     public void setGroupId(UUID groupId) {
         this.groupId = groupId;
+    }
+    
+    public void setGroupId(String groupId) {
+        this.groupId = UUID.fromString(groupId);
     }
 
     public DateTime getCreated() {
@@ -153,6 +180,10 @@ public class DocumentFile {
 
     public void setDocumentId(UUID documentId) {
         this.documentId = documentId;
+    }
+    
+    public void setDocumentId(String documentId) {
+        this.documentId = UUID.fromString(documentId);
     }
 
     public byte[] getValidationErrors() {

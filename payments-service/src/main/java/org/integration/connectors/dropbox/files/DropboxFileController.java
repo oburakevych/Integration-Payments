@@ -20,7 +20,7 @@ public class DropboxFileController {
     @Autowired
     private DropboxFileService fileService;
     
-    @RequestMapping(value="{path}/metadata", method = RequestMethod.GET, consumes = {"application/json"})
+    @RequestMapping(value="{path}/metadata", method = RequestMethod.GET)
     public @ResponseBody Entry getMetadataEntry(@PathVariable("path") String path, @RequestParam("companyAccountId") UUID companyAccountId) {
         log.debug("Received request to get Metadata for Account {} at location {}", companyAccountId, path);
         
@@ -36,7 +36,7 @@ public class DropboxFileController {
         fileService.mkDir(companyAccountId, path);
     }
     
-    @RequestMapping(value="{path}/content", method = RequestMethod.GET, consumes = {"application/json"})
+    @RequestMapping(value="{path}/content", method = RequestMethod.GET)
     public @ResponseBody void getFile(@PathVariable("path") String path, @RequestParam("companyAccountId") UUID companyAccountId) {
         log.debug("Received request to get File for Account {} at location {}", companyAccountId, path);
         

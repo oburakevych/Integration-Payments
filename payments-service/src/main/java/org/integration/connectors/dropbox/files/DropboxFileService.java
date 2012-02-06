@@ -31,12 +31,22 @@ public class DropboxFileService {
     }
     
     public DropboxFile getFile(UUID companyAccountId, String path) {
-        log.debug("Getting file for Account {} at location: {}", companyAccountId, root + "/" + path);
+        log.debug("Getting file for Account {} at location: {}", companyAccountId, root + path);
         DropboxFile file = apiService.getFile(companyAccountId, root, path);
         
         log.debug("The file content received {}", file.getFileSize());
         
         return file;
+    }
+    
+    public Entry move(UUID companyAccountId, String fromPath, String toPath) {
+        log.debug("Moving an entry from {} to {} for Account {}", new Object[] {root + fromPath, root + toPath, companyAccountId});
+        
+        Entry metadata = apiService.move(companyAccountId, root, fromPath, toPath);
+        
+        log.debug("Entry has been moved to {}", metadata.getPath());
+        
+        return metadata;
     }
 
     public void setApiService(DropboxApiService apiService) {

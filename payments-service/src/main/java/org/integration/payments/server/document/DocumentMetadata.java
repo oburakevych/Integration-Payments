@@ -1,6 +1,6 @@
 package org.integration.payments.server.document;
 
-import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlType;
 import org.joda.time.DateTime;
 
 
-@XmlRootElement(name="DocumentMetadata", namespace = "http://tradeshift.com/api/public/1.0")
+@XmlRootElement(name="DocumentMetadata", namespace="http://tradeshift.com/api/public/1.0")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name="DocumentMetadata")
 public class DocumentMetadata {
@@ -43,19 +43,24 @@ public class DocumentMetadata {
 	
 	@XmlElement(name="ConnectionId")
 	private UUID connectionId;
-
-	@XmlElementWrapper(name="Properties")
-    private HashMap<String, String> properties;
 	
 	@XmlElement(name="Tags")
-    private TagList tags = new TagList();
+	private TagList tags = new TagList();
 
+	@XmlElementWrapper(name="PropertyList")
+	@XmlElement(name="Property")
+    private List<PropertyEntry> properties;
+	
 	@XmlElement(name="DispatchState")
-	private String dispatchState;
+	private DispatchStatus dispatchState;
 	
 	@XmlElement(name="Received")
 	private boolean received;
 
+    public static final String PROCESS_STATE_DOC = 
+        "The PROCESS state of the document (as marked by the user or otherwise). " +
+        "Note that a document won't have a PROCESS state until it is dispatched. \n" +
+        "Possible values: PAID, REJECTED, OVERDUE, ACCEPTED, PENDING, NONE";
     @XmlElement(name="ProcessState")
     private String processState;
     
@@ -66,9 +71,11 @@ public class DocumentMetadata {
     private String otherPartyState;
     
     @XmlElement(name="Signature")
+    //Base64 encoded document signature. This is only set for documents which have been signed by a 3rd party such as AuthentiDate.
     private String signature;
     
     @XmlElement(name="SignatureValidationReport")
+    //Base64 encoded signature validation report.
     private String signatureReport;
 
     public DocumentMetadata() {
@@ -147,19 +154,19 @@ public class DocumentMetadata {
 		this.connectionId = connectionId;
 	}
 
-    public HashMap<String, String> getProperties() {
-        return properties;
-    }
+	public TagList getTags() {
+		return tags;
+	}
 
-    public void setProperties(HashMap<String, String> properties) {
-        this.properties = properties;
-    }
+	public void setTags(TagList tags) {
+		this.tags = tags;
+	}
 
-	public String getDispatchState() {
+	public DispatchStatus getDispatchState() {
 		return dispatchState;
 	}
 
-	public void setDispatchState(String dispatchStatus) {
+	public void setDispatchState(DispatchStatus dispatchStatus) {
 		this.dispatchState = dispatchStatus;
 	}
 
@@ -211,13 +218,13 @@ public class DocumentMetadata {
         this.signatureReport = signatureReport;
     }
 
-    public void setTags(TagList tags) {
-        this.tags = tags;
-    }
+	public void setProperties(List<PropertyEntry> properties) {
+		this.properties = properties;
+	}
 
-    public TagList getTags() {
-        return tags;
-    }
+	public List<PropertyEntry> getProperties() {
+		return properties;
+	}
     
     
 }

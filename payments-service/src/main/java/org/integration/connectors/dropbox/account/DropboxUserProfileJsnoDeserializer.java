@@ -11,8 +11,8 @@ import java.io.IOException;
 import java.math.BigInteger;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonDeserialize(using = DropboxUserProfileDeserializer.UserProfileDeserializer.class)
-public class DropboxUserProfileDeserializer {
+@JsonDeserialize(using = DropboxUserProfileJsnoDeserializer.UserProfileDeserializer.class)
+public class DropboxUserProfileJsnoDeserializer {
     static class UserProfileDeserializer extends JsonDeserializer<DropboxUserProfile>{
         @Override
         public DropboxUserProfile deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {

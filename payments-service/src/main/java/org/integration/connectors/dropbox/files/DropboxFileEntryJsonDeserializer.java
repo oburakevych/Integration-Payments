@@ -10,8 +10,8 @@ import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import java.io.IOException;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonDeserialize(using = DropboxFileEntryDeserializer.FileEntryDeserializer.class)
-public class DropboxFileEntryDeserializer {
+@JsonDeserialize(using = DropboxFileEntryJsonDeserializer.FileEntryDeserializer.class)
+public class DropboxFileEntryJsonDeserializer {
     static class FileEntryDeserializer extends JsonDeserializer<Entry> {
         @Override
         public Entry deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {

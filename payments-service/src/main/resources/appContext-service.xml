@@ -15,15 +15,17 @@
 	<task:scheduler id="dropboxScheduler" pool-size="10"/>
      
 	<task:scheduled-tasks scheduler="dropboxScheduler">
-    	<task:scheduled ref="dropboxDirectoryScheduler" method="process" fixed-delay="20000"/>
+    	<task:scheduled ref="dropboxDirectoryScheduler" method="process" fixed-delay="360000"/>
 	</task:scheduled-tasks>
      
 	<bean id="dropboxDirectoryScheduler" class="org.integration.connectors.dropbox.files.DropboxDirectoryShceduler">
      	<property name="executor" ref="dropboxDirectoryExecutor"/>
+     	<property name="authorisationService" ref="dropboxAuthorisationService"/>
      </bean>
      
      <bean id="dropboxDirectoryExecutor" class="org.integration.connectors.dropbox.files.DropboxDirectoryExecutor">
      	<property name="fileService" ref="dropboxFileService"/>
+     	<property name="tradeshiftService" ref="dropboxTsConnectorService"/>
      </bean>
 
 	<bean id="documentFactory" class="org.integration.payments.server.document.DocumentFactory" />
@@ -40,6 +42,10 @@
     </bean>
     
    	<bean id="fsConnectorService" class="org.integration.connectors.filesystem.FileSystemConnectorService" >
+		<property name="tradeshiftApiService" ref="ws.tradeshift.service"/>
+	</bean>
+	
+	<bean id="dropboxTsConnectorService" class="org.integration.connectors.dropbox.TradeshiftConnectorService" >
 		<property name="tradeshiftApiService" ref="ws.tradeshift.service"/>
 	</bean>
 	

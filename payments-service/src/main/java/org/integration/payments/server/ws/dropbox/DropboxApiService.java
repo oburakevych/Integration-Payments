@@ -15,4 +15,7 @@ public interface DropboxApiService {
     Entry mkDir(UUID companyAccountId, String root, String path);
     
     DropboxFile getFile(UUID companyAccountId, String root, String path);
+    
+    Entry copy(UUID companyAccountId, String root, String fromPath, String toPath);
+    Entry move(UUID companyAccountId, String root, String fromPath, String toPath);
 }

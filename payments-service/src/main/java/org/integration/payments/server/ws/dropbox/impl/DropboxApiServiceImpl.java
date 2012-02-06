@@ -99,8 +99,38 @@ public class DropboxApiServiceImpl implements DropboxApiService {
 
         HttpHeaders httpHeaders = buildHttpHeaders(headers, MediaType.APPLICATION_JSON);
         HttpEntity<String> requestEntity = new HttpEntity<String>(httpHeaders);
-        path = "outbox%2F2744020130.xml";
+
         ResponseEntity<DropboxFile> responseEntity = this.restOperations.exchange(apiContentBaseUrl + "files/{root}/{path}", HttpMethod.GET, requestEntity, DropboxFile.class, root, encode(path));
+
+        return responseEntity.getBody();
+    }
+    
+    @Override
+    public Entry move(UUID companyAccountId, String root, String fromPath, String toPath) {
+        Map<String, String> headers = new HashMap<String, String>(defultRequestHeaders);
+        
+        headers.put(TENANTID_HEADER_NAME, companyAccountId.toString());
+
+        HttpHeaders httpHeaders = buildHttpHeaders(headers, MediaType.APPLICATION_JSON);
+        HttpEntity<String> requestEntity = new HttpEntity<String>(httpHeaders);
+
+        ResponseEntity<Entry> responseEntity = this.restOperations.exchange(apiBaseUrl + "fileops/move?root={root}&from_path={fromPath}&to_path={toPath}", HttpMethod.POST,
+                                                        requestEntity, Entry.class, root, fromPath, toPath);
+
+        return responseEntity.getBody();
+    }
+    
+    @Override
+    public Entry copy(UUID companyAccountId, String root, String fromPath, String toPath) {
+        Map<String, String> headers = new HashMap<String, String>(defultRequestHeaders);
+        
+        headers.put(TENANTID_HEADER_NAME, companyAccountId.toString());
+
+        HttpHeaders httpHeaders = buildHttpHeaders(headers, MediaType.APPLICATION_JSON);
+        HttpEntity<String> requestEntity = new HttpEntity<String>(httpHeaders);
+
+        ResponseEntity<Entry> responseEntity = this.restOperations.exchange(apiBaseUrl + "fileops/copy?root={root}&from_path={fromPath}&to_path={toPath}", HttpMethod.POST, 
+                                                        requestEntity, Entry.class, root, fromPath, toPath);
 
         return responseEntity.getBody();
     }
@@ -128,7 +158,7 @@ public class DropboxApiServiceImpl implements DropboxApiService {
      *         server).
      * @param apiVersion the API version to use. You should almost always use
      *         {@code DropboxAPI.VERSION} for this.
-     * @param target the target path, staring with a '/'.
+     * @param target the target path, should not start with a '/'.
      * @param params any URL params in an array, with the even numbered
      *         elements the parameter names and odd numbered elements the
      *         values, e.g. <code>new String[] {"path", "/Public", "locale",
@@ -137,6 +167,10 @@ public class DropboxApiServiceImpl implements DropboxApiService {
      * @return a full URL for making a request.
      */
     public static String encode(String path) {
+        if (path.startsWith("/")) {
+            path = path.substring(1);
+        }
+        
         try {
             // We have to encode the whole line, then remove + and / encoding
             path = URLEncoder.encode(path, "UTF-8");

@@ -12,6 +12,7 @@ import java.util.UUID;
 import org.apache.commons.lang.StringUtils;
 import org.integration.connectors.documentfiles.DocumentFileList;
 import org.integration.connectors.documentfiles.DocumentFileState;
+import org.integration.payments.server.document.Dispatch;
 import org.integration.payments.server.document.DocumentMetadata;
 import org.integration.payments.server.ws.tradeshift.TradeshiftApiService;
 import org.integration.payments.server.ws.tradeshift.dto.AppSettings;
@@ -108,7 +109,7 @@ public class TradeshiftApiServiceImpl implements TradeshiftApiService {
 
         headers.put(TENANTID_HEADER_NAME, companyAccountId.toString());
 
-        HttpHeaders httpHeaders = buildHttpHeaders(headers, MediaType.TEXT_XML);
+        HttpHeaders httpHeaders = buildHttpHeaders(headers, MediaType.APPLICATION_JSON);
         HttpEntity<String> requestEntity = new HttpEntity<String>(httpHeaders);
         
         ResponseEntity<DocumentMetadata> responseEntity = this.restOperations.exchange(apiBaseUrl + "/external/documents/" + documentId + "/metadata", HttpMethod.GET, requestEntity, DocumentMetadata.class);
@@ -136,11 +137,11 @@ public class TradeshiftApiServiceImpl implements TradeshiftApiService {
                         .path("file")
                         .queryParam("directory", directory);
 
-        this.restOperations.exchange(apiUrl.getUrl(), HttpMethod.PUT, requestEntity, String.class, apiUrl.getParams());
+        this.restOperations.exchange(apiUrl.getUrl(), HttpMethod.PUT, requestEntity, null, apiUrl.getParams());
     }
 
     @Override
-    public void dispatchDocumentFile(UUID companyAccountId, String directory, String filename) {
+    public String dispatchDocumentFile(UUID companyAccountId, String directory, String filename) {
         Map<String, String> headers = new HashMap<String, String>(defultRequestHeaders);
 
         headers.put(TENANTID_HEADER_NAME, companyAccountId.toString());
@@ -153,9 +154,9 @@ public class TradeshiftApiServiceImpl implements TradeshiftApiService {
                         .path("dispatcher")
                         .queryParam("directory", directory);
 
-        this.restOperations.exchange(apiUrl.getUrl(), HttpMethod.POST, requestEntity, String.class, apiUrl.getParams());
-
+        ResponseEntity<String> responseEntity = this.restOperations.exchange(apiUrl.getUrl(), HttpMethod.POST, requestEntity, String.class, apiUrl.getParams());
         
+        return null;
     }
 
     @Override
@@ -185,7 +186,7 @@ public class TradeshiftApiServiceImpl implements TradeshiftApiService {
 
         headers.put(TENANTID_HEADER_NAME, companyAccountId.toString());
 
-        HttpHeaders httpHeaders = buildHttpHeaders(headers, MediaType.TEXT_XML);
+        HttpHeaders httpHeaders = buildHttpHeaders(headers, MediaType.APPLICATION_JSON);
         HttpEntity<String> requestEntity = new HttpEntity<String>(httpHeaders);
         
         ExchangeAPIUrl apiUrl = new ExchangeAPIUrl().path("external/documentfiles")
@@ -197,6 +198,24 @@ public class TradeshiftApiServiceImpl implements TradeshiftApiService {
                         
         
         ResponseEntity<DocumentFileList> responseEntity = this.restOperations.exchange(apiUrl.getUrl(), HttpMethod.GET, requestEntity, DocumentFileList.class, apiUrl.getParams());
+        
+        return responseEntity.getBody();
+    }
+    
+    @Override
+    public Dispatch getLatestDispatch(UUID companyAccountId, UUID documentId) {
+        Map<String, String> headers = new HashMap<String, String>(defultRequestHeaders);
+
+        headers.put(TENANTID_HEADER_NAME, companyAccountId.toString());
+
+        HttpHeaders httpHeaders = buildHttpHeaders(headers, MediaType.APPLICATION_JSON);
+        HttpEntity<String> requestEntity = new HttpEntity<String>(httpHeaders);
+        
+        ExchangeAPIUrl apiUrl = new ExchangeAPIUrl().path("external/documents")
+                        .pathParam("documentId", documentId)
+                        .path("dispatches/latest");
+                        
+        ResponseEntity<Dispatch> responseEntity = this.restOperations.exchange(apiUrl.getUrl(), HttpMethod.GET, requestEntity, Dispatch.class, apiUrl.getParams());
         
         return responseEntity.getBody();
     }

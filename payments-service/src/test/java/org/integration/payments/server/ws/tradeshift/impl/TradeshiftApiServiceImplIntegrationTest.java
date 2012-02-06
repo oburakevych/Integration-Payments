@@ -1,11 +1,13 @@
 package org.integration.payments.server.ws.tradeshift.impl;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
 
 import java.io.IOException;
 import java.util.UUID;
 
+import org.integration.connectors.documentfiles.DocumentFileList;
+import org.integration.payments.server.document.Dispatch;
 import org.integration.payments.server.document.DocumentMetadata;
 import org.integration.payments.server.document.DocumentServiceTest;
 import org.integration.payments.server.util.IOUtils;
@@ -58,12 +60,41 @@ public class TradeshiftApiServiceImplIntegrationTest {
 	}
 	
 	@Test
-	public void getDispatch() {
+	public void getMetadata() {
 	    UUID companyAccountId = UUID.fromString(tenantId);
 	    
-	    DocumentMetadata dispatch = tradeshiftApiService.getDocumentMetadata(companyAccountId, DOCUMENT_ID);
+	    DocumentMetadata metadata = tradeshiftApiService.getDocumentMetadata(companyAccountId, DOCUMENT_ID);
 	    
-	    assertNotNull(dispatch);
-	    
+	    assertNotNull(metadata);
+	    assertNotNull(metadata.getDocumentId());
+	    assertNotNull(metadata.getState());
+	    assertNotNull(metadata.getDocumentType());
 	}
+	
+   @Test
+    public void getDispatch() {
+        UUID companyAccountId = UUID.fromString(tenantId);
+        
+        Dispatch dispatch = tradeshiftApiService.getLatestDispatch(companyAccountId, DOCUMENT_ID);
+        
+        assertNotNull(dispatch);
+        assertNotNull(dispatch.getDispatchID());
+        assertNotNull(dispatch.getDispatchChannel());
+        assertNotNull(dispatch.getDispatchState());
+        assertNotNull(dispatch.getObjectId());
+        assertNotNull(dispatch.getSenderCompanyAccountId());
+    }
+	
+	@Test
+	public void getDocumentFiles() {
+	    UUID companyAccountId = UUID.fromString(tenantId);
+	    
+	    DocumentFileList dfList = tradeshiftApiService.getDocumentFiles(companyAccountId, null, 100, 0, null, null, null);
+	    
+	    assertNotNull(dfList);
+	    assertTrue(dfList.getItemCount() > 0);
+	    assertTrue(dfList.getItems().size() > 0);
+	    assertTrue(dfList.getItemCount() >= dfList.getItems().size());
+	}
+	
 }

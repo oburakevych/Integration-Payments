@@ -29,20 +29,15 @@
             </array>
         </property>
     </bean>
-
+    
+    
     <!-- auto-detect annotations -->
     <context:component-scan base-package="org.integration.payments.server.ws.controller" />
     <context:component-scan base-package="org.integration.payments.server.ws.util" />
     <context:component-scan base-package="org.integration.payments.server.polling" />
     <context:component-scan base-package="org.integration.payments.server.ui" />
-    <context:component-scan base-package="org.integration.connectors.dropbox.files" />
     <context:component-scan base-package="org.integration.connectors" />
 
-<!-- 
-	<task:executor id="dropboxDirectoryExecutor" pool-size="5"/>
-
-	<task:scheduler id="dropboxDirectoryShceduler" pool-size="10"/>
- -->
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
         <property name="prefix" value="/WEB-INF/jsp/"/>

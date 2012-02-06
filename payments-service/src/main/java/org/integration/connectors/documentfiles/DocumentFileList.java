@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name="DocumentFileList", namespace = "http://tradeshift.com/api/public/1.0")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DocumentFileList {
-	@XmlElement(name="Items")
+    @XmlElement(name="Items")
 	private List<DocumentFile> items = new ArrayList<DocumentFile>();
 	
     @XmlAttribute(name="numPages")
@@ -63,7 +63,6 @@ public class DocumentFileList {
     public void setItemCount(int itemCount) {
         this.itemCount = itemCount;
     }
-
 	
 	public List<DocumentFile> getItems() {
 		return items;

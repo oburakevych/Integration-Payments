@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.integration.connectors.documentfiles.DocumentFileList;
 import org.integration.connectors.documentfiles.DocumentFileState;
+import org.integration.payments.server.document.Dispatch;
 import org.integration.payments.server.ws.tradeshift.TradeshiftApiService;
 
 
@@ -25,6 +26,10 @@ public abstract class ConnectorService {
     
     public byte[] getDocumentFile(UUID companyAccountId, String directory, String filename) {
         return getTradeshiftApiService().getDocumentFile(companyAccountId, directory, filename);
+    }
+    
+    public Dispatch getLatestDispatch(UUID companyAccountId, UUID documentId) {
+        return getTradeshiftApiService().getLatestDispatch(companyAccountId, documentId);
     }
 
     public void setTradeshiftApiService(TradeshiftApiService tradeshiftApiService) {

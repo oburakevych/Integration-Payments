@@ -1,5 +1,7 @@
 package org.integration.payments.server.ws.dropbox.auth;
 
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.integration.payments.server.ws.auth.CredentialsStorage;
@@ -83,6 +85,10 @@ public class DropboxOAuth1AuthorizationManager {
         getCredentialsStorage().save(companyAccountId, accessToken);
         
         return accessToken;
+    }
+    
+    public Set<UUID> getCachedCompanyAccounts() {
+        return getCredentialsStorage().getCachedKeys();
     }
 
     protected void setServiceProvider(DropboxServiceProvider serviceProvider) {
