@@ -18,4 +18,17 @@
         INSERT INTO dropbox_account(id, created, deactivated, name, email, country, lang) 
         					VALUES (#id#, #created#, #deactivated#, #name#, #email#, #country#, #language#)
     </insert>
+    
+    <sql id="getInternal">
+        SELECT * FROM dropbox_account
+    </sql>
+    
+    <select id="getAccount" parameterClass="String" resultMap="DropboxAccountMap">
+        <include refid="getInternal"/>
+        WHERE id = #id#
+    </select>
+
+    <select id="getAccounts" resultMap="DropboxAccountMap">
+        <include refid="getInternal"/>
+    </select>
 </sqlMap>

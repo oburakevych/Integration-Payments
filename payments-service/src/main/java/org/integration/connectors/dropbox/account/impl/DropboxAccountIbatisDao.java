@@ -11,6 +11,8 @@ public class DropboxAccountIbatisDao extends SqlMapClientDaoSupport implements D
     
     // prefix `ST` means statement.
     private static final String ST_CREATE = NAMESPACE_FLAG + ".create";
+    private static final String ST_GET_ACCOUNT = NAMESPACE_FLAG + ".getAccount";
+    private static final String ST_GET_ACCOUNTS = NAMESPACE_FLAG + ".getAccounts";
     
     @Override
     public void save(DropboxAccount account) {
@@ -19,7 +21,12 @@ public class DropboxAccountIbatisDao extends SqlMapClientDaoSupport implements D
 
     @Override
     public List<DropboxAccount> getAccounts(int limit) {
-        return null;
+        return getSqlMapClientTemplate().queryForList(ST_GET_ACCOUNTS, 0, limit);
+    }
+
+    @Override
+    public DropboxAccount getAccount(String id) {
+        return (DropboxAccount) getSqlMapClientTemplate().queryForObject(ST_GET_ACCOUNT, id);
     }
 
 }
