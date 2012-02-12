@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="DropboxAccount">
+	<typeAlias type="org.integration.connectors.dropbox.account.DropboxAccount" alias="DropboxAccount" />
+
+    <resultMap id="DropboxAccountMap" class="DropboxAccount">
+    	<result property="id" column="id" />
+        <result property="created" column="created" />
+        <result property="deactivated" column="deactivated" />
+        <result property="name" column="name" />
+        <result property="email" column="email" />
+        <result property="country" column="country" />
+        <result property="language" column="lang" />
+    </resultMap>
+
+    <insert id="create"  parameterClass="DropboxAccount">
+        INSERT INTO dropbox_account(id, created, deactivated, name, email, country, lang) 
+        					VALUES (#id#, #created#, #deactivated#, #name#, #email#, #country#, #language#)
+    </insert>
+</sqlMap>
