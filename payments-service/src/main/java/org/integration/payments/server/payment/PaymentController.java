@@ -30,7 +30,7 @@ public class PaymentController {
 	private DocumentService documentService;
 
 	@RequestMapping(method = RequestMethod.POST)
-	public void createPayment(@RequestParam("companyAccountId") UUID companyAccountId, 
+	public void createPayment(@RequestParam("companyAccountId") String companyAccountId, 
 	                            @RequestParam("invoiceId") UUID documentId, HttpServletResponse response) {
 	    log.info("Creating a payment on behalf of {} for document {}", companyAccountId, documentId);
 	    

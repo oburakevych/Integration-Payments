@@ -11,7 +11,4 @@ public interface SecurityDao {
     OAuthToken get(String accountId);
     void delete(String accountId);
     boolean exists(String accountId);
-    List<String> getAllAccounts();
-    List<String> getAccounts(Date modifiedSince, Date lastCheckedSince, Boolean updated, int limit);
-    List<String> getUpdatedAccounts(int limit);
 }

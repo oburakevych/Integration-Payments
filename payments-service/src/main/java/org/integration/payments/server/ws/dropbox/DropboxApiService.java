@@ -1,23 +1,21 @@
 package org.integration.payments.server.ws.dropbox;
 
-import java.util.UUID;
-
-import org.integration.connectors.dropbox.account.DropboxUserProfile;
+import org.integration.connectors.dropbox.account.DropboxAccount;
 import org.integration.connectors.dropbox.files.DropboxFile;
 import org.integration.connectors.dropbox.files.Entry;
 
 
 public interface DropboxApiService {
-    DropboxUserProfile getUserProfile(UUID companyAccountId);
+    DropboxAccount getUserProfile(String companyAccountId);
     
-    Entry getMetadataEntry(UUID companyAccountId, String root, String path);
-    DropboxFile getFile(UUID companyAccountId, String root, String path);
+    Entry getMetadataEntry(String companyAccountId, String root, String path);
+    DropboxFile getFile(String companyAccountId, String root, String path);
     
-    Entry putFile(UUID companyAccountId, String root, String path, String mimeType, byte[] content, boolean overwrite);
+    Entry putFile(String companyAccountId, String root, String path, String mimeType, byte[] content, boolean overwrite);
     
-    Entry mkDir(UUID companyAccountId, String root, String path);
-    Entry copy(UUID companyAccountId, String root, String fromPath, String toPath);
-    Entry move(UUID companyAccountId, String root, String fromPath, String toPath);
+    Entry mkDir(String companyAccountId, String root, String path);
+    Entry copy(String companyAccountId, String root, String fromPath, String toPath);
+    Entry move(String companyAccountId, String root, String fromPath, String toPath);
     
     
 }

@@ -1,7 +1,5 @@
 package org.integration.connectors.dropbox.account;
 
-import java.util.UUID;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +18,8 @@ public class DropboxAccountController {
     private DropboxAccountService accountService;
     
     @RequestMapping(value = "profile", method = RequestMethod.GET, consumes = {"application/json"})
-    public @ResponseBody DropboxUserProfile getUserProfile(@RequestParam("companyAccountId") UUID companyAccountId) {
+    public @ResponseBody DropboxAccount getUserProfile(@RequestParam("companyAccountId") String companyAccountId) {
         log.debug("Received request to fetch user profile for Account {}", companyAccountId);
-        return accountService.getUserProfile(companyAccountId);
+        return accountService.retrieveAccount(companyAccountId);
     }
 }

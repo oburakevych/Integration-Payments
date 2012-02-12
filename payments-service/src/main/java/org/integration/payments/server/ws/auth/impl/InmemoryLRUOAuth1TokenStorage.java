@@ -1,7 +1,6 @@
 package org.integration.payments.server.ws.auth.impl;
 
 import java.util.Map;
-import java.util.UUID;
 
 import org.springframework.social.oauth1.OAuthToken;
 
@@ -14,7 +13,7 @@ public class InmemoryLRUOAuth1TokenStorage extends InmemoryLRUCredentialsStorage
 		super(maxCacheSize);
 	}
 
-	public InmemoryLRUOAuth1TokenStorage(int maxCacheSize, Map<UUID, OAuthToken> initCredentials) {
+	public InmemoryLRUOAuth1TokenStorage(int maxCacheSize, Map<String, OAuthToken> initCredentials) {
 		super(maxCacheSize, initCredentials);
 	}
 }

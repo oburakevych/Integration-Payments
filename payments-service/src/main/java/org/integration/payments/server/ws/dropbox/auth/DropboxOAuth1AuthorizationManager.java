@@ -1,9 +1,5 @@
 package org.integration.payments.server.ws.dropbox.auth;
 
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-
 import org.integration.payments.server.ws.auth.CredentialsStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +30,7 @@ public class DropboxOAuth1AuthorizationManager {
         this.serviceProvider = serviceProvider;
     }
     
-    public void fetchRequestToken(UUID companyAccountId) {
+    public void fetchRequestToken(String companyAccountId) {
         OAuthToken requestToken = getServiceProvider().getOAuthOperations().fetchRequestToken(null, null);
         
         if (requestToken != null) {
@@ -45,7 +41,7 @@ public class DropboxOAuth1AuthorizationManager {
         }
     }
     
-    public String buildAuthorizeUrl(UUID companyAccountId) {
+    public String buildAuthorizeUrl(String companyAccountId) {
         String url = null;
         
         if (!getRequestTokenStorage().exists(companyAccountId)) {
@@ -76,7 +72,7 @@ public class DropboxOAuth1AuthorizationManager {
         return url;
     }
     
-    public OAuthToken getAccessToken(UUID companyAccountId) {
+    public OAuthToken getAccessToken(String companyAccountId) {
         OAuthToken requestToken = getRequestTokenStorage().get(companyAccountId);
         OAuthToken accessToken = getServiceProvider().getOAuthOperations().exchangeForAccessToken(new AuthorizedRequestToken(requestToken, null), OAuth1Parameters.NONE);
         
@@ -85,10 +81,6 @@ public class DropboxOAuth1AuthorizationManager {
         getCredentialsStorage().save(companyAccountId, accessToken);
         
         return accessToken;
-    }
-    
-    public Set<UUID> getCachedCompanyAccounts() {
-        return getCredentialsStorage().getCachedKeys();
     }
 
     protected void setServiceProvider(DropboxServiceProvider serviceProvider) {

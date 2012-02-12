@@ -11,25 +11,25 @@ import java.io.IOException;
 import java.math.BigInteger;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonDeserialize(using = DropboxUserProfileJsnoDeserializer.UserProfileDeserializer.class)
-public class DropboxUserProfileJsnoDeserializer {
-    static class UserProfileDeserializer extends JsonDeserializer<DropboxUserProfile>{
+@JsonDeserialize(using = DropboxAccountJsnoDeserializer.UserProfileDeserializer.class)
+public class DropboxAccountJsnoDeserializer {
+    static class UserProfileDeserializer extends JsonDeserializer<DropboxAccount>{
         @Override
-        public DropboxUserProfile deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+        public DropboxAccount deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
             JsonNode tree = jp.readValueAsTree();
 
             String referralLink = tree.get("referral_link").asText();
             String country = tree.get("country").asText();
             String displayName = tree.get("display_name").asText();
             String email = tree.get("email").asText();
-            BigInteger uid = tree.get("uid").getBigIntegerValue();
+            String uid = tree.get("uid").asText();
 
             JsonNode quotaNode = tree.get("quota_info");
             BigInteger sharedQuota = quotaNode.get("shared").getBigIntegerValue();
             BigInteger quota = quotaNode.get("quota").getBigIntegerValue();
             BigInteger normalQuota = quotaNode.get("normal").getBigIntegerValue();
 
-            return new DropboxUserProfile(uid, displayName,  email,  country,  referralLink, sharedQuota,  quota, normalQuota);
+            return new DropboxAccount(uid, displayName,  email,  country,  referralLink, sharedQuota,  quota, normalQuota);
         }
     }
 }

@@ -1,7 +1,5 @@
 package org.integration.connectors.dropbox;
 
-import java.util.UUID;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +18,13 @@ public class DropboxAuthorisationController {
     private DropboxAuthorisationService oauthService;
     
     @RequestMapping(value = "request-token", method = RequestMethod.POST, consumes = {"application/json"})
-    public @ResponseBody void fetchRequestToken(@RequestParam("companyAccountId") UUID companyAccountId) {
+    public @ResponseBody void fetchRequestToken(@RequestParam("companyAccountId") String companyAccountId) {
         log.debug("Received request to fetch the Request Token for account {}", companyAccountId);
         oauthService.fetchRequestToken(companyAccountId);
     }
     
     @RequestMapping(value = "request-token", method = RequestMethod.GET)
-    public @ResponseBody String getAuthorisationUrl(@RequestParam("companyAccountId") UUID companyAccountId) {
+    public @ResponseBody String getAuthorisationUrl(@RequestParam("companyAccountId") String companyAccountId) {
         log.debug("Received request to get Authorisation URL for account {}", companyAccountId);
         String url = oauthService.getAuthorisationUrl(companyAccountId);
         
@@ -36,7 +34,7 @@ public class DropboxAuthorisationController {
     }
     
     @RequestMapping(value="access-token", method = RequestMethod.POST, consumes = {"application/json"})
-    public @ResponseBody void requestAccessToken(@RequestParam("companyAccountId") UUID companyAccountId) {
+    public @ResponseBody void requestAccessToken(@RequestParam("companyAccountId") String companyAccountId) {
         log.debug("Received request to retrieve Access Token for account {}", companyAccountId);
         
         oauthService.requestAccessToken(companyAccountId);

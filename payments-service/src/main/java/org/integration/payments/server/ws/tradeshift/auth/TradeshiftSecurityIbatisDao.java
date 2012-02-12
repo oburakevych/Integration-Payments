@@ -1,11 +1,5 @@
 package org.integration.payments.server.ws.tradeshift.auth;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-
-import org.integration.connectors.tradeshift.account.TradeshiftAccount;
 import org.integration.connectors.tradeshift.security.TradeshiftAccessToken;
 import org.integration.payments.server.ws.auth.SecurityDao;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
@@ -16,10 +10,8 @@ public class TradeshiftSecurityIbatisDao extends SqlMapClientDaoSupport implemen
     
     // prefix `ST` means statement.
     private static final String ST_CREATE = NAMESPACE_FLAG + ".create";
-    private static final String ST_EXISTS = NAMESPACE_FLAG + ".exists";
     private static final String ST_UPDATE = NAMESPACE_FLAG + ".update";
     private static final String ST_GET_BY_ACCOUNT_ID = NAMESPACE_FLAG + ".get";
-    private static final String ST_GET_ALL = NAMESPACE_FLAG + ".getAll";
     private static final String ST_DELETE = NAMESPACE_FLAG + ".delete";
 
     @Override
@@ -50,22 +42,4 @@ public class TradeshiftSecurityIbatisDao extends SqlMapClientDaoSupport implemen
     public boolean exists(String accountId) {
         return get(accountId) != null;
     }
-
-    @Override
-    public List<String> getAllAccounts() {
-        return getSqlMapClientTemplate().queryForList(ST_GET_ALL);
-    }
-
-    @Override
-    public List<String> getAccounts(Date modifiedSince, Date lastCheckedSince, Boolean updated, int limit) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<String> getUpdatedAccounts(int limit) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
 }

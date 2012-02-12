@@ -1,7 +1,5 @@
 package org.integration.connectors.dropbox.files;
 
-import java.util.UUID;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +19,7 @@ public class DropboxFileController {
     private DropboxFileService fileService;
     
     @RequestMapping(value="{path}/metadata", method = RequestMethod.GET)
-    public @ResponseBody Entry getMetadataEntry(@PathVariable("path") String path, @RequestParam("companyAccountId") UUID companyAccountId) {
+    public @ResponseBody Entry getMetadataEntry(@PathVariable("path") String path, @RequestParam("companyAccountId") String companyAccountId) {
         log.debug("Received request to get Metadata for Account {} at location {}", companyAccountId, path);
         
         Entry fileEntry = fileService.getMetadataEntry(companyAccountId, path);
@@ -30,14 +28,14 @@ public class DropboxFileController {
     }
     
     @RequestMapping(value="mkdir", method = RequestMethod.POST, consumes = {"application/json"})
-    public @ResponseBody void createDirectory(@RequestParam("path") String path, @RequestParam("companyAccountId") UUID companyAccountId) {
+    public @ResponseBody void createDirectory(@RequestParam("path") String path, @RequestParam("companyAccountId") String companyAccountId) {
         log.debug("Received request to get Metadata for Account {} at location {}", companyAccountId, path);
         
         fileService.mkDir(companyAccountId, path);
     }
     
     @RequestMapping(value="{path}/content", method = RequestMethod.GET)
-    public @ResponseBody void getFile(@PathVariable("path") String path, @RequestParam("companyAccountId") UUID companyAccountId) {
+    public @ResponseBody void getFile(@PathVariable("path") String path, @RequestParam("companyAccountId") String companyAccountId) {
         log.debug("Received request to get File for Account {} at location {}", companyAccountId, path);
         
         fileService.getFile(companyAccountId, path);

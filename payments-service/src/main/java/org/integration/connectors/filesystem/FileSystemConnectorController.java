@@ -1,7 +1,5 @@
 package org.integration.connectors.filesystem;
 
-import java.util.UUID;
-
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
@@ -23,7 +21,7 @@ public class FileSystemConnectorController {
     private FileSystemConnectorService connectorService;
     
     @RequestMapping(value = "documentfile", method = RequestMethod.PUT, consumes = "*/*")
-    public void transfer(@RequestParam("companyAccountId") UUID companyAccountId, @RequestParam(value="filename") String filename, @RequestBody byte[] content, HttpServletResponse response) {
+    public void transfer(@RequestParam("companyAccountId") String companyAccountId, @RequestParam(value="filename") String filename, @RequestBody byte[] content, HttpServletResponse response) {
         log.info("Transfering file {}", filename);
         
         connectorService.transferDocumentFile(companyAccountId, "FS", filename, null, content);
@@ -32,7 +30,7 @@ public class FileSystemConnectorController {
     }
     
     @RequestMapping(value = "documentfile", method = RequestMethod.POST, produces = {"text/xml", "application/json"})
-    public void dispatch(@RequestParam("companyAccountId") UUID companyAccountId, @RequestParam(value="filename") String filename, HttpServletResponse response) {
+    public void dispatch(@RequestParam("companyAccountId") String companyAccountId, @RequestParam(value="filename") String filename, HttpServletResponse response) {
         log.info("Dispatching file {}", filename);
         
         connectorService.dispatchDocumentFile(companyAccountId, "FS", filename);

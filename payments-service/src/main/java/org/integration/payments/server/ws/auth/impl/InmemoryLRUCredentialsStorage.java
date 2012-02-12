@@ -1,9 +1,6 @@
 package org.integration.payments.server.ws.auth.impl;
 
-import java.util.Collections;
 import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
 
 import org.apache.commons.collections.map.LRUMap;
 import org.integration.payments.server.ws.auth.CredentialsStorage;
@@ -33,16 +30,16 @@ public class InmemoryLRUCredentialsStorage<T> implements CredentialsStorage<T> {
 		}
 	}
 
-	public InmemoryLRUCredentialsStorage(int maxCacheSize, Map<UUID, T> initCredentials) {
+	public InmemoryLRUCredentialsStorage(int maxCacheSize, Map<String, T> initCredentials) {
 		this(maxCacheSize);
 
-		for (Map.Entry<UUID, T> credentialsEntry: initCredentials.entrySet()) {
+		for (Map.Entry<String, T> credentialsEntry: initCredentials.entrySet()) {
 			save(credentialsEntry.getKey(), credentialsEntry.getValue());
 		}
 	}
 
 	@Override
-	public T get(UUID uuid) {
+	public T get(String uuid) {
 		@SuppressWarnings("unchecked")
 		T credentials = (T) cache.get(uuid);
 
@@ -54,7 +51,7 @@ public class InmemoryLRUCredentialsStorage<T> implements CredentialsStorage<T> {
 	}
 
 	@Override
-	public void save(UUID uuid, T credentials) {
+	public void save(String uuid, T credentials) {
 		cache.put(uuid, credentials);
 
 		if (log.isTraceEnabled()) {
@@ -63,7 +60,7 @@ public class InmemoryLRUCredentialsStorage<T> implements CredentialsStorage<T> {
 	}
 
 	@Override
-	public void delete(UUID uuid) {
+	public void delete(String uuid) {
 		cache.remove(uuid);
 
 		if (log.isTraceEnabled()) {
@@ -72,12 +69,7 @@ public class InmemoryLRUCredentialsStorage<T> implements CredentialsStorage<T> {
 	}
 
 	@Override
-	public boolean exists(UUID uuid) {
+	public boolean exists(String uuid) {
 		return cache.containsKey(uuid);
-	}
-	
-	@Override
-	public Set<UUID> getCachedKeys() {
-	    return Collections.unmodifiableSet(cache.keySet());
 	}
 }

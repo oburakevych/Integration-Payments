@@ -1,7 +1,5 @@
 package org.integration.payments.server.ws.controller;
 
-import java.util.UUID;
-
 import javax.servlet.http.HttpServletResponse;
 
 import org.integration.payments.server.polling.PollingService;
@@ -29,19 +27,12 @@ public class TradeshiftCallbackController {
 	@Autowired
 	private CredentialsStorage<OAuthToken> tsCredentialsStorage;
 
-	@Autowired
-	private PollingService pollingService;
-
 	public void setCredentialsStorage(CredentialsStorage<OAuthToken> tsCredentialsStorage) {
 		this.tsCredentialsStorage = tsCredentialsStorage;
 	}
 
-	public void setPollingService(PollingService pollingService) {
-		this.pollingService = pollingService;
-	}
-
 	@RequestMapping(value = "/oauth", method = RequestMethod.POST)
-	public void oAuth1Callback(@RequestParam("companyAccountId") UUID companyAccountId, 
+	public void oAuth1Callback(@RequestParam("companyAccountId") String companyAccountId, 
 		@RequestParam("oauth_token") String accessToken, 
 		@RequestParam("oauth_token_secret") String accessTokenSecret, 
 		HttpServletResponse response) {
@@ -52,19 +43,17 @@ public class TradeshiftCallbackController {
 		}
 
 		tsCredentialsStorage.save(companyAccountId, new OAuthToken(accessToken, accessTokenSecret));
-		pollingService.trackPluginUsege(companyAccountId, true);
 
 		response.setStatus(HttpStatus.OK.value());
 	}
 
 	@RequestMapping(value = "/oauth", method = RequestMethod.DELETE)
-	public void oAuth1Callback(@RequestParam("companyAccountId") UUID companyAccountId, HttpServletResponse response) {
+	public void oAuth1Callback(@RequestParam("companyAccountId") String companyAccountId, HttpServletResponse response) {
 		if (log.isTraceEnabled()) {
 			log.trace("Received Tradeshift OAuth1 deactivation callback:{companyAccountId:" + companyAccountId + "}");
 		}
 
 		tsCredentialsStorage.delete(companyAccountId);
-		pollingService.trackPluginUsege(companyAccountId, false);
 
 		response.setStatus(HttpStatus.OK.value());
 	}

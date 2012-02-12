@@ -3,7 +3,6 @@ package org.integration.payments.server.ws.dropbox.auth;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.integration.payments.server.ws.auth.CredentialsStorage;
@@ -66,16 +65,15 @@ public class DropboxOAuth1ManagerRequestInterceptor implements ClientHttpRequest
 		String accessTokenSecret = null;
 
 		if (CollectionUtils.isNotEmpty(tenatIdHeaders)) {
-			String tenatId = tenatIdHeaders.iterator().next();
-			UUID companyAccountId = UUID.fromString(tenatId);
+			String tenantId = tenatIdHeaders.iterator().next();
 
-			OAuthToken accessCredentials = credentialsStorage.get(companyAccountId);
+			OAuthToken accessCredentials = credentialsStorage.get(tenantId);
 
 			if (accessCredentials != null) {
 				accessToken = accessCredentials.getValue();
 				accessTokenSecret = accessCredentials.getSecret();
 			} else {
-				throw new RuntimeException("Missed accessCredentials for companyAccountId:" + companyAccountId);
+				throw new RuntimeException("Missed accessCredentials for companyAccountId:" + tenantId);
 			}
 		}
 

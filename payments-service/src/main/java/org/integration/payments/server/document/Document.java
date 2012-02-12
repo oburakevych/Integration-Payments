@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public abstract class Document {
     private UUID id;
-    private UUID companyAccountId;
+    private String companyAccountId;
     
     public abstract Object getContent();
     
@@ -22,11 +22,11 @@ public abstract class Document {
         return id;
     }
     
-    public void setCompanyAccountId(UUID companyAccountId) {
+    public void setCompanyAccountId(String companyAccountId) {
         this.companyAccountId = companyAccountId;
     }
     
-    public UUID getCompanyAccountId() {
+    public String getCompanyAccountId() {
         return companyAccountId;
     }
     

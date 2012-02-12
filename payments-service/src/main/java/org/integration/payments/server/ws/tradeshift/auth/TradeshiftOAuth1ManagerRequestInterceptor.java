@@ -2,7 +2,6 @@ package org.integration.payments.server.ws.tradeshift.auth;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.integration.payments.server.ws.auth.CredentialsStorage;
@@ -68,15 +67,14 @@ public class TradeshiftOAuth1ManagerRequestInterceptor implements ClientHttpRequ
 
 		if (CollectionUtils.isNotEmpty(tenatIdHeaders)) {
 			String tenatId = tenatIdHeaders.iterator().next();
-			UUID companyAccountId = UUID.fromString(tenatId);
 
-			OAuthToken accessCredentials = credentialsStorage.get(companyAccountId);
+			OAuthToken accessCredentials = credentialsStorage.get(tenatId);
 
 			if (accessCredentials != null) {
 				accessToken = accessCredentials.getValue();
 				accessTokenSecret = accessCredentials.getSecret();
 			} else {
-				throw new RuntimeException("Missed accessCredentials for companyAccountId:" + companyAccountId);
+				throw new RuntimeException("Missed accessCredentials for companyAccountId:" + tenatId);
 			}
 		}
 

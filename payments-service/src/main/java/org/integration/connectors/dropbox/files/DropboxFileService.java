@@ -1,7 +1,5 @@
 package org.integration.connectors.dropbox.files;
 
-import java.util.UUID;
-
 import org.integration.payments.server.ws.dropbox.DropboxApiService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +10,7 @@ public class DropboxFileService {
     private DropboxApiService apiService;
     private String root;
     
-    public Entry getMetadataEntry(UUID companyAccountId, String path) {
+    public Entry getMetadataEntry(String companyAccountId, String path) {
         log.debug("Getting metadata for Account {} at location: {}", companyAccountId, root + "/" + path);
         Entry fileEntry = apiService.getMetadataEntry(companyAccountId, root, path);
         
@@ -21,7 +19,7 @@ public class DropboxFileService {
         return fileEntry;
     }
     
-    public Entry mkDir(UUID companyAccountId, String path) {
+    public Entry mkDir(String companyAccountId, String path) {
         log.debug("Creating directory for Account {} at location: {}", companyAccountId, root + "/" + path);
         Entry fileEntry = apiService.mkDir(companyAccountId, root, path);
         
@@ -30,7 +28,7 @@ public class DropboxFileService {
         return fileEntry;
     }
     
-    public DropboxFile getFile(UUID companyAccountId, String path) {
+    public DropboxFile getFile(String companyAccountId, String path) {
         log.debug("Getting file for Account {} at location: {}", companyAccountId, root + path);
         DropboxFile file = apiService.getFile(companyAccountId, root, path);
         
@@ -39,7 +37,7 @@ public class DropboxFileService {
         return file;
     }
     
-    public Entry move(UUID companyAccountId, String fromPath, String toPath) {
+    public Entry move(String companyAccountId, String fromPath, String toPath) {
         log.debug("Moving an entry from {} to {} for Account {}", new Object[] {root + fromPath, root + toPath, companyAccountId});
         
         Entry metadata = apiService.move(companyAccountId, root, fromPath, toPath);
@@ -49,7 +47,7 @@ public class DropboxFileService {
         return metadata;
     }
     
-    public Entry createFile(UUID companyAccountId, String path, String mimeType, byte[] content) {
+    public Entry createFile(String companyAccountId, String path, String mimeType, byte[] content) {
         log.debug("Creating a file {} for Account {} with a content:\n{}", new Object[] {path, companyAccountId, new String(content)});
         
         Entry metadata = apiService.putFile(companyAccountId, root, path, mimeType, content, true);

@@ -1,7 +1,6 @@
 package org.integration.payments.server.ws.controller;
 
 import java.io.IOException;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -38,7 +37,7 @@ public class TradeshiftTestController {
 	}
 
 	@RequestMapping(value = "/appsettings", method = RequestMethod.GET)
-	public void getAppSettings(@RequestParam("companyAccountId") UUID companyAccountId,
+	public void getAppSettings(@RequestParam("companyAccountId") String companyAccountId,
 			HttpServletResponse response) {
 		log.debug("TEST: getAppSettings, REQUEST:{companyAccountId: " + companyAccountId + "}");
 
@@ -50,7 +49,7 @@ public class TradeshiftTestController {
 	}
 
 	@RequestMapping(value = "/auth/accessCredentials", method = RequestMethod.GET)
-	public void getAccessCredentials(@RequestParam("companyAccountId") UUID companyAccountId,
+	public void getAccessCredentials(@RequestParam("companyAccountId") String companyAccountId,
 			HttpServletResponse response) {
 
 		log.debug("TEST: getAccessCredentials, REQUEST:{companyAccountId: " + companyAccountId + "}");

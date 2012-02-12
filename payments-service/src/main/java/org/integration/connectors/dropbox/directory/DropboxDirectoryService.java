@@ -1,5 +1,6 @@
 package org.integration.connectors.dropbox.directory;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -20,6 +21,10 @@ public class DropboxDirectoryService {
         directoryDao.save(directory);
         
         log.debug("Directory saved.");
+    }
+    
+    public List<DropboxDirectory> getUpdateDirectories(int limit) {
+        return null;
     }
 
     public DropboxDirectoryDao getDirectoryDao() {

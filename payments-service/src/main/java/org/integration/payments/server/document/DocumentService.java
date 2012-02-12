@@ -16,7 +16,7 @@ public class DocumentService {
     private DocumentFactory documentFactory;
     private TradeshiftApiService tradeshiftApiService;
     
-    public Document retrieveDocument(UUID companyAccountId, UUID documentId) {
+    public Document retrieveDocument(String companyAccountId, UUID documentId) {
         log.debug("Retreiving a document ID {} for company account {}", documentId, companyAccountId);
         
         // TODO: handle Exception

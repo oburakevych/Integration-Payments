@@ -1,7 +1,6 @@
 package org.integration.connectors.dropbox.files;
 
-import java.util.UUID;
-
+import org.integration.account.Account;
 import org.integration.connectors.documentfiles.DocumentFile;
 import org.integration.connectors.documentfiles.DocumentFileList;
 import org.integration.connectors.dropbox.TradeshiftConnectorService;
@@ -22,22 +21,22 @@ public class DropboxDirectoryExecutor implements Executor {
 
     @Async
     @Override
-    public void run(UUID companyAccountId) {
+    public void run(Account account) {
         log.debug("Running a job against directory {}", DEFAULT_DROPBOX_PATH);
-        run(companyAccountId, DEFAULT_DROPBOX_PATH);
+        run(account, DEFAULT_DROPBOX_PATH);
     }
     
     @Async
     @Override
-    public void run(UUID companyAccountId, String path) {
+    public void run(Account account, String path) {
         log.debug("Running a job");
         
-        Entry directoryEntry = fileService.getMetadataEntry(companyAccountId, path);
+        Entry directoryEntry = fileService.getMetadataEntry(account.getId(), path);
         
-        processDirectory(companyAccountId, directoryEntry);
+        processDirectory(account.getId(), directoryEntry);
     }
     
-    protected void processDirectory(UUID companyAccountId, Entry directory) {
+    protected void processDirectory(String companyAccountId, Entry directory) {
         if (directory == null || directory.getContents() == null || directory.getContents().isEmpty()) {
             log.debug("Directory is empty");
             return;
@@ -57,7 +56,7 @@ public class DropboxDirectoryExecutor implements Executor {
         }
     }
     
-    protected void processFile(UUID companyAccountId, Entry file) {
+    protected void processFile(String companyAccountId, Entry file) {
         log.debug("Processing file {}", file.getPath());
         try {
             DropboxFile df = fileService.getFile(companyAccountId, file.getPath());
@@ -95,12 +94,12 @@ public class DropboxDirectoryExecutor implements Executor {
             
     }
     
-    protected void dispatch(UUID companyAccountId, String fileName, String mimeType, byte[] document) {
+    protected void dispatch(String companyAccountId, String fileName, String mimeType, byte[] document) {
         tradeshiftService.transferDocumentFile(companyAccountId, TS_DIR, fileName, mimeType, document);
         tradeshiftService.dispatchDocumentFile(companyAccountId, TS_DIR, fileName);
     }
     
-    protected Dispatch getDispatchResult(UUID companyAccountId, String filename) {
+    protected Dispatch getDispatchResult(String companyAccountId, String filename) {
         DocumentFileList dfList = tradeshiftService.getDocumentFiles(companyAccountId, null, 1, 0, null, null, filename);
         
         if (dfList != null && dfList.getItems() != null && !dfList.getItems().isEmpty()) {
@@ -120,7 +119,7 @@ public class DropboxDirectoryExecutor implements Executor {
         return null;
     }
     
-    protected void handleDispatchStatus(UUID companyAccountId, String fileName) {
+    protected void handleDispatchStatus(String companyAccountId, String fileName) {
         
     }
 

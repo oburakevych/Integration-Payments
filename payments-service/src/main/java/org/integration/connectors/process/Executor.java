@@ -1,8 +1,8 @@
 package org.integration.connectors.process;
 
-import java.util.UUID;
+import org.integration.account.Account;
 
 public interface Executor {
-    void run(UUID companyAccountId);
-    void run(UUID companyAccountId, String path);
+    void run(Account accunt);
+    void run(Account account, String path);
 }

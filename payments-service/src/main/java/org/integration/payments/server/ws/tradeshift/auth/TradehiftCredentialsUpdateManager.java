@@ -1,7 +1,5 @@
 package org.integration.payments.server.ws.tradeshift.auth;
 
-import java.util.UUID;
-
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.integration.payments.server.ws.auth.CredentialsStorage;
@@ -27,7 +25,7 @@ public class TradehiftCredentialsUpdateManager {
 	}
 
 	@Before("execution(public * org.integration.payments.server.ws.auth.CredentialsStorage.get(..)) and bean(tsCredentialsStorage) and args(companyAccountId)")
-	public void checkAndRequestResendCredentials(UUID companyAccountId) {
+	public void checkAndRequestResendCredentials(String companyAccountId) {
 		if (log.isTraceEnabled()) {
 			log.trace("Checking credentials for:{companyAccountId:" + companyAccountId + "}");
 		}
@@ -39,7 +37,7 @@ public class TradehiftCredentialsUpdateManager {
 		}
 	}
 
-	public void forseRequestResendCredentials(UUID companyAccountId) {
+	public void forseRequestResendCredentials(String companyAccountId) {
 		if (log.isTraceEnabled()) {
 			log.trace("Forsing resend credentials for {companyAccountId:" + companyAccountId + "}");
 		}
@@ -49,7 +47,7 @@ public class TradehiftCredentialsUpdateManager {
 		requestResendCredentials(companyAccountId);
 	}
 
-	private void requestResendCredentials(UUID companyAccountId) {
+	private void requestResendCredentials(String companyAccountId) {
 		if (log.isTraceEnabled()) {
 			log.trace("Requesting resend credentials:{companyAccountId:" + companyAccountId + "}");
 		}

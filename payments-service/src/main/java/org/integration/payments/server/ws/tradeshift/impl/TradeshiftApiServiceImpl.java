@@ -10,8 +10,10 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
+import org.integration.account.Account;
 import org.integration.connectors.documentfiles.DocumentFileList;
 import org.integration.connectors.documentfiles.DocumentFileState;
+import org.integration.connectors.tradeshift.account.TradeshiftAccount;
 import org.integration.payments.server.document.Dispatch;
 import org.integration.payments.server.document.DocumentMetadata;
 import org.integration.payments.server.ws.tradeshift.TradeshiftApiService;
@@ -49,7 +51,7 @@ public class TradeshiftApiServiceImpl implements TradeshiftApiService {
 	}
 
 	@Override
-	public AppSettings getAppSettings(UUID companyAccountId) {
+	public AppSettings getAppSettings(String companyAccountId) {
 		Map<String, String> headers = new HashMap<String, String>(defultRequestHeaders);
 
 		headers.put(TENANTID_HEADER_NAME, companyAccountId.toString());
@@ -66,7 +68,7 @@ public class TradeshiftApiServiceImpl implements TradeshiftApiService {
 	 * external/consumer/accounts/{companyaccountid}/resendtoken
 	 */
 	@Override
-	public void resendOAuthAccessToken(UUID companyAccountId) {
+	public void resendOAuthAccessToken(String companyAccountId) {
 		HttpHeaders httpHeaders = buildHttpHeaders(defultRequestHeaders, MediaType.APPLICATION_JSON);
         HttpEntity<String> requestEntity = new HttpEntity<String>(httpHeaders);
 
@@ -90,7 +92,7 @@ public class TradeshiftApiServiceImpl implements TradeshiftApiService {
     }
 
     @Override
-    public byte[] getDocument(UUID companyAccountId, UUID documentId, String locale) {
+    public byte[] getDocument(String companyAccountId, UUID documentId, String locale) {
     	Map<String, String> headers = new HashMap<String, String>(defultRequestHeaders);
 
 		headers.put(TENANTID_HEADER_NAME, companyAccountId.toString());
@@ -104,7 +106,7 @@ public class TradeshiftApiServiceImpl implements TradeshiftApiService {
     }
 
     @Override
-    public DocumentMetadata getDocumentMetadata(UUID companyAccountId, UUID documentId) {
+    public DocumentMetadata getDocumentMetadata(String companyAccountId, UUID documentId) {
         Map<String, String> headers = new HashMap<String, String>(defultRequestHeaders);
 
         headers.put(TENANTID_HEADER_NAME, companyAccountId.toString());
@@ -118,7 +120,7 @@ public class TradeshiftApiServiceImpl implements TradeshiftApiService {
     }
     
     @Override
-    public void putDocumentFile(UUID companyAccountId, String directory, String filename, String mimeType, byte[] content) {
+    public void putDocumentFile(String companyAccountId, String directory, String filename, String mimeType, byte[] content) {
         Map<String, String> headers = new HashMap<String, String>(defultRequestHeaders);
 
         headers.put(TENANTID_HEADER_NAME, companyAccountId.toString());
@@ -141,7 +143,7 @@ public class TradeshiftApiServiceImpl implements TradeshiftApiService {
     }
 
     @Override
-    public String dispatchDocumentFile(UUID companyAccountId, String directory, String filename) {
+    public String dispatchDocumentFile(String companyAccountId, String directory, String filename) {
         Map<String, String> headers = new HashMap<String, String>(defultRequestHeaders);
 
         headers.put(TENANTID_HEADER_NAME, companyAccountId.toString());
@@ -160,7 +162,7 @@ public class TradeshiftApiServiceImpl implements TradeshiftApiService {
     }
 
     @Override
-    public byte[] getDocumentFile(UUID companyAccountId, String directory, String filename) {
+    public byte[] getDocumentFile(String companyAccountId, String directory, String filename) {
         Map<String, String> headers = new HashMap<String, String>(defultRequestHeaders);
 
         headers.put(TENANTID_HEADER_NAME, companyAccountId.toString());
@@ -181,7 +183,7 @@ public class TradeshiftApiServiceImpl implements TradeshiftApiService {
     
 
     @Override
-    public DocumentFileList getDocumentFiles(UUID companyAccountId, String since, int limit, int page, DocumentFileState state, String directory, String filename) {
+    public DocumentFileList getDocumentFiles(String companyAccountId, String since, int limit, int page, DocumentFileState state, String directory, String filename) {
         Map<String, String> headers = new HashMap<String, String>(defultRequestHeaders);
 
         headers.put(TENANTID_HEADER_NAME, companyAccountId.toString());
@@ -203,7 +205,7 @@ public class TradeshiftApiServiceImpl implements TradeshiftApiService {
     }
     
     @Override
-    public Dispatch getLatestDispatch(UUID companyAccountId, UUID documentId) {
+    public Dispatch getLatestDispatch(String companyAccountId, UUID documentId) {
         Map<String, String> headers = new HashMap<String, String>(defultRequestHeaders);
 
         headers.put(TENANTID_HEADER_NAME, companyAccountId.toString());
@@ -216,6 +218,22 @@ public class TradeshiftApiServiceImpl implements TradeshiftApiService {
                         .path("dispatches/latest");
                         
         ResponseEntity<Dispatch> responseEntity = this.restOperations.exchange(apiUrl.getUrl(), HttpMethod.GET, requestEntity, Dispatch.class, apiUrl.getParams());
+        
+        return responseEntity.getBody();
+    }
+    
+    @Override
+    public TradeshiftAccount getAccount(String companyAccountId) {
+        Map<String, String> headers = new HashMap<String, String>(defultRequestHeaders);
+
+        headers.put(TENANTID_HEADER_NAME, companyAccountId.toString());
+
+        HttpHeaders httpHeaders = buildHttpHeaders(headers, MediaType.APPLICATION_JSON);
+        HttpEntity<String> requestEntity = new HttpEntity<String>(httpHeaders);
+        
+        ExchangeAPIUrl apiUrl = new ExchangeAPIUrl().path("external/account/info");
+                        
+        ResponseEntity<TradeshiftAccount> responseEntity = this.restOperations.exchange(apiUrl.getUrl(), HttpMethod.GET, requestEntity, TradeshiftAccount.class, apiUrl.getParams());
         
         return responseEntity.getBody();
     }

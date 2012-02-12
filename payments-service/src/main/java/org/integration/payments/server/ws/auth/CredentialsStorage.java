@@ -1,16 +1,11 @@
 package org.integration.payments.server.ws.auth;
 
-import java.util.Set;
-import java.util.UUID;
-
 public interface CredentialsStorage<T> {
-	public T get(UUID uuid);
+	public T get(String uuid);
 
-	public void save(UUID uuid, T credentials);
+	public void save(String uuid, T credentials);
 
-	public void delete(UUID uuid);
+	public void delete(String uuid);
 
-	public boolean exists(UUID uuid);
-	
-	public Set<UUID> getCachedKeys();
+	public boolean exists(String uuid);
 }

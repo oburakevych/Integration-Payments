@@ -1,6 +1,6 @@
 package org.integration.connectors.dropbox.account;
 
-import java.util.UUID;
+import java.util.List;
 
 import org.integration.payments.server.ws.dropbox.DropboxApiService;
 import org.slf4j.Logger;
@@ -10,13 +10,23 @@ public class DropboxAccountService {
     protected Logger log = LoggerFactory.getLogger(this.getClass());
     
     private DropboxApiService apiService;
+    private DropboxAccountDao accountDao;
     
-    public DropboxUserProfile getUserProfile(UUID companyAccountId) {
-        DropboxUserProfile userProfile = apiService.getUserProfile(companyAccountId);
+    public DropboxAccount retrieveAccount(String companyAccountId) {
+        DropboxAccount userProfile = apiService.getUserProfile(companyAccountId);
         
         log.debug("User profile received {} for Account {}", userProfile, companyAccountId);
         
         return userProfile;
+    }
+    
+    public void saveAccount(DropboxAccount account) {
+        accountDao.save(account);
+    }
+    
+    public List<DropboxAccount> getAccounts(int limit) {
+        log.debug("Getting the list of all available Dropbox accounts limited to {} entries", limit);
+        return accountDao.getAccounts(limit);
     }
 
     public DropboxApiService getApiService() {

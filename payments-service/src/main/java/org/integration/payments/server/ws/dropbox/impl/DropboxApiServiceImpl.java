@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
-import org.integration.connectors.dropbox.account.DropboxUserProfile;
+import org.integration.connectors.dropbox.account.DropboxAccount;
 import org.integration.connectors.dropbox.files.DropboxFile;
 import org.integration.connectors.dropbox.files.Entry;
 import org.integration.payments.server.ws.dropbox.DropboxApiService;
@@ -51,7 +51,7 @@ public class DropboxApiServiceImpl implements DropboxApiService {
 	}
 
     @Override
-    public DropboxUserProfile getUserProfile(UUID companyAccountId) {
+    public DropboxAccount getUserProfile(String companyAccountId) {
         Map<String, String> headers = new HashMap<String, String>(defultRequestHeaders);
         
         headers.put(TENANTID_HEADER_NAME, companyAccountId.toString());
@@ -59,13 +59,13 @@ public class DropboxApiServiceImpl implements DropboxApiService {
         HttpHeaders httpHeaders = buildHttpHeaders(headers, MediaType.APPLICATION_JSON);
         HttpEntity<String> requestEntity = new HttpEntity<String>(httpHeaders);
 
-        ResponseEntity<DropboxUserProfile> responseEntity = this.restOperations.exchange(apiBaseUrl + "account/info", HttpMethod.GET, requestEntity, DropboxUserProfile.class);
+        ResponseEntity<DropboxAccount> responseEntity = this.restOperations.exchange(apiBaseUrl + "account/info", HttpMethod.GET, requestEntity, DropboxAccount.class);
 
         return responseEntity.getBody();
     }
 
     @Override
-    public Entry getMetadataEntry(UUID companyAccountId, String root, String path) {
+    public Entry getMetadataEntry(String companyAccountId, String root, String path) {
         Map<String, String> headers = new HashMap<String, String>(defultRequestHeaders);
         
         headers.put(TENANTID_HEADER_NAME, companyAccountId.toString());
@@ -79,7 +79,7 @@ public class DropboxApiServiceImpl implements DropboxApiService {
     }
     
     @Override
-    public Entry mkDir(UUID companyAccountId, String root, String path) {
+    public Entry mkDir(String companyAccountId, String root, String path) {
         Map<String, String> headers = new HashMap<String, String>(defultRequestHeaders);
         
         headers.put(TENANTID_HEADER_NAME, companyAccountId.toString());
@@ -93,7 +93,7 @@ public class DropboxApiServiceImpl implements DropboxApiService {
     }
     
     @Override
-    public DropboxFile getFile(UUID companyAccountId, String root, String path) {
+    public DropboxFile getFile(String companyAccountId, String root, String path) {
         Map<String, String> headers = new HashMap<String, String>(defultRequestHeaders);
         
         headers.put(TENANTID_HEADER_NAME, companyAccountId.toString());
@@ -107,7 +107,7 @@ public class DropboxApiServiceImpl implements DropboxApiService {
     }
     
     @Override
-    public Entry move(UUID companyAccountId, String root, String fromPath, String toPath) {
+    public Entry move(String companyAccountId, String root, String fromPath, String toPath) {
         Map<String, String> headers = new HashMap<String, String>(defultRequestHeaders);
         
         headers.put(TENANTID_HEADER_NAME, companyAccountId.toString());
@@ -122,7 +122,7 @@ public class DropboxApiServiceImpl implements DropboxApiService {
     }
     
     @Override
-    public Entry copy(UUID companyAccountId, String root, String fromPath, String toPath) {
+    public Entry copy(String companyAccountId, String root, String fromPath, String toPath) {
         Map<String, String> headers = new HashMap<String, String>(defultRequestHeaders);
         
         headers.put(TENANTID_HEADER_NAME, companyAccountId.toString());
@@ -137,7 +137,7 @@ public class DropboxApiServiceImpl implements DropboxApiService {
     }
     
     @Override
-    public Entry putFile(UUID companyAccountId, String root, String path, String mimeType, byte[] content, boolean overwrite) {
+    public Entry putFile(String companyAccountId, String root, String path, String mimeType, byte[] content, boolean overwrite) {
         Map<String, String> headers = new HashMap<String, String>(defultRequestHeaders);
         
         headers.put(TENANTID_HEADER_NAME, companyAccountId.toString());

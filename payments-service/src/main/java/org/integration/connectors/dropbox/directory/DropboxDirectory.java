@@ -8,7 +8,7 @@ import org.integration.payments.server.util.DateUtils;
 
 public class DropboxDirectory {
     private UUID id;
-    private UUID accountId;
+    private String accountId;
     private String directory;
     private String hash;
     private Date modified;
@@ -19,7 +19,7 @@ public class DropboxDirectory {
         this.id = UUID.randomUUID();
     }
     
-    public DropboxDirectory(UUID accountId, Entry directoryEntry) {
+    public DropboxDirectory(String accountId, Entry directoryEntry) {
         this.id = UUID.randomUUID();
         this.accountId = accountId;
         this.directory = directoryEntry.getPath();
@@ -33,10 +33,10 @@ public class DropboxDirectory {
     public void setId(UUID id) {
         this.id = id;
     }
-    public UUID getAccountId() {
+    public String getAccountId() {
         return accountId;
     }
-    public void setAccountId(UUID accountId) {
+    public void setAccountId(String accountId) {
         this.accountId = accountId;
     }
     public String getDirectory() {
