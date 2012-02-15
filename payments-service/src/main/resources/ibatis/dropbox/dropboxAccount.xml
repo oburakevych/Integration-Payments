@@ -16,7 +16,7 @@
 
     <insert id="create"  parameterClass="DropboxAccount">
         INSERT INTO dropbox_account(id, created, deactivated, name, email, country, lang) 
-        					VALUES (#id#, #created#, #deactivated#, #name#, #email#, #country#, #language#)
+        					VALUES (#id#, NOW(), #deactivated:TIMESTAMP#, #name#, #email#, #country#, #language#)
     </insert>
     
     <sql id="getInternal">

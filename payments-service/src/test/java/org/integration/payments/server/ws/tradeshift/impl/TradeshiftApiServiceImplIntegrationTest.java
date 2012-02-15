@@ -13,6 +13,7 @@ import org.integration.payments.server.document.DocumentServiceTest;
 import org.integration.payments.server.util.IOUtils;
 import org.integration.payments.server.ws.tradeshift.TradeshiftApiService;
 import org.integration.payments.server.ws.tradeshift.dto.AppSettings;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,22 +36,19 @@ public class TradeshiftApiServiceImplIntegrationTest {
 
 	@Test
 	public void getAppSettings() {
-		UUID companyAccountId = UUID.fromString(tenantId);
-
 		AppSettings expectedAppSettings = new AppSettings();
 
-		AppSettings actualAppSettings = tradeshiftApiService.getAppSettings(companyAccountId);
+		AppSettings actualAppSettings = tradeshiftApiService.getAppSettings(tenantId);
 
 		assertReflectionEquals(expectedAppSettings, actualAppSettings, new ReflectionComparatorMode[] {ReflectionComparatorMode.LENIENT_DATES});
 	}
 	
 	@Test
 	public void getDocument() throws IOException {
-		UUID companyAccountId = UUID.fromString(tenantId);
 	    //TODO: pick up a DocumentID from a property file
 	    UUID documentId = DOCUMENT_ID;
 
-	    byte[] rawXml = tradeshiftApiService.getDocument(companyAccountId, documentId, null);
+	    byte[] rawXml = tradeshiftApiService.getDocument(tenantId, documentId, null);
 
 	    assertNotNull(rawXml);
 	    
@@ -61,9 +59,7 @@ public class TradeshiftApiServiceImplIntegrationTest {
 	
 	@Test
 	public void getMetadata() {
-	    UUID companyAccountId = UUID.fromString(tenantId);
-	    
-	    DocumentMetadata metadata = tradeshiftApiService.getDocumentMetadata(companyAccountId, DOCUMENT_ID);
+	    DocumentMetadata metadata = tradeshiftApiService.getDocumentMetadata(tenantId, DOCUMENT_ID);
 	    
 	    assertNotNull(metadata);
 	    assertNotNull(metadata.getDocumentId());
@@ -72,10 +68,9 @@ public class TradeshiftApiServiceImplIntegrationTest {
 	}
 	
    @Test
+   @Ignore
     public void getDispatch() {
-        UUID companyAccountId = UUID.fromString(tenantId);
-        
-        Dispatch dispatch = tradeshiftApiService.getLatestDispatch(companyAccountId, DOCUMENT_ID);
+        Dispatch dispatch = tradeshiftApiService.getLatestDispatch(tenantId, DOCUMENT_ID);
         
         assertNotNull(dispatch);
         assertNotNull(dispatch.getDispatchID());
@@ -87,9 +82,7 @@ public class TradeshiftApiServiceImplIntegrationTest {
 	
 	@Test
 	public void getDocumentFiles() {
-	    UUID companyAccountId = UUID.fromString(tenantId);
-	    
-	    DocumentFileList dfList = tradeshiftApiService.getDocumentFiles(companyAccountId, null, 100, 0, null, null, null);
+	    DocumentFileList dfList = tradeshiftApiService.getDocumentFiles(tenantId, null, 100, 0, null, null, null);
 	    
 	    assertNotNull(dfList);
 	    assertTrue(dfList.getItemCount() > 0);

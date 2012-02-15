@@ -12,16 +12,22 @@ public class DropboxAccountService {
     private DropboxApiService apiService;
     private DropboxAccountDao accountDao;
     
-    public DropboxAccount retrieveAccount(String companyAccountId) {
-        DropboxAccount userProfile = apiService.getUserProfile(companyAccountId);
+    public DropboxAccount retrieveAccount(String accountId) {
+        DropboxAccount userProfile = apiService.getUserProfile(accountId);
         
-        log.debug("User profile received {} for Account {}", userProfile, companyAccountId);
+        log.debug("User profile received {} for Account {}", userProfile, accountId);
         
         return userProfile;
     }
     
     public void saveAccount(DropboxAccount account) {
         accountDao.save(account);
+    }
+    
+    public DropboxAccount getAccount(String accountId) {
+        log.debug("Getting the Dropbox account {}", accountId);
+        
+        return accountDao.getAccount(accountId);
     }
     
     public List<DropboxAccount> getAccounts(int limit) {
@@ -35,5 +41,13 @@ public class DropboxAccountService {
 
     public void setApiService(DropboxApiService apiService) {
         this.apiService = apiService;
+    }
+
+    public DropboxAccountDao getAccountDao() {
+        return accountDao;
+    }
+
+    public void setAccountDao(DropboxAccountDao accountDao) {
+        this.accountDao = accountDao;
     }
 }

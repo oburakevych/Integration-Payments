@@ -6,7 +6,6 @@ import static org.junit.Assert.*;
 
 import org.integration.connectors.tradeshift.account.TradeshiftAccount;
 import org.integration.connectors.tradeshift.account.TradeshiftAccountService;
-import org.integration.payments.server.ws.auth.CredentialsStorage;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +24,8 @@ public class TradeshiftAccessTokenStorageTest {
     @Autowired
     private TradeshiftAccountService accountService;
     
-    @Autowired private TradeshiftSecurityService securityService;
+    @Autowired 
+    private TradeshiftSecurityService securityService;
     
     @Before
     public void init() {

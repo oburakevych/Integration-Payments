@@ -15,8 +15,14 @@
 
     <typeAlias alias="UUID" type="java.util.UUID" />
     <typeHandler javaType="UUID" callback="org.integration.payments.server.dao.impl.ibatis.UUIDTypeHandler"/>
+	
+	<sqlMap resource="ibatis/dropbox/dropboxAccount.xml" />
+	<sqlMap resource="ibatis/dropbox/dropboxDirectory.xml" />
+	
+	<sqlMap resource="ibatis/tradeshift/tradeshiftAccount.xml" />
+	<sqlMap resource="ibatis/tradeshift/tradeshiftAccessToken.xml" />
 
-    <sqlMap resource="ibatis/userProfile.xml" />
-    <sqlMap resource="ibatis/userFeedback.xml" />
-    <sqlMap resource="ibatis/pluginUsageInfo.xml" />
+    <sqlMap resource="ibatis/feedback/userProfile.xml" />
+    <sqlMap resource="ibatis/feedback/userFeedback.xml" />
+    <sqlMap resource="ibatis/feedback/pluginUsageInfo.xml" />
 </sqlMapConfig>

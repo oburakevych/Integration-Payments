@@ -1,7 +1,5 @@
 package org.integration.connectors;
 
-import java.util.UUID;
-
 import org.integration.payments.server.ws.dropbox.auth.DropboxOAuth1AuthorizationManager;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +13,7 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations={"/test-appContext-ws.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
 public class DropboxAuthorizationManagerTest {
-    private UUID companyAccountId = UUID.fromString("10ef0b35-7f42-42d0-a9e3-c2e4e7c4e504");
+    private String companyAccountId = "10ef0b35-7f42-42d0-a9e3-c2e4e7c4e504";
     @Autowired
     private DropboxOAuth1AuthorizationManager manager;
     

@@ -37,5 +37,12 @@
     <bean id="pluginUsageInfoDao" class="org.integration.payments.server.dao.impl.ibatis.PluginUsageInfoDaoImpl">
         <property name="sqlMapClient" ref="sqlMapClient"/>
     </bean>
+    
+    <bean id="dropboxAccountDao" class="org.integration.connectors.dropbox.account.impl.DropboxAccountIbatisDao">
+    	<property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
 
+	<bean id="dropboxDirectoryDao" class="org.integration.connectors.dropbox.directory.impl.DropboxDirectoryIbatisDao">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
 </beans>

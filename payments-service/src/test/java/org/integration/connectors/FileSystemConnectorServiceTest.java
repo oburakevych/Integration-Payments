@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -36,13 +35,12 @@ public class FileSystemConnectorServiceTest {
     public static final String TEST_INV_TO_RESEND_FILE_NAME = "sandbox_sashsd_ubl_inv.xml";
     
     @Value("${tradeshift.api.tenantId}")
-    private UUID companyAccountId;
+    private String companyAccountId;
     
     @Autowired
     private FileSystemConnectorService connectorService;
     
     @Test
-    @Ignore
     public void transferAndDispatchDocumentFile() throws ParserConfigurationException, SAXException, IOException, InterruptedException {
         String documentId = String.valueOf(RandomUtils.nextLong());
         byte[] invoice = getInvoiceByteStream(RESOURCES_PATH + "/" + TEST_INV_TO_RESEND_FILE_NAME, documentId);
@@ -62,7 +60,7 @@ public class FileSystemConnectorServiceTest {
         
         assertNotNull(documentFileList);
         assertTrue(1 == documentFileList.getItemCount());
-        /*
+        
         List<DocumentFile> documentFiles = documentFileList.getItems();
         
         assertNotNull(documentFiles);
@@ -72,17 +70,16 @@ public class FileSystemConnectorServiceTest {
         
         assertEquals(filename, documentFile.getFilename());
         assertEquals(directory, documentFile.getDirectory());
-        */
+        
         connectorService.dispatchDocumentFile(companyAccountId, directory, filename);
         
-        Thread.sleep(3000);
+        Thread.sleep(4000);
         
         documentFileList = connectorService.getDocumentFiles(companyAccountId, null, 50, 0, DocumentFileState.DISPATCHED, null, filename);
         
         assertNotNull(documentFileList);
         assertTrue(1 == documentFileList.getItemCount());
         
-        /*
         documentFiles = documentFileList.getItems();
         assertNotNull(documentFiles);
         
@@ -91,7 +88,6 @@ public class FileSystemConnectorServiceTest {
         assertEquals(filename, documentFile.getFilename());
         assertFalse(directory.equals(documentFile.getDirectory()));
         assertNotNull(documentFile.getDocumentId());
-        */
     }
     
     private byte[] getInvoiceByteStream(String path, String id) throws IOException {

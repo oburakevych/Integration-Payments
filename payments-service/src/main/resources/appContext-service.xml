@@ -20,7 +20,7 @@
      
 	<bean id="dropboxDirectoryScheduler" class="org.integration.connectors.dropbox.files.DropboxDirectoryShceduler">
      	<property name="executor" ref="dropboxDirectoryExecutor"/>
-     	<property name="authorisationService" ref="dropboxAuthorisationService"/>
+     	<property name="accountService" ref="dropboxAccountService"/>
      </bean>
      
      <bean id="dropboxDirectoryExecutor" class="org.integration.connectors.dropbox.files.DropboxDirectoryExecutor">
@@ -55,10 +55,15 @@
 	
 	<bean id="dropboxAccountService" class="org.integration.connectors.dropbox.account.DropboxAccountService">
 		<property name="apiService" ref="ws.dropbox.service"/>
+		<property name="accountDao" ref="dropboxAccountDao"/>
 	</bean>
 	
 	<bean id="dropboxFileService" class="org.integration.connectors.dropbox.files.DropboxFileService">
 		<property name="apiService" ref="ws.dropbox.service"/>
 		<property name="root" value="${dropbox.files.root}"/>
+	</bean>
+	
+	<bean id="dropboxDirectoryService" class="org.integration.connectors.dropbox.directory.DropboxDirectoryService">
+		<property name="directoryDao" ref="dropboxDirectoryDao"/>
 	</bean>
 </beans>
