@@ -15,20 +15,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations={"/test-root-context.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
 public class DropboxDirectoryServiceTest {
-    private String accountId = UUID.randomUUID().toString();
+    private String accountId = "10ef0b35-7f42-42d0-a9e3-c2e4e7c4e504";
     private static final String DEFAULT_DIR = "/";
     
     @Autowired
     private DropboxDirectoryService directoryService;
-    
-    @Autowired
-    private DropboxAccountService accountService;
-    
-    @Before
-    public void init() {
-        DropboxAccount account = makeAccount();
-        accountService.saveAccount(account);
-    }
     
     @Test
     public void saveDirectorytest() {

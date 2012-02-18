@@ -14,6 +14,7 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<context:annotation-config />
     <context:component-scan base-package="org.integration.payments" resource-pattern="**/*" />
+    <context:component-scan base-package="org.integration.connectors" resource-pattern="**/*" />
 
     <import resource="appContext-conf.xml" />
     <import resource="appContext-dao.xml" />

@@ -73,7 +73,7 @@ public class FileSystemConnectorServiceTest {
         
         connectorService.dispatchDocumentFile(companyAccountId, directory, filename);
         
-        Thread.sleep(4000);
+        Thread.sleep(6000);
         
         documentFileList = connectorService.getDocumentFiles(companyAccountId, null, 50, 0, DocumentFileState.DISPATCHED, null, filename);
         

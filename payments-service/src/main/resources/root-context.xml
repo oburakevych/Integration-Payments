@@ -12,11 +12,6 @@
 					    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
-	<!--
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="classpath:app.properties" />
-    </bean>
-    -->
     
     <context:component-scan base-package="org.integration.payments.server" />
     <context:component-scan base-package="org.integration.connectors" />

@@ -50,7 +50,7 @@
 		<property name="sqlMapClient" ref="sqlMapClient"/>
 	</bean>
 	
-	<bean id="tradeshiftSecurityDao" class="org.integration.payments.server.ws.tradeshift.auth.TradeshiftSecurityIbatisDao">
+	<bean id="tradeshiftSecurityDao" class="org.integration.connectors.tradeshift.security.TradeshiftSecurityIbatisDao">
 		<property name="sqlMapClient" ref="sqlMapClient"/>
 	</bean>
 </beans>

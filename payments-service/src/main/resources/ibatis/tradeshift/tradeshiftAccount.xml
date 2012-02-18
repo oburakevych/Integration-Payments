@@ -19,6 +19,12 @@
         					VALUES (#id#, #created#, #deactivated#, #name#, #email#, #country#, #language#)
     </insert>
     
+    <update id="update" parameterClass="TradeshiftAccount">
+        UPDATE tradeshift_account
+        SET deactivated = #deactivated#, name = #name#, email = #email#, country = #country#, lang = #language#
+        WHERE id = #id#    
+    </update>
+    
     <sql id="getInternal">
         SELECT * FROM tradeshift_account
     </sql>

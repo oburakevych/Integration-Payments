@@ -1,6 +1,5 @@
-package org.integration.payments.server.ws.tradeshift.auth;
+package org.integration.connectors.tradeshift.security;
 
-import org.integration.connectors.tradeshift.security.TradeshiftAccessToken;
 import org.integration.payments.server.ws.auth.SecurityDao;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 import org.springframework.social.oauth1.OAuthToken;

@@ -46,10 +46,9 @@
                 <bean class="org.integration.payments.server.ws.tradeshift.auth.TradeshiftOAuth1ManagerRequestInterceptor">
 					<constructor-arg name="consumerMap">
             			<map>
-                			<entry  key="${tradeshift.api.oauth.free.consumerKey}" value="${tradeshift.api.oauth.free.consumerSecret}"/>
+                			<entry key="${tradeshift.api.oauth.free.consumerKey}" value="${tradeshift.api.oauth.free.consumerSecret}"/>
             			</map>
 					</constructor-arg>
-
                     <constructor-arg name="credentialsStorage" ref="tsCredentialsStorage" />
                 </bean>
             </list>

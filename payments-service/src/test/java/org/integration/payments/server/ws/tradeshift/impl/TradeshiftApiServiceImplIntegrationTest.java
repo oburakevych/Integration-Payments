@@ -23,7 +23,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.unitils.reflectionassert.ReflectionComparatorMode;
 
 
-@ContextConfiguration(locations={"/test-appContext-ws.xml"})
+@ContextConfiguration(locations={"/test-root-context.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
 public class TradeshiftApiServiceImplIntegrationTest {
     private static final UUID DOCUMENT_ID = UUID.fromString("2bf1c6a9-fa08-4cd7-969a-4c6bae072a33"); 
