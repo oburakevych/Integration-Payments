@@ -19,6 +19,12 @@
         					VALUES (#id#, NOW(), #deactivated:TIMESTAMP#, #name#, #email#, #country#, #language#)
     </insert>
     
+    <update id="update" parameterClass="DropboxAccount">
+        UPDATE dropbox_account
+        SET deactivated = #deactivated#, name = #name#, email = #email#, country = #country#, lang = #language#
+        WHERE id = #id#    
+    </update>
+    
     <sql id="getInternal">
         SELECT * FROM dropbox_account
     </sql>

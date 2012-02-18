@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.integration.connectors.tradeshift.security.TradeshiftAccessToken;
+import org.integration.connectors.AccessToken;
 import org.integration.payments.server.ws.auth.CredentialsStorage;
 import org.integration.payments.server.ws.tradeshift.TradeshiftApiConstants;
 import org.slf4j.Logger;
@@ -64,7 +64,7 @@ public class TradeshiftOAuth1ManagerRequestInterceptor implements ClientHttpRequ
 		if (CollectionUtils.isNotEmpty(tenatIdHeaders)) {
 			String tenatId = tenatIdHeaders.iterator().next();
 
-			TradeshiftAccessToken accessCredentials = (TradeshiftAccessToken) credentialsStorage.resendAndGet(tenatId);
+			AccessToken accessCredentials = (AccessToken) credentialsStorage.resendAndGet(tenatId);
 
 			if (accessCredentials != null) {
 				accessToken = accessCredentials.getValue();

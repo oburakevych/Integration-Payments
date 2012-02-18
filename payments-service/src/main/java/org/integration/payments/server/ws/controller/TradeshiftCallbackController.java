@@ -2,7 +2,7 @@ package org.integration.payments.server.ws.controller;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.integration.connectors.tradeshift.security.TradeshiftAccessToken;
+import org.integration.connectors.AccessToken;
 import org.integration.payments.server.ws.auth.CredentialsStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +43,7 @@ public class TradeshiftCallbackController {
 				+ ", accessToken:" + accessToken + ", accessTokenSecret:" + accessTokenSecret + "}");
 		}
 
-		tsCredentialsStorage.save(companyAccountId, new TradeshiftAccessToken(companyAccountId, accessToken, accessTokenSecret, consumerKey));
+		tsCredentialsStorage.save(companyAccountId, new AccessToken(companyAccountId, accessToken, accessTokenSecret, consumerKey));
 
 		response.setStatus(HttpStatus.OK.value());
 	}

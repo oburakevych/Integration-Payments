@@ -1,11 +1,11 @@
-package org.integration.connectors.tradeshift.security;
+package org.integration.connectors.dropbox.security;
 
 import org.integration.connectors.AccessToken;
 import org.integration.payments.server.ws.auth.SecurityDao;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 
-public class TradeshiftSecurityIbatisDao extends SqlMapClientDaoSupport implements SecurityDao {
-    private static final String NAMESPACE_FLAG = "TradeshiftAccessToken";
+public class DropboxSecurityIbatisDao extends SqlMapClientDaoSupport implements SecurityDao {
+    private static final String NAMESPACE_FLAG = "DropboxAccessToken";
     
     // prefix `ST` means statement.
     private static final String ST_CREATE = NAMESPACE_FLAG + ".create";

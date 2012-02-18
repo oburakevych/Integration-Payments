@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import static org.junit.Assert.*;
 
+import org.integration.connectors.AccessToken;
 import org.integration.connectors.tradeshift.account.TradeshiftAccount;
 import org.integration.connectors.tradeshift.account.TradeshiftAccountService;
 import org.junit.Before;
@@ -38,7 +39,7 @@ public class TradeshiftAccessTokenStorageTest {
     public void save() {
         int i = 0;
         
-        securityService.save(companyAccountId, new TradeshiftAccessToken(companyAccountId, String.valueOf(i), String.valueOf(i), CONSUMER_KEY));
+        securityService.save(companyAccountId, new AccessToken(companyAccountId, String.valueOf(i), String.valueOf(i), CONSUMER_KEY));
 
         OAuthToken token = securityService.get(companyAccountId);
         
@@ -46,7 +47,7 @@ public class TradeshiftAccessTokenStorageTest {
         assertEquals(String.valueOf(i), token.getValue());
         assertEquals(String.valueOf(i), token.getSecret());
         
-        TradeshiftAccessToken tradeshiftToken = (TradeshiftAccessToken) token;
+        AccessToken tradeshiftToken = (AccessToken) token;
         
         assertNotNull(tradeshiftToken.getAccountId());
         assertEquals(companyAccountId, tradeshiftToken.getAccountId());
@@ -54,14 +55,14 @@ public class TradeshiftAccessTokenStorageTest {
         
         i++;
         
-        securityService.save(companyAccountId, new TradeshiftAccessToken(companyAccountId, String.valueOf(i), String.valueOf(i), CONSUMER_KEY));
+        securityService.save(companyAccountId, new AccessToken(companyAccountId, String.valueOf(i), String.valueOf(i), CONSUMER_KEY));
         token = securityService.get(companyAccountId);
         
         assertNotNull(token);
         assertEquals(String.valueOf(i), token.getValue());
         assertEquals(String.valueOf(i), token.getSecret());
         
-        tradeshiftToken = (TradeshiftAccessToken) token;
+        tradeshiftToken = (AccessToken) token;
         
         assertNotNull(tradeshiftToken.getAccountId());
         assertEquals(companyAccountId, tradeshiftToken.getAccountId());

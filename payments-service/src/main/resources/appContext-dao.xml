@@ -46,6 +46,10 @@
 		<property name="sqlMapClient" ref="sqlMapClient"/>
 	</bean>
 	
+	<bean id="dropboxSecurityDao" class="org.integration.connectors.dropbox.security.DropboxSecurityIbatisDao">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	
 	<bean id="tradeshiftAccountDao" class="org.integration.connectors.tradeshift.account.impl.TradeshiftAccountIbatisDao">
 		<property name="sqlMapClient" ref="sqlMapClient"/>
 	</bean>

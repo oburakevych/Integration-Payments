@@ -87,18 +87,8 @@
     </bean>
     
     <!-- Dropbox API -->
-    <bean id="dropboxCredentialsStorage" class="org.integration.payments.server.ws.auth.impl.InmemoryLRUOAuth1TokenStorage">
-        <constructor-arg index="0" name="maxCacheSize" value="1000" />
-        <constructor-arg index="1" name="initCredentials">
-            <map>
-                <entry key="${tradeshift.api.tenantId}">
-                    <bean class="org.springframework.social.oauth1.OAuthToken">
-                        <constructor-arg name="value" value="${dropbox.api.oauth.accessToken}" />
-                        <constructor-arg name="secret" value="${dropbox.api.oauth.accessTokenSecret}" />
-                    </bean>
-                </entry>
-            </map>
-		</constructor-arg>
+    <bean id="dropboxCredentialsStorage" class="org.integration.payments.server.ws.auth.impl.DBOAuth1AccessCredentialsStorage">
+		<constructor-arg name="securityDao" ref="dropboxSecurityDao" />
     </bean>
     
     <bean id="dropboxRequestTokenStorage" class="org.integration.payments.server.ws.auth.impl.InmemoryLRUOAuth1TokenStorage">

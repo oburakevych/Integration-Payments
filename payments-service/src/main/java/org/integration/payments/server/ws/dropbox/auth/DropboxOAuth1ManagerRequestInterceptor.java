@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.integration.connectors.AccessToken;
 import org.integration.payments.server.ws.auth.CredentialsStorage;
 import org.integration.payments.server.ws.tradeshift.TradeshiftApiConstants;
 import org.slf4j.Logger;
@@ -45,10 +46,10 @@ public class DropboxOAuth1ManagerRequestInterceptor implements ClientHttpRequest
 	private final String consumerKey;
 	private final String consumerSecret;
 
-	private final CredentialsStorage<OAuthToken> credentialsStorage;
+	private final CredentialsStorage<AccessToken> credentialsStorage;
 
 	public DropboxOAuth1ManagerRequestInterceptor(String consumerKey, String consumerSecret, 
-			CredentialsStorage<OAuthToken> credentialsStorage) {
+			CredentialsStorage<AccessToken> credentialsStorage) {
 
 		this.consumerKey = consumerKey;
 		this.consumerSecret = consumerSecret;
@@ -67,7 +68,7 @@ public class DropboxOAuth1ManagerRequestInterceptor implements ClientHttpRequest
 		if (CollectionUtils.isNotEmpty(tenatIdHeaders)) {
 			String tenantId = tenatIdHeaders.iterator().next();
 
-			OAuthToken accessCredentials = credentialsStorage.get(tenantId);
+			AccessToken accessCredentials = credentialsStorage.get(tenantId);
 
 			if (accessCredentials != null) {
 				accessToken = accessCredentials.getValue();

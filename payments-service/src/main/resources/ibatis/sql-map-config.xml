@@ -18,6 +18,7 @@
 	
 	<sqlMap resource="ibatis/dropbox/dropboxAccount.xml" />
 	<sqlMap resource="ibatis/dropbox/dropboxDirectory.xml" />
+	<sqlMap resource="ibatis/dropbox/dropboxAccessToken.xml" />
 	
 	<sqlMap resource="ibatis/tradeshift/tradeshiftAccount.xml" />
 	<sqlMap resource="ibatis/tradeshift/tradeshiftAccessToken.xml" />

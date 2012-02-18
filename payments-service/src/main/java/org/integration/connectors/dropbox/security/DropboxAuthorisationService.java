@@ -1,10 +1,10 @@
 package org.integration.connectors.dropbox.security;
 
+import org.integration.connectors.AccessToken;
 import org.integration.connectors.SecurityService;
 import org.integration.payments.server.ws.dropbox.auth.DropboxOAuth1AuthorizationManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.social.oauth1.OAuthToken;
 
 
 public class DropboxAuthorisationService implements SecurityService {
@@ -25,17 +25,17 @@ public class DropboxAuthorisationService implements SecurityService {
     }
     
     @Override
-    public void save(String accountId, OAuthToken credentials) {
+    public void save(String accountId, AccessToken credentials) {
         oauthManager.getCredentialsStorage().save(accountId, credentials);
     }
 
     @Override
-    public void update(String accountId, OAuthToken credentials) {
+    public void update(String accountId, AccessToken credentials) {
         oauthManager.getCredentialsStorage().save(accountId, credentials);
     }
 
     @Override
-    public OAuthToken get(String accountId) {
+    public AccessToken get(String accountId) {
         return oauthManager.getCredentialsStorage().get(accountId);
     }
 

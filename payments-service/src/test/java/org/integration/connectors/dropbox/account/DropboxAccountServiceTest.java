@@ -28,6 +28,8 @@ public class DropboxAccountServiceTest {
         assertNotNull(account.getId());
         assertNotNull(account.getName());
         assertNotNull(account.getCountry());
+        
+        accountService.saveAccount(account);
     }
     
     @Test

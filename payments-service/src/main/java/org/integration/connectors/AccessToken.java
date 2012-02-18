@@ -1,28 +1,32 @@
-package org.integration.connectors.dropbox.security;
+package org.integration.connectors;
 
 import java.util.Date;
 
 import org.springframework.social.oauth1.OAuthToken;
 
-public class DropboxAccessToken extends OAuthToken {
-    private static final long serialVersionUID = -865412431420155567L;
+public class AccessToken extends OAuthToken {
+    private static final long serialVersionUID = 3048055122499068957L;
     
     private String accountId;
     private String consumerKey;
     private Date created;
     
-    public DropboxAccessToken() {
-        super(null, null);
+    public AccessToken() {
+        this(null, null);
+    }
+    
+    public AccessToken(String value, String secret) {
+        super(value, secret);
     }
 
-    public DropboxAccessToken(String accountId, String value, String secret, String consumerKey) {
+    public AccessToken(String accountId, String value, String secret, String consumerKey) {
         super(value, secret);
         this.accountId = accountId;
         this.created = new Date();
         this.consumerKey = consumerKey;
     }
     
-    public DropboxAccessToken(String accountId, OAuthToken token, String consumerKey) {
+    public AccessToken(String accountId, OAuthToken token, String consumerKey) {
         this(accountId, token.getValue(), token.getSecret(), consumerKey);
     }
     

@@ -1,12 +1,12 @@
 package org.integration.payments.server.ws.auth.impl;
 
+import org.integration.connectors.AccessToken;
 import org.integration.payments.server.ws.auth.CredentialsStorage;
 import org.integration.payments.server.ws.auth.SecurityDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.social.oauth1.OAuthToken;
 
-public class DBOAuth1AccessCredentialsStorage implements CredentialsStorage<OAuthToken> {
+public class DBOAuth1AccessCredentialsStorage implements CredentialsStorage<AccessToken> {
     protected Logger log = LoggerFactory.getLogger(this.getClass());
     
     private SecurityDao securityDao;
@@ -18,8 +18,8 @@ public class DBOAuth1AccessCredentialsStorage implements CredentialsStorage<OAut
     }
 
     @Override
-    public OAuthToken get(String uuid) {
-        OAuthToken credentials = securityDao.get(uuid);
+    public AccessToken get(String uuid) {
+        AccessToken credentials = securityDao.get(uuid);
 
         log.trace("Retrivied credentials:[uuid: {}, credentials: {}]", uuid, credentials);
         
@@ -27,7 +27,7 @@ public class DBOAuth1AccessCredentialsStorage implements CredentialsStorage<OAut
     }
 
     @Override
-    public void save(String uuid, OAuthToken credentials) {
+    public void save(String uuid, AccessToken credentials) {
         securityDao.save(uuid, credentials);
         log.trace("Saved credentials:[uuid:" + uuid + ", credentials:" + credentials + "]");
     }
@@ -45,7 +45,7 @@ public class DBOAuth1AccessCredentialsStorage implements CredentialsStorage<OAut
     }
 
     @Override
-    public OAuthToken resendAndGet(String uuid) {
+    public AccessToken resendAndGet(String uuid) {
         return get(uuid);
     }
 }

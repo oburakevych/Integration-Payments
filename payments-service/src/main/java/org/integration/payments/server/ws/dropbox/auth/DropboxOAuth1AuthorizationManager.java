@@ -1,9 +1,8 @@
 package org.integration.payments.server.ws.dropbox.auth;
 
-import org.integration.account.Account;
+import org.integration.connectors.AccessToken;
 import org.integration.connectors.dropbox.account.DropboxAccount;
 import org.integration.connectors.dropbox.account.DropboxAccountService;
-import org.integration.connectors.dropbox.security.DropboxAccessToken;
 import org.integration.payments.server.ws.auth.CredentialsStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,13 +21,13 @@ public class DropboxOAuth1AuthorizationManager {
     private final String consumerKey;
     private final String consumerSecret;
     private final CredentialsStorage<OAuthToken> requestTokenStorage;
-    private final CredentialsStorage<OAuthToken> credentialsStorage;
+    private final CredentialsStorage<AccessToken> credentialsStorage;
     
     private DropboxAccountService accountService;
     
     public DropboxOAuth1AuthorizationManager(String consumerKey, String consumerSecret, 
             CredentialsStorage<OAuthToken> requestTokenStorage,
-            CredentialsStorage<OAuthToken> credentialsStorage, DropboxServiceProvider serviceProvider) {
+            CredentialsStorage<AccessToken> credentialsStorage, DropboxServiceProvider serviceProvider) {
         this.consumerKey = consumerKey;
         this.consumerSecret = consumerSecret;
         this.requestTokenStorage = requestTokenStorage;
@@ -93,7 +92,7 @@ public class DropboxOAuth1AuthorizationManager {
         
         log.debug("Received Access Token: key {}, secret {} for account {}", new Object[] {accessToken.getValue(), accessToken.getSecret(), companyAccountId});
         
-        DropboxAccessToken dropboxAccessToken = new DropboxAccessToken(companyAccountId, accessToken, getConsumerKey());
+        AccessToken  dropboxAccessToken = new AccessToken(companyAccountId, accessToken, getConsumerKey());
         
         DropboxAccount account = new DropboxAccount();
         account.setId(companyAccountId);
@@ -124,7 +123,7 @@ public class DropboxOAuth1AuthorizationManager {
         return requestTokenStorage;
     }
 
-    public CredentialsStorage<OAuthToken> getCredentialsStorage() {
+    public CredentialsStorage<AccessToken> getCredentialsStorage() {
         return credentialsStorage;
     }
 

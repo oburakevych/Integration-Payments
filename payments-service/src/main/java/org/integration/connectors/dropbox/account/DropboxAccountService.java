@@ -26,7 +26,7 @@ public class DropboxAccountService {
     }
     
     public void saveAccount(Account account) {
-        accountDao.save(account);
+        accountDao.save((DropboxAccount) account);
     }
     
     public DropboxAccount getAccount(String accountId) {
