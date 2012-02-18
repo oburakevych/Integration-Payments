@@ -24,7 +24,7 @@ public class TradehiftCredentialsUpdateManager {
 		this.apiService = apiService;
 	}
 
-	@Before("execution(public * org.integration.payments.server.ws.auth.CredentialsStorage.get(..)) and bean(tsCredentialsStorage) and args(companyAccountId)")
+	@Before("execution(public * org.integration.payments.server.ws.auth.CredentialsStorage.resendAndGet(..)) and bean(tsCredentialsStorage) and args(companyAccountId)")
 	public void checkAndRequestResendCredentials(String companyAccountId) {
 		if (log.isTraceEnabled()) {
 			log.trace("Checking credentials for:{companyAccountId:" + companyAccountId + "}");
@@ -60,25 +60,19 @@ public class TradehiftCredentialsUpdateManager {
 		try {
 			do {
 				long currentTime = System.currentTimeMillis();
-
 				long waitTimeout = Math.max(1, currentTime - startTime);
 
-				if (log.isTraceEnabled()) {
-					log.trace("Waiting on credentials callback:{companyAccountId:" + companyAccountId + "}");
-				}
-
-				wait(waitTimeout);
-
-				OAuthToken credentials = tsCredentialsStorage.get(companyAccountId);
-
-				if (credentials != null) {
-					if (log.isTraceEnabled()) {
-						log.trace("Detected credentials update: {companyAccountId:" + companyAccountId
-							+ ", credentials:" + credentials + "}");
-					}
-
-					break;
-				}
+				log.trace("Waiting on credentials callback:[companyAccountId: {} ]", companyAccountId);
+				
+				OAuthToken credentials = null;
+				
+		        synchronized(this) {    				
+		            wait(waitTimeout);
+		            if (tsCredentialsStorage.exists(companyAccountId)) {
+		                log.trace("Detected credentials update: [companyAccountId: {}, credentials: {}", companyAccountId, credentials);
+		                break;
+		            }
+		        }
 
 				isNotCallbackTimeout = callbackTimeout > System.currentTimeMillis() - startTime;
 			} while (isNotCallbackTimeout);
@@ -93,4 +87,12 @@ public class TradehiftCredentialsUpdateManager {
 			throw new RuntimeException(ex.getMessage(), ex);
 		}
 	}
+
+    public int getCallbackTimeout() {
+        return callbackTimeout;
+    }
+
+    public void setCallbackTimeout(int callbackTimeout) {
+        this.callbackTimeout = callbackTimeout;
+    }
 }

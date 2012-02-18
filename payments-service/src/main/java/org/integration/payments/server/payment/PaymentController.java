@@ -47,7 +47,7 @@ public class PaymentController {
 	    
 	    //TODO: The check for credentials should be in a separate service
 	    //TODO: handle exceptions
-	    OAuthToken credentials = tsCredentialsStorage.get(companyAccountId);
+	    OAuthToken credentials = tsCredentialsStorage.resendAndGet(companyAccountId);
 	    
 	    if (credentials == null) {
 	        log.warn("Can't get credentials for company account ID {}", companyAccountId);

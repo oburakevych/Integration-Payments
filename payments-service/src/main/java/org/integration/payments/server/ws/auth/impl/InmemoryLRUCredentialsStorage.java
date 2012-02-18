@@ -72,4 +72,9 @@ public class InmemoryLRUCredentialsStorage<T> implements CredentialsStorage<T> {
 	public boolean exists(String uuid) {
 		return cache.containsKey(uuid);
 	}
+
+    @Override
+    public T resendAndGet(String uuid) {
+        return get(uuid);
+    }
 }

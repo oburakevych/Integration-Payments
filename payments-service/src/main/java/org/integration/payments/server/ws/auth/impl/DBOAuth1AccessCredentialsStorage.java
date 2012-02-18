@@ -43,4 +43,9 @@ public class DBOAuth1AccessCredentialsStorage implements CredentialsStorage<OAut
     public boolean exists(String uuid) {
         return securityDao.exists(uuid);
     }
+
+    @Override
+    public OAuthToken resendAndGet(String uuid) {
+        return get(uuid);
+    }
 }

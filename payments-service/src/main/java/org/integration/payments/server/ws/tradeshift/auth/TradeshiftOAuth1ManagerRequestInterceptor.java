@@ -2,8 +2,10 @@ package org.integration.payments.server.ws.tradeshift.auth;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.integration.connectors.tradeshift.security.TradeshiftAccessToken;
 import org.integration.payments.server.ws.auth.CredentialsStorage;
 import org.integration.payments.server.ws.tradeshift.TradeshiftApiConstants;
 import org.slf4j.Logger;
@@ -35,22 +37,14 @@ oauth_timestamp="1319235492"
 1 > 
  */
 public class TradeshiftOAuth1ManagerRequestInterceptor implements ClientHttpRequestInterceptor {
-
 	private final SigningSupportVs signingUtils = new SigningSupportVs();
-
 	protected Logger log = LoggerFactory.getLogger(this.getClass());
-
-	private final String consumerKey;
-	private final String consumerSecret;
-
 	private final CredentialsStorage<OAuthToken> credentialsStorage;
+	private final Map<String, String> consumerMap;
 
-	public TradeshiftOAuth1ManagerRequestInterceptor(String consumerKey, String consumerSecret, 
-			CredentialsStorage<OAuthToken> credentialsStorage) {
-
-		this.consumerKey = consumerKey;
-		this.consumerSecret = consumerSecret;
+	public TradeshiftOAuth1ManagerRequestInterceptor(CredentialsStorage<OAuthToken> credentialsStorage, Map<String, String> consumerMap) {
 		this.credentialsStorage = credentialsStorage;
+		this.consumerMap = consumerMap;
 	}
 
 	@Override
@@ -64,20 +58,29 @@ public class TradeshiftOAuth1ManagerRequestInterceptor implements ClientHttpRequ
 
 		String accessToken = null;
 		String accessTokenSecret = null;
-
+		String consumerKey = null;
+		String consumerSecret = null;
+		
 		if (CollectionUtils.isNotEmpty(tenatIdHeaders)) {
 			String tenatId = tenatIdHeaders.iterator().next();
 
-			OAuthToken accessCredentials = credentialsStorage.get(tenatId);
+			TradeshiftAccessToken accessCredentials = (TradeshiftAccessToken) credentialsStorage.resendAndGet(tenatId);
 
 			if (accessCredentials != null) {
 				accessToken = accessCredentials.getValue();
 				accessTokenSecret = accessCredentials.getSecret();
+				consumerKey = accessCredentials.getConsumerKey();
 			} else {
 				throw new RuntimeException("Missed accessCredentials for companyAccountId:" + tenatId);
 			}
 		}
+		
+		if (!consumerMap.containsKey(consumerKey)) {
+		    throw new IllegalArgumentException("Tradeshift Consumer key " + consumerKey + " is not supported!");
+		}
 
+		consumerSecret = consumerMap.get(consumerKey);
+		
 		OAuth1CredentialsVs oAuth1Credentials = new OAuth1CredentialsVs(consumerKey, consumerSecret, accessToken, accessTokenSecret);
 
 		HttpRequest protectedResourceRequest = new HttpRequestDecorator(request);

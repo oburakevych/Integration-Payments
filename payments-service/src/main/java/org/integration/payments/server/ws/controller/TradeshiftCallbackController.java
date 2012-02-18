@@ -2,7 +2,7 @@ package org.integration.payments.server.ws.controller;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.integration.payments.server.polling.PollingService;
+import org.integration.connectors.tradeshift.security.TradeshiftAccessToken;
 import org.integration.payments.server.ws.auth.CredentialsStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +34,8 @@ public class TradeshiftCallbackController {
 	@RequestMapping(value = "/oauth", method = RequestMethod.POST)
 	public void oAuth1Callback(@RequestParam("companyAccountId") String companyAccountId, 
 		@RequestParam("oauth_token") String accessToken, 
-		@RequestParam("oauth_token_secret") String accessTokenSecret, 
+		@RequestParam("oauth_token_secret") String accessTokenSecret,
+		@RequestParam("oauth_consumer_key") String consumerKey,
 		HttpServletResponse response) {
 
 		if (log.isTraceEnabled()) {
@@ -42,7 +43,7 @@ public class TradeshiftCallbackController {
 				+ ", accessToken:" + accessToken + ", accessTokenSecret:" + accessTokenSecret + "}");
 		}
 
-		tsCredentialsStorage.save(companyAccountId, new OAuthToken(accessToken, accessTokenSecret));
+		tsCredentialsStorage.save(companyAccountId, new TradeshiftAccessToken(companyAccountId, accessToken, accessTokenSecret, consumerKey));
 
 		response.setStatus(HttpStatus.OK.value());
 	}

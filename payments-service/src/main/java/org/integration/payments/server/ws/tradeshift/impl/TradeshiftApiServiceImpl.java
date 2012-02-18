@@ -72,7 +72,7 @@ public class TradeshiftApiServiceImpl implements TradeshiftApiService {
 		HttpHeaders httpHeaders = buildHttpHeaders(defultRequestHeaders, MediaType.APPLICATION_JSON);
         HttpEntity<String> requestEntity = new HttpEntity<String>(httpHeaders);
 
-		this.restOperations.exchange(apiBaseUrl + "/external/consumer/accounts/{companyaccountid}/resendtoken", HttpMethod.POST, requestEntity, String.class, companyAccountId.toString());
+		this.restOperations.exchange(apiBaseUrl + "/external/consumer/accounts/{companyaccountid}/resendtoken", HttpMethod.POST, requestEntity, null, companyAccountId.toString());
 	}
 
 	// ~ utilities

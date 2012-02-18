@@ -30,7 +30,7 @@ public class TradeshiftSecurityService implements SecurityService {
 
     @Override
     public OAuthToken get(String accountId) {
-        return creadentialStorage.get(accountId);
+        return creadentialStorage.resendAndGet(accountId);
     }
 
     @Override
