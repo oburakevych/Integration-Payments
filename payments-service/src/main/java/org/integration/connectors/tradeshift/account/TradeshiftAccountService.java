@@ -10,18 +10,28 @@ public class TradeshiftAccountService {
     private TradeshiftApiService apiService;
     private TradeshiftAccountDao accountDao;
     
+    public TradeshiftAccountService(TradeshiftApiService apiService, TradeshiftAccountDao accountDao) {
+        this.apiService = apiService;
+        this.accountDao = accountDao;
+    }
+    
     /**
      * Retrieves Account from Tradeshift API
      * @param companyAccountId
      * @return
      */
-    public TradeshiftAccount retrieveAccount(String companyAccountId) {
-        log.info("Retrieving Account Info for {}", companyAccountId);
-        TradeshiftAccount account = apiService.getAccount(companyAccountId);
+    public TradeshiftAccount retrieveAccount(String id) {
+        log.info("Retrieving Account Info for {}", id);
+        TradeshiftAccount account = apiService.getAccount(id);
         
         log.info("Account retrieved: {}", account);
         
         return account;
+    }
+    
+    public TradeshiftAccount getAccount(String id) {
+        log.debug("Getting the account for ID {}", id);
+        return accountDao.getAccount(id);
     }
     
     public void saveAccount(TradeshiftAccount account) {
@@ -30,21 +40,4 @@ public class TradeshiftAccountService {
         
         log.info("Account saved {}", account);
     }
-
-    public void setApiService(TradeshiftApiService apiService) {
-        this.apiService = apiService;
-    }
-
-    public TradeshiftApiService getApiService() {
-        return apiService;
-    }
-
-    public void setAccountDao(TradeshiftAccountDao accountDao) {
-        this.accountDao = accountDao;
-    }
-
-    public TradeshiftAccountDao getAccountDao() {
-        return accountDao;
-    }
-    
 }

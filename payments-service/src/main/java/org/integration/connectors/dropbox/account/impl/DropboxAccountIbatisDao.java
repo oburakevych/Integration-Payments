@@ -2,6 +2,7 @@ package org.integration.connectors.dropbox.account.impl;
 
 import java.util.List;
 
+import org.integration.account.Account;
 import org.integration.connectors.dropbox.account.DropboxAccount;
 import org.integration.connectors.dropbox.account.DropboxAccountDao;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
@@ -15,8 +16,8 @@ public class DropboxAccountIbatisDao extends SqlMapClientDaoSupport implements D
     private static final String ST_GET_ACCOUNTS = NAMESPACE_FLAG + ".getAccounts";
     
     @Override
-    public void save(DropboxAccount account) {
-        getSqlMapClientTemplate().insert(ST_CREATE, account);
+    public void save(Account account) {
+        getSqlMapClientTemplate().insert(ST_CREATE, (DropboxAccount) account);
     }
 
     @Override

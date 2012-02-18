@@ -49,13 +49,13 @@
 		<property name="tradeshiftApiService" ref="ws.tradeshift.service"/>
 	</bean>
 	
-	<bean id="dropboxAuthorisationService" class="org.integration.connectors.dropbox.DropboxAuthorisationService">
+	<bean id="dropboxAuthorisationService" class="org.integration.connectors.dropbox.security.DropboxAuthorisationService">
 		<property name="oauthManager" ref="ws.dropbox.authorizationManager"/>
 	</bean>
 	
 	<bean id="dropboxAccountService" class="org.integration.connectors.dropbox.account.DropboxAccountService">
-		<property name="apiService" ref="ws.dropbox.service"/>
-		<property name="accountDao" ref="dropboxAccountDao"/>
+		<constructor-arg name="apiService" ref="ws.dropbox.service"/>
+		<constructor-arg name="accountDao" ref="dropboxAccountDao"/>
 	</bean>
 	
 	<bean id="dropboxFileService" class="org.integration.connectors.dropbox.files.DropboxFileService">
@@ -65,5 +65,14 @@
 	
 	<bean id="dropboxDirectoryService" class="org.integration.connectors.dropbox.directory.DropboxDirectoryService">
 		<property name="directoryDao" ref="dropboxDirectoryDao"/>
+	</bean>
+	
+	<bean id="tradeshiftAccountService" class="org.integration.connectors.tradeshift.account.TradeshiftAccountService">
+		<constructor-arg name="apiService" ref="ws.tradeshift.service"/>
+		<constructor-arg name="accountDao" ref="tradeshiftAccountDao"/>
+	</bean>
+	
+	<bean id="tradeshiftSecurityService" class="org.integration.connectors.tradeshift.security.TradeshiftSecurityService">
+		<constructor-arg name="creadentialStorage" ref="tsCredentialsStorage"/>
 	</bean>
 </beans>

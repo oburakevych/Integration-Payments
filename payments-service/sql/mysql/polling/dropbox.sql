@@ -15,11 +15,8 @@ CREATE TABLE dropbox_access_token (
   account_id VARCHAR(40) PRIMARY KEY,
   value VARCHAR(40) NOT NULL,
   secret VARCHAR(40) NOT NULL,
-  consumerkey VARCHAR(255) NOT NULL,
-  created TIMESTAMP NOT NULL,
-  CONSTRAINT FOREIGN KEY 
-    dropbox_access_token_accountid_fk (account_id) 
-    REFERENCES dropbox_account (id)
+  consumer_key VARCHAR(255) NOT NULL,
+  created TIMESTAMP NOT NULL
 ) ENGINE=InnoDB;
 
 CREATE TABLE dropbox_directory (
@@ -31,6 +28,6 @@ CREATE TABLE dropbox_directory (
   last_check TIMESTAMP,
   is_updated INT,
   CONSTRAINT FOREIGN KEY 
-    dropbox_hash_accountid_fk (account_id) 
-    REFERENCES dropbox_account (id)
+    dropbox_hash_access_roken_fk (account_id) 
+    REFERENCES dropbox_access_token (account_id)
 ) ENGINE=InnoDB;

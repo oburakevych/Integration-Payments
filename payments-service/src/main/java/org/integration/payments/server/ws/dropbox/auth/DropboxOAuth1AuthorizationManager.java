@@ -1,5 +1,9 @@
 package org.integration.payments.server.ws.dropbox.auth;
 
+import org.integration.account.Account;
+import org.integration.connectors.dropbox.account.DropboxAccount;
+import org.integration.connectors.dropbox.account.DropboxAccountService;
+import org.integration.connectors.dropbox.security.DropboxAccessToken;
 import org.integration.payments.server.ws.auth.CredentialsStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +23,8 @@ public class DropboxOAuth1AuthorizationManager {
     private final String consumerSecret;
     private final CredentialsStorage<OAuthToken> requestTokenStorage;
     private final CredentialsStorage<OAuthToken> credentialsStorage;
+    
+    private DropboxAccountService accountService;
     
     public DropboxOAuth1AuthorizationManager(String consumerKey, String consumerSecret, 
             CredentialsStorage<OAuthToken> requestTokenStorage,
@@ -74,11 +80,26 @@ public class DropboxOAuth1AuthorizationManager {
     
     public OAuthToken getAccessToken(String companyAccountId) {
         OAuthToken requestToken = getRequestTokenStorage().get(companyAccountId);
+        
+        if (requestToken == null) {
+            return null;
+        }
+         
         OAuthToken accessToken = getServiceProvider().getOAuthOperations().exchangeForAccessToken(new AuthorizedRequestToken(requestToken, null), OAuth1Parameters.NONE);
+        
+        if (accessToken == null) {
+            return null;
+        }
         
         log.debug("Received Access Token: key {}, secret {} for account {}", new Object[] {accessToken.getValue(), accessToken.getSecret(), companyAccountId});
         
-        getCredentialsStorage().save(companyAccountId, accessToken);
+        DropboxAccessToken dropboxAccessToken = new DropboxAccessToken(companyAccountId, accessToken, getConsumerKey());
+        
+        DropboxAccount account = new DropboxAccount();
+        account.setId(companyAccountId);
+        
+        getAccountService().saveAccount(account);
+        getCredentialsStorage().save(companyAccountId, dropboxAccessToken);
         
         return accessToken;
     }
@@ -105,5 +126,13 @@ public class DropboxOAuth1AuthorizationManager {
 
     public CredentialsStorage<OAuthToken> getCredentialsStorage() {
         return credentialsStorage;
+    }
+
+    public void setAccountService(DropboxAccountService accountService) {
+        this.accountService = accountService;
+    }
+
+    public DropboxAccountService getAccountService() {
+        return accountService;
     }
 }

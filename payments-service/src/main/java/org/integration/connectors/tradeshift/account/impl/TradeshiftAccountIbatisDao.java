@@ -9,10 +9,17 @@ public class TradeshiftAccountIbatisDao extends SqlMapClientDaoSupport implement
     
     // prefix `ST` means statement.
     private static final String ST_CREATE = NAMESPACE_FLAG + ".create";
+    private static final String ST_GET = NAMESPACE_FLAG + ".getAccount";
     
     @Override
     public void save(TradeshiftAccount account) {
         getSqlMapClientTemplate().insert(ST_CREATE, account);
+    }
+
+    @Override
+    public TradeshiftAccount getAccount(String id) {
+        // TODO Auto-generated method stub
+        return (TradeshiftAccount) getSqlMapClientTemplate().queryForObject(ST_GET, id);
     }
 
 }

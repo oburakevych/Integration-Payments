@@ -1,4 +1,4 @@
-package org.integration.connectors.dropbox;
+package org.integration.connectors.dropbox.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

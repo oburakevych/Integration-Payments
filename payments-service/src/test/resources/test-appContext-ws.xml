@@ -39,18 +39,8 @@
         </property>
     </bean>
     
-    <bean id="tsCredentialsStorage" class="org.integration.payments.server.ws.auth.impl.InmemoryLRUOAuth1TokenStorage">
-        <constructor-arg index="0" name="maxCacheSize" value="100" />
-        <constructor-arg index="1" name="initCredentials">
-            <map>
-                <entry key="${tradeshift.api.tenantId}">
-                    <bean class="org.springframework.social.oauth1.OAuthToken">
-                        <constructor-arg name="value" value="${tradeshift.api.oauth.accessToken}" />
-                        <constructor-arg name="secret" value="${tradeshift.api.oauth.accessTokenSecret}" />
-                    </bean>
-                </entry>
-            </map>
-        </constructor-arg>
+    <bean id="tsCredentialsStorage" class="org.integration.payments.server.ws.auth.impl.DBOAuth1AccessCredentialsStorage">
+        <constructor-arg name="securityDao" ref="tradeshiftSecurityDao" />
     </bean>
     
     <!-- Dropbox API -->

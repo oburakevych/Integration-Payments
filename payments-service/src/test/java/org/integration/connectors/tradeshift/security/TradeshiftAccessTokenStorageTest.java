@@ -18,6 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class TradeshiftAccessTokenStorageTest {
     private static String companyAccountId = UUID.randomUUID().toString();
+    private static final String CONSUMER_KEY = "CONSUMER_KEY_01";
     private static final String DEFAULT_ACCOUNT_NAME = "My Test Tradeshift Account";
     private static final String DEFAULT_COUNTRY = "AU";
     
@@ -37,7 +38,7 @@ public class TradeshiftAccessTokenStorageTest {
     public void save() {
         int i = 0;
         
-        securityService.save(companyAccountId, new TradeshiftAccessToken(companyAccountId, String.valueOf(i), String.valueOf(i)));
+        securityService.save(companyAccountId, new TradeshiftAccessToken(companyAccountId, String.valueOf(i), String.valueOf(i), CONSUMER_KEY));
 
         OAuthToken token = securityService.get(companyAccountId);
         
@@ -53,7 +54,7 @@ public class TradeshiftAccessTokenStorageTest {
         
         i++;
         
-        securityService.save(companyAccountId, new TradeshiftAccessToken(companyAccountId, String.valueOf(i), String.valueOf(i)));
+        securityService.save(companyAccountId, new TradeshiftAccessToken(companyAccountId, String.valueOf(i), String.valueOf(i), CONSUMER_KEY));
         token = securityService.get(companyAccountId);
         
         assertNotNull(token);

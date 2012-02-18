@@ -18,4 +18,13 @@
         INSERT INTO tradeshift_account(id, created, deactivated, name, email, country, lang) 
         					VALUES (#id#, #created#, #deactivated#, #name#, #email#, #country#, #language#)
     </insert>
+    
+    <sql id="getInternal">
+        SELECT * FROM tradeshift_account
+    </sql>
+    
+    <select id="getAccount" parameterClass="String" resultMap="TradeshiftAccountMap">
+        <include refid="getInternal"/>
+        WHERE id = #id#
+    </select>
 </sqlMap>

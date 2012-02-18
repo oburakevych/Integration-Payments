@@ -45,4 +45,12 @@
 	<bean id="dropboxDirectoryDao" class="org.integration.connectors.dropbox.directory.impl.DropboxDirectoryIbatisDao">
 		<property name="sqlMapClient" ref="sqlMapClient"/>
 	</bean>
+	
+	<bean id="tradeshiftAccountDao" class="org.integration.connectors.tradeshift.account.impl.TradeshiftAccountIbatisDao">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	
+	<bean id="tradeshiftSecurityDao" class="org.integration.payments.server.ws.tradeshift.auth.TradeshiftSecurityIbatisDao">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
 </beans>

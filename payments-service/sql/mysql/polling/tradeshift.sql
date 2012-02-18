@@ -14,9 +14,6 @@ CREATE TABLE tradeshift_access_token (
   account_id VARCHAR(40) PRIMARY KEY,
   value VARCHAR(40) NOT NULL,
   secret VARCHAR(40) NOT NULL,
-  consumerkey VARCHAR(255) NOT NULL,
-  created TIMESTAMP NOT NULL,
-  CONSTRAINT FOREIGN KEY 
-    tradeshift_access_token_accountid_fk (account_id) 
-    REFERENCES tradeshift_account (id)
+  consumer_key VARCHAR(255) NOT NULL,
+  created TIMESTAMP NOT NULL
 ) ENGINE=InnoDB;

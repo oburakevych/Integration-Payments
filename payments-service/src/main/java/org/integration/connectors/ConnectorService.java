@@ -2,6 +2,7 @@ package org.integration.connectors;
 
 import java.util.UUID;
 
+import org.integration.account.Account;
 import org.integration.connectors.documentfiles.DocumentFileList;
 import org.integration.connectors.documentfiles.DocumentFileState;
 import org.integration.payments.server.document.Dispatch;
@@ -10,6 +11,9 @@ import org.integration.payments.server.ws.tradeshift.TradeshiftApiService;
 
 public abstract class ConnectorService {
     private TradeshiftApiService tradeshiftApiService;
+    
+    protected abstract void pairTmpAccount(String masterAccountId, Account account);
+    protected abstract void pairAccount(String masterAccountId, Account account);
     
     public void transferDocumentFile(String companyAccountId, String directory, String fileName, String mimeType, byte[] document) {
         getTradeshiftApiService().putDocumentFile(companyAccountId, directory, fileName, mimeType, document);
